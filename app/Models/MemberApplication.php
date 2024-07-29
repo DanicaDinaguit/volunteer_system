@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class MemberApplication extends Model
+{
+    use HasFactory;
+
+    protected $table = 'tblmemberapplication';
+
+    protected $fillable = [
+        'name',
+        'phone_number',
+        'email_address',
+        'age',
+        'address',
+        'religion',
+        'gender',
+        'citizenship',
+        'civil_status',
+        'college',
+        'course',
+        'year_level',
+        'schoolID',
+        'high_school',
+        'elementary',
+        'reasons_for_joining',
+    ];
+    public $timestamps = true;
+}
