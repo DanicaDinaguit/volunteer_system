@@ -13,7 +13,7 @@ use App\Http\Controllers\Auth\RegisterController;
 Route::get('/', [EventController::class, 'index'])->name('index');
 Route::get('/about', function () {
     return view('about');
-})->name('about');
+})->name('about'); 
 
 Route::get('/calendar', function () {
     return view('calendar');

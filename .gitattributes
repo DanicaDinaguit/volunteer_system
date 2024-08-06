@@ -1,11 +1,14 @@
-* text=auto eol=lf
+# Auto detect text files and normalize line endings to LF
+* text=auto
 
+# Specify diff attributes for specific file types
 *.blade.php diff=html
 *.css diff=css
 *.html diff=html
 *.md diff=markdown
 *.php diff=php
 
+# Ignore these files from exports
 /.github export-ignore
 CHANGELOG.md export-ignore
 .styleci.yml export-ignore
