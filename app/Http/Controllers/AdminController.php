@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\MemberApplication;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 
@@ -19,6 +20,15 @@ class AdminController extends Controller
     {
         $events = Event::all();
         return view('admin.Home', compact('events')); // Make sure you have this view file created
+    }
+    
+    public function viewApplications()
+    {
+        // Fetch all applicants from the database
+        $applicants = MemberApplication::all(); // Adjust this to match your data retrieval logic
+
+        // Pass applicants data to the view
+        return view('admin.viewApplication', compact('applicants'));
     }
     public function profile()
     {
