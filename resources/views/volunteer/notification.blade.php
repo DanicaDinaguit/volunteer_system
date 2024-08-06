@@ -38,8 +38,6 @@
     </div>
   </div>
   
-
-
   <script>
       document.getElementById('search-icon').addEventListener('click', function() {
           const searchField = document.getElementById('search-field');

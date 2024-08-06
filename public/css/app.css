@@ -755,8 +755,7 @@ textarea {
 .notif-volunteer {
     display: flex ;
     flex-direction: row ;
-    justify-content: space-between;  
-    
+    justify-content: space-between;     
 }
 
 #search-icon {
@@ -813,3 +812,24 @@ textarea {
     margin-left: 5%;
 }
 /* Notification Volunteer END */
+
+/* Admin View Membership Application START */
+#view-application{
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-top: 115px;
+}
+.application-view {
+    display: flex ;
+    flex-direction: row ;
+    justify-content: space-between;  
+}
+.application-view h2 {
+    color: #AB2695;
+    text-align: justify;
+    font-family: Poppins;
+    font-size: 20.106px;
+    font-style: normal;
+    font-weight: 700;
+}
+/* Admin View Membership Application END */
