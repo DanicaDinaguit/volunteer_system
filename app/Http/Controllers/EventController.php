@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
+    public function viewCreateEvent()
+    {
+        return view('admin.createEvent');
+    }
     public function index()
     {
         $events = Event::all(); // Fetch all events from the table
@@ -33,7 +37,8 @@ class EventController extends Controller
         // Create a new event
         Event::create([
             'event_name' => $request->ename,
-            'event_time' => $request->timeStart . ' - ' . $request->timeEnd,
+            'event_start' => $request->timeStart,
+            'event_end' => $request->timeEnd,
             'event_date' => $request->edate,
             'description' => $request->edesc,
             'number_of_volunteers' => $request->slots,

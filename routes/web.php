@@ -36,7 +36,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/Home', [AdminController::class, 'Home'])->name('admin.Home');
 
     // Admin Create New Event page
-    Route::post('/admin/createEvent', [EventController::class, 'store'])->name('admin.createEvent');
+    
 
     // Admin Profile Page
     Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
@@ -44,6 +44,10 @@ Route::middleware('admin')->group(function () {
 });
 // Route::get('admin/viewApplication', function () { return view('admin/viewApplication'); })->name('admin.viewApplication');
 Route::get('/admin/viewApplication', [AdminController::class, 'viewApplications'])->name('admin.viewApplication');
+Route::get('/admin/createEvent', [EventController::class, 'viewCreateEvent'])->name('admin.createEvent');
+Route::post('/admin/createEvent', [EventController::class, 'store'])->name('admin.createEvent.submit');
+
+
 // Admin Sign In
 Route::get('admin/signin', [AdminController::class, 'showSignInForm'])->name('admin.signin');
 Route::post('admin/signin', [AdminController::class, 'signIn'])->name('admin.signin.submit');

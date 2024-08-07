@@ -14,7 +14,7 @@
         <div>{{ session('success') }}</div>
     @endif
     
-    <form action="{{ route('events.store') }}" method="POST" class="form-event">
+    <form action="{{ route('admin.createEvent.submit') }}" method="POST" class="form-event">
         @csrf
         <label for="ename">Event Name:</label><br>
         <input type="text" name="ename" required><br>

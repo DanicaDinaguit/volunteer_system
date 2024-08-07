@@ -1,10 +1,10 @@
 @extends('layouts.public_app')
 
-@section('title', 'Public Home')
+@section('title', 'Public Application Form')
     
 @section('content')
     <div id="form">
-        <form method="POST" action="{{ route('application.submit') }}">
+        <form method="POST" action="{{ route('application.submit') }}" class="app-form">
             @csrf
             <h1>Application Form for SOCI Student Volunteer</h1>
 
@@ -106,7 +106,7 @@
                 <h2>C. REASONS FOR JOINING AS SOCI VOLUNTEER:</h2>
                 <textarea id="reasons_for_joining" name="reasons_for_joining" required></textarea><br><br>
             </div>
-            <input type="submit" value="Submit">
+            <input class="app-form-btn" type="submit" value="Submit">
         </form>
     </div>
 @endsection

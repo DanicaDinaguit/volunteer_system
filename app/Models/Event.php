@@ -13,7 +13,8 @@ class Event extends Model
 
     protected $fillable = [
         'event_name', // adjust these to your table columns
-        'event_time',
+        'event_start',
+        'event_end',
         'event_date',
         'description',
         'number_of_volunteers',

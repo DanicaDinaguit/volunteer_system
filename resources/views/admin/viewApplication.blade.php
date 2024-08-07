@@ -5,7 +5,7 @@
 @section('content')
     <div id="view-application">
         <div class="application-view" style="margin-top: 115px;">
-            <div><h2>All Applications</h2></div>
+            <div><h2>All Membership Applications</h2></div>
             
             <!-- Collapsible Search Icon -->
             <div class="search-container">

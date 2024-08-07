@@ -29,7 +29,7 @@
                         <h2>{{ $event->event_name }}</h2>
                         <p>{{ $event->event_location }}</p>
                         <p>{{ \Carbon\Carbon::parse($event->event_date)->format('F j, Y') }}</p>
-                        <p>{{ $event->event_time }}</p>
+                        <p>{{ $event->event_start }} - {{ $event->event_end }}</p>
                     </div>
                 </div>
             @endforeach

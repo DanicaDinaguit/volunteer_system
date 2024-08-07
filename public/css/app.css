@@ -453,6 +453,22 @@ a.footerText{
     background: url(Images/app-bg.png)lightgray -1177.951px -4227.618px / 293.56% 415.875% no-repeat;
     
 }
+.app-form-btn {
+    width: 207.465px;
+    height: 45.101px;
+    border-radius: 23.386px;
+    background: #AB2695;
+    box-shadow: 0px 6.319px 6.319px 0px rgba(0, 0, 0, 0.25);
+    color: #FFF;
+    font-size: 17.853px;
+    font-style: normal;
+    font-weight: 500;
+    display: block;
+    margin: 20px auto;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
 #form {
     margin-top: 130px; 
     padding: 20px; 
@@ -481,22 +497,7 @@ a.footerText{
     font-style: normal;
     font-weight: 600;
 }
-.form-container input[type="submit"] {
-    width: 207.465px;
-    height: 45.101px;
-    border-radius: 23.386px;
-    background: #AB2695;
-    box-shadow: 0px 6.319px 6.319px 0px rgba(0, 0, 0, 0.25);
-    color: #FFF;
-    font-size: 17.853px;
-    font-style: normal;
-    font-weight: 500;
-    display: block;
-    margin: 20px auto;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-}
+
 
 /* Input field styling */
 .form-container input[type="text"], 
@@ -900,4 +901,5 @@ textarea {
 .applicants-details li {
     margin-bottom: 10px;
 }
+
 /* Admin View Membership Application END */
