@@ -28,6 +28,7 @@ class MemberApplication extends Model
         'high_school',
         'elementary',
         'reasons_for_joining',
+        'status',
     ];
     public $timestamps = true;
 }

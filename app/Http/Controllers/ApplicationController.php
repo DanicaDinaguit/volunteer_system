@@ -6,7 +6,7 @@ use App\Models\MemberApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ApplicationSubmitted;
-use Illuminate\Support\Facades\Log; // Add this line to use logging
+use Illuminate\Support\Facades\Log;
 
 class ApplicationController extends Controller
 {
@@ -36,8 +36,14 @@ class ApplicationController extends Controller
             // Log the validated data
             Log::info('Validated Data:', $validatedData);
 
+            // Set default status to 'Pending'
+            $validatedData['status'] = 'Pending';
+
             // Create a new member application
             $application = MemberApplication::create($validatedData);
+
+            // Log the creation of the application with status
+            Log::info('Application Created:', $application->toArray());
 
             // Send email notification
             Mail::to($validatedData['email_address'])->send(new ApplicationSubmitted($validatedData));

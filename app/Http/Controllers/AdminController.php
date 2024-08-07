@@ -25,8 +25,7 @@ class AdminController extends Controller
     public function viewApplications()
     {
         // Fetch all applicants from the database
-        $applicants = MemberApplication::all(); // Adjust this to match your data retrieval logic
-
+        $applicants = MemberApplication::where('status', 'Pending')->get(); // Only get applicants whose status is pending
         // Pass applicants data to the view
         return view('admin.viewApplication', compact('applicants'));
     }
