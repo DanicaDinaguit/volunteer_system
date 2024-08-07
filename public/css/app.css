@@ -1,8 +1,11 @@
+
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    width: 100%;
+    height: 100%;
 }
 
 #navdiv{
@@ -241,7 +244,7 @@ hr{
 }
 footer{
     text-align: center;
-    color: #D3203A; 
+    color: #AB2695; 
     font-size: 19.34px; 
     font-family: Poppins; 
     font-weight: 400; 
@@ -253,12 +256,11 @@ footer{
     padding: 5px;
     position: relative;
     bottom: 0;
-    width: 100%;
     margin-top: 0px;
 }
 .footerText{
     display: inline-block;
-    color: #D3203A; 
+    color: #AB2695; 
      
     word-wrap: break-word;
     white-space: pre-line;
@@ -274,7 +276,7 @@ a.footerText{
     align-items: center;
 }
 #footer{
-    color: rgba(211, 32, 58, 0.37);
+    color: rgba(171, 38, 149, 0.37);
 }
 
 /* Styling for Event Items */
@@ -554,6 +556,11 @@ textarea {
 /* about.html END*/
 
 /* gallery.html */
+#gallery-bg{
+    margin-top: 110px;
+    background-image: url('/images/gallery-bg.png');
+    background-size: 100%;
+}
 .search-bar {
     display: flex;
     align-items: center;
@@ -587,11 +594,17 @@ textarea {
     font-weight: 500;
 }
 
-#gallery h1 {
+.gallery h1 {
     color: #AB2695;
     font-size: 30px;
     font-style: normal;
     font-weight: 800;
+}
+#gallery-images {
+    width: 260.144px;
+    height: 221.714px;
+    border-radius: 29.562px;
+    background:  lightgray 50% / cover no-repeat;
 }
 /* gallery.html END */
 
@@ -815,9 +828,11 @@ textarea {
 
 /* Admin View Membership Application START */
 #view-application{
+    height: 70%;
     margin-left: 60px;
     margin-right: 60px;
     margin-top: 115px;
+    
 }
 .application-view {
     display: flex ;
@@ -831,5 +846,58 @@ textarea {
     font-size: 20.106px;
     font-style: normal;
     font-weight: 700;
+}
+
+.applicants {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.applicants-name {
+    width: 20%;
+    height: 70%;
+}
+
+.applicants-name button {
+    width: 100%;
+    color: #AB2695;
+    font-family: Poppins;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background: rgba(171, 38, 149, 0.25);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.applicants-name button:focus {
+    outline: none;
+}
+
+.applicants-name button:hover {
+    text-decoration: underline;
+}
+
+.applicants-details {
+    width: 70%;
+    display: none; /* Start hidden */
+    padding: 20px;
+    background-color: white; /*rgba(255, 225, 243, 0.90)*/
+    border-radius: 5px;
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+    
+}
+
+.applicants-details ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.applicants-details li {
+    margin-bottom: 10px;
 }
 /* Admin View Membership Application END */
