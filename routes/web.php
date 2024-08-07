@@ -42,8 +42,8 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::post('/admin/profile', [AdminController::class, 'updateProfile'])->name('admin.updateProfile');
 });
-Route::get('admin/viewApplication', function () { return view('admin/viewApplication'); })->name('admin.viewApplication');
-
+// Route::get('admin/viewApplication', function () { return view('admin/viewApplication'); })->name('admin.viewApplication');
+Route::get('/admin/viewApplication', [AdminController::class, 'viewApplications'])->name('admin.viewApplication');
 // Admin Sign In
 Route::get('admin/signin', [AdminController::class, 'showSignInForm'])->name('admin.signin');
 Route::post('admin/signin', [AdminController::class, 'signIn'])->name('admin.signin.submit');
