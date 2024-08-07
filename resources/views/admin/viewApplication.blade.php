@@ -37,12 +37,13 @@
                 </div>
                 <div class="applicants-details" style="display: none;">
                     <ul>
+                        <li><strong>Full Name:</strong> {{ $applicant->name }}</li>
+                        <li><strong>Age:</strong> {{ $applicant->age }}</li>
+                        <li><strong>Gender:</strong> {{ $applicant->gender }}</li>
                         <li><strong>Phone Number:</strong> {{ $applicant->phone_number }}</li>
                         <li><strong>Email Address:</strong> {{ $applicant->email_address }}</li>
-                        <li><strong>Age:</strong> {{ $applicant->age }}</li>
                         <li><strong>Address:</strong> {{ $applicant->address }}</li>
                         <li><strong>Religion:</strong> {{ $applicant->religion }}</li>
-                        <li><strong>Gender:</strong> {{ $applicant->gender }}</li>
                         <li><strong>Citizenship:</strong> {{ $applicant->citizenship }}</li>
                         <li><strong>Civil Status:</strong> {{ $applicant->civil_status }}</li>
                         <li><strong>College:</strong> {{ $applicant->college }}</li>
