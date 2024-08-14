@@ -16,13 +16,13 @@
             <img src="{{ asset('images/LOGO.png') }}" class="logo" alt="Logo">
             <ul class="nav-items">
                 <li class="nav-item">
-                    <a href="#home">
+                <a href="{{ route('volunteer.Home') }}">
                         <img src="{{ asset('images/home.png') }}" alt="Home Icon">
                         <span>Home</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="calendar.html">
+                    <a href="">
                         <img src="{{ asset('images/calendar.png') }}" alt="About Icon">
                         <span>Calendar</span>
                     </a>
@@ -34,13 +34,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="gallery.html">
+                    <a href="{{ route('volunteer.notification') }}">
                         <img src="{{ asset('images/gallery.png') }}" alt="Services Icon">
                         <span>Notifications</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="gallery.html">
+                    <a href="{{ route('volunteer.gallery') }}">
                         <img src="{{ asset('images/gallery.png') }}" alt="Services Icon">
                         <span>Gallery</span>
                     </a>
@@ -52,7 +52,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="about.html">
+                    <a href="{{ route('volunteer.about') }}">
                         <img src="{{ asset('images/about.png') }}" alt="Contact Icon">
                         <span>About Us</span>
                     </a>
@@ -72,3 +72,4 @@
     <script src="{{ asset('js/index.js') }}"></script>
 </body>
 </html>
+
