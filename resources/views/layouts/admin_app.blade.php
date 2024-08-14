@@ -22,31 +22,36 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="calendar.html">
+                        <a href="{{ route('admin.calendar') }}">
                             <img src="{{ asset('images/calendar.png') }}" alt="About Icon">
                             <span>Calendar</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="gallery.html">
+                        <a href="{{ route('admin.createEvent')}}">
+                            <img src="{{ asset('images/gallery.png') }}" alt="Services Icon">
+                            <span>Create Event</span>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.viewApplication') }}">
                             <img src="{{ asset('images/gallery.png') }}" alt="Services Icon">
                             <span>Applications</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="gallery.html">
+                        <a href="{{ route('admin.messages')}}">
                             <img src="{{ asset('images/gallery.png') }}" alt="Services Icon">
                             <span>Messages</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="gallery.html">
+                        <a href="{{ route('admin.gallery')}}">
                             <img src="{{ asset('images/gallery.png') }}" alt="Services Icon">
                             <span>Gallery</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="gallery.html">
+                        <a href="{{ route('admin.createCertification')}}">
                             <img src="{{ asset('images/gallery.png') }}" alt="Services Icon">
                             <span>Certificate</span>
                         </a>
