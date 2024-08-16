@@ -11,49 +11,44 @@ use App\Http\Controllers\Auth\RegisterController;
 
 // Public routes
 Route::get('/', [EventController::class, 'index'])->name('index');
-Route::get('/about', function () {
-    return view('about');
-})->name('about'); 
 
-Route::get('/calendar', function () {
-    return view('calendar');
-})->name('calendar');
+Route::get('/about', function () { return view('about'); })->name('about'); 
 
-Route::get('/gallery', function () {
-    return view('gallery');
-})->name('gallery');
+Route::get('/calendar', function () { return view('calendar'); })->name('calendar');
 
-// Public View Application Page
-Route::get('/application', function () {
-    return view('application');
-})->name('application');
+Route::get('/gallery', function () { return view('gallery'); })->name('gallery');
+
+Route::get('/application', function () { return view('application'); })->name('application');
 
 Route::post('/application', [ApplicationController::class, 'submitApplication'])->name('application.submit');
 
+
+
 // Admin Routes (Protected with admin.auth middleware)
-Route::middleware('admin')->group(function () {
+Route::prefix('admin')->group(function () {
     // Admin Home Page
     Route::get('/admin/Home', [AdminController::class, 'Home'])->name('admin.Home');
 
     // Admin Create New Event page
-    
+    Route::get('/admin/createEvent', [EventController::class, 'viewCreateEvent'])->name('admin.createEvent');
+    Route::post('/admin/createEvent', [EventController::class, 'store'])->name('admin.createEvent.submit');
+
+    // Admin view membership application page
+    Route::get('/admin/viewApplication', [AdminController::class, 'viewApplications'])->name('admin.viewApplication');
 
     // Admin Profile Page
     Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::post('/admin/profile', [AdminController::class, 'updateProfile'])->name('admin.updateProfile');
 });
-// Route::get('admin/viewApplication', function () { return view('admin/viewApplication'); })->name('admin.viewApplication');
-Route::get('/admin/viewApplication', [AdminController::class, 'viewApplications'])->name('admin.viewApplication');
-Route::get('/admin/createEvent', [EventController::class, 'viewCreateEvent'])->name('admin.createEvent');
-Route::post('/admin/createEvent', [EventController::class, 'store'])->name('admin.createEvent.submit');
-
 
 // Admin Sign In
 Route::get('admin/signin', [AdminController::class, 'showSignInForm'])->name('admin.signin');
 Route::post('admin/signin', [AdminController::class, 'signIn'])->name('admin.signin.submit');
 
+
+
 // Volunteer Routes (Protected with volunteer.auth middleware)
-Route::middleware('volunteer')->group(function () {
+Route::prefix('volunteer')->group(function () {
     // Volunteer Home Page
     Route::get('/volunteer/Home', [MemberController::class, 'Home'])->name('volunteer.Home');
 
@@ -62,10 +57,18 @@ Route::middleware('volunteer')->group(function () {
     Route::post('/volunteer/profile/update', [MemberController::class, 'updateProfile'])->name('volunteer.updateProfile');
     Route::post('/volunteer/logout', [MemberController::class, 'logout'])->name('volunteer.logout');
 
+    // Volunteer Gallery Page
+    Route::get('volunteer/gallery', function () { return view('volunteer/gallery'); })->name('volunteer.gallery');
+    
     // Volunteer About Us Page
     Route::get('volunteer/about', function () { return view('volunteer/about'); })->name('volunteer.about');
+
+    //Volunteer Notification Page
+    Route::get('volunteer/notification', function () { return view('volunteer/notification'); })->name('volunteer.notification');
 });
-Route::get('volunteer/notification', function () { return view('volunteer/notification'); })->name('volunteer.notification');
+
+
+
 
 // Volunteer Sign Up Page
 Route::get('/volunteer/signUp', [MemberController::class, 'showSignUpForm'])->name('volunteer.signup');
@@ -76,6 +79,6 @@ Route::get('/volunteer/signIn', [MemberController::class, 'showSignInForm'])->na
 Route::post('/volunteer/signIn', [MemberController::class, 'signIn'])->name('volunteer.signIn.submit');
 
 // Auth Routes (This includes routes for login, register, and password resets)
-// Auth::routes();
+Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
