@@ -21,6 +21,16 @@ class AdminController extends Controller
         $events = Event::all();
         return view('admin.Home', compact('events')); // Make sure you have this view file created
     }
+
+    public function calendar()
+    {
+         return view('admin.calendar');
+    }
+
+    public function createEvent()
+    {
+        return view('admin.createEvent');
+    }
     
     public function viewApplications()
     {
@@ -29,10 +39,27 @@ class AdminController extends Controller
         // Pass applicants data to the view
         return view('admin.viewApplication', compact('applicants'));
     }
+
+    public function messages()
+    {
+        return view('admin.messages');
+    }
+
+    public function gallery()
+    {
+        return view('admin.gallery');
+    }
+
+    public function createCertification()
+    {
+        return view('admin.createCertification');
+    }
+
     public function profile()
     {
         return view('admin.profile'); // Make sure you have this view file created
     }
+
     public function signIn(Request $request)
     {
         $request->validate([

@@ -1,7 +1,7 @@
-@extends('layouts.volunteer_app')
+@extends('layouts.admin_app')
 
-@section('title', 'Volunteer Gallery')
-
+@section('title', 'Admin Gallery of Events')
+    
 @section('content')
     <div id="gallery-bg" style="margin-bottom: 110px;">
         <div class="gallery" style="margin-top: 130px; margin-left: 100px; margin-right: 100px;">
@@ -21,4 +21,5 @@
             </div>
         </div>
     </div>
-@endsection
+@endsection       
+        

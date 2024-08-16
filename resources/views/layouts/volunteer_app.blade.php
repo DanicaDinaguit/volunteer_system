@@ -16,7 +16,7 @@
             <img src="{{ asset('images/LOGO.png') }}" class="logo" alt="Logo">
             <ul class="nav-items">
                 <li class="nav-item">
-                    <a href="{{ route('volunteer.Home') }}">
+                <a href="{{ route('volunteer.Home') }}">
                         <img src="{{ asset('images/home.png') }}" alt="Home Icon">
                         <span>Home</span>
                     </a>
@@ -72,3 +72,4 @@
     <script src="{{ asset('js/index.js') }}"></script>
 </body>
 </html>
+
