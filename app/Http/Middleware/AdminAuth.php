@@ -21,6 +21,7 @@ class AdminAuth
         Log::info('AdminAuthMiddleware: Checking admin authentication.');
         // Check if the user is authenticated as an admin
         if (!Auth::guard('admin')->check()) {
+            Log::warning('AdminAuthMiddleware: Unauthenticated access attempt.');
             return redirect()->route('admin.signin')->with('error', 'Please sign in as admin to access this page.');
         }
 
