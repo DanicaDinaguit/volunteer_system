@@ -708,7 +708,7 @@ textarea {
     font-style: normal;
     font-weight: 400;
 }
-.profile-form input[type="submit"] {
+.edit-button{
     width: 166px;
     height: 40px;
     border-radius: 11.403px;
@@ -722,6 +722,33 @@ textarea {
     font-style: normal;
     font-weight: 400;
     margin-left: 67%;
+}
+
+.save-button, .cancel-button {
+    width: 166px;
+    height: 40px;
+    border-radius: 11.403px;
+    border: 1.14px solid #AB2695;
+    background: #AB2695; /* Matching the border color of the edit button */
+    color: #F2F2F2; /* Inverted the text and background color */
+    text-align: center;
+    text-shadow: 0px 4.561px 4.561px rgba(0, 0, 0, 0.25);
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    margin-left: 67%; /* Slightly adjust margins */
+    margin-top: 10px; /* Adds spacing from the form */
+    cursor: pointer;
+}
+
+.save-button:hover, .cancel-button:hover {
+    background: #f28dc6; /* Slightly lighter pink for hover effect */
+    color: #ffffff; /* White text on hover */
+}
+
+.save-button:active, .cancel-button:active {
+    background: #d2188f; /* Darker pink for active state */
 }
 
 .profile-form input[type="text"],
@@ -749,6 +776,22 @@ textarea {
     font-style: normal;
     font-weight: 500;
 }
+.profile-form input[type="submit"] {
+    display: none; /* Hide submit buttons initially */
+}
+
+.profile-form.editing input[type="submit"] {
+    display: inline; /* Show submit buttons in editing mode */
+}
+
+.cancel-button {
+    display: none; /* Hide cancel button initially */
+}
+
+.profile-form.editing .cancel-button {
+    display: inline; /* Show cancel button in editing mode */
+}
+
 /* Admin Profile Page END*/
 
 
