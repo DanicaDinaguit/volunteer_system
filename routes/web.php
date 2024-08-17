@@ -27,30 +27,32 @@ Route::post('/application', [ApplicationController::class, 'submitApplication'])
 // Admin Routes (Protected with admin.auth middleware)
 Route::prefix('admin')->group(function () {
     // Admin Home Page
-    Route::get('/admin/Home', [AdminController::class, 'Home'])->name('admin.Home');
+    Route::get('/Home', [AdminController::class, 'Home'])->name('admin.Home');
 
     // Admin Calendar Page
-    Route::get('/admin/calendar', [AdminController::class, 'calendar'])->name('admin.calendar');
+    Route::get('/calendar', [AdminController::class, 'calendar'])->name('admin.calendar');
 
     // Admin Create New Event Page
-    Route::get('/admin/createEvent', [EventController::class, 'viewCreateEvent'])->name('admin.createEvent');
-    Route::post('/admin/createEvent', [EventController::class, 'store'])->name('admin.createEvent.submit');
+    Route::get('/createEvent', [EventController::class, 'viewCreateEvent'])->name('admin.createEvent');
+    Route::post('/createEvent', [EventController::class, 'store'])->name('admin.createEvent.submit');
 
     // Admin View Application Page
-    Route::get('/admin/viewApplication', [AdminController::class, 'viewApplications'])->name('admin.viewApplication');
+    Route::get('/viewApplication', [AdminController::class, 'viewApplications'])->name('admin.viewApplication');
 
     // Admin Messages Page
-    Route::get('/admin/messages', [AdminController::class, 'messages'])->name('admin.messages');
+    Route::get('/messages', [AdminController::class, 'messages'])->name('admin.messages');
 
     // Admin Gallery Page
-    Route::get('/admin/gallery', [AdminController::class, 'gallery'])->name('admin.gallery');
+    Route::get('/gallery', [AdminController::class, 'gallery'])->name('admin.gallery');
 
     // Admin Create Certification Page
-    Route::get('/admin/createCertification', [AdminController::class, 'createCertification'])->name('admin.createCertification');
+    Route::get('/createCertification', [AdminController::class, 'createCertification'])->name('admin.createCertification');
 
     // Admin Profile Page
-    Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
-    Route::post('/admin/profile', [AdminController::class, 'updateProfile'])->name('admin.updateProfile');
+    Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
+    Route::post('/profile', [AdminController::class, 'updateProfile'])->name('admin.updateProfile');
+    Route::post('/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
 });
 
 
@@ -63,26 +65,26 @@ Route::post('admin/signin', [AdminController::class, 'signIn'])->name('admin.sig
 // Volunteer Routes (Protected with volunteer.auth middleware)
 Route::prefix('volunteer')->group(function () {
     // Volunteer Home Page
-    Route::get('/volunteer/Home', [MemberController::class, 'Home'])->name('volunteer.Home');
+    Route::get('/Home', [MemberController::class, 'Home'])->name('volunteer.Home');
 
     // Volunteer Gallery
-    Route::get('volunteer/gallery', [MemberController::class, 'gallery'])->name('volunteer.gallery');
+    Route::get('/gallery', [MemberController::class, 'gallery'])->name('volunteer.gallery');
 
     // Volunteer Profile Page
-    Route::get('/volunteer/profile', [MemberController::class, 'profile'])->name('volunteer.profile');
-    Route::post('/volunteer/profile/update', [MemberController::class, 'updateProfile'])->name('volunteer.updateProfile');
+    Route::get('/profile', [MemberController::class, 'profile'])->name('volunteer.profile');
+    Route::post('/profile/update', [MemberController::class, 'updateProfile'])->name('volunteer.updateProfile');
 
     // Volunteer Logout
-    Route::post('/volunteer/logout', [MemberController::class, 'logout'])->name('volunteer.logout');
+    Route::post('/logout', [MemberController::class, 'logout'])->name('volunteer.logout');
 
     // Volunteer Gallery Page
-    Route::get('volunteer/gallery', function () { return view('volunteer/gallery'); })->name('volunteer.gallery');
+    Route::get('/gallery', function () { return view('volunteer/gallery'); })->name('volunteer.gallery');
     
     // Volunteer About Us Page
-    Route::get('volunteer/about', function () { return view('volunteer/about'); })->name('volunteer.about');
+    Route::get('/about', function () { return view('volunteer/about'); })->name('volunteer.about');
 
     //Volunteer Notification Page
-    Route::get('volunteer/notification', function () { return view('volunteer/notification'); })->name('volunteer.notification');
+    Route::get('/notification', function () { return view('volunteer/notification'); })->name('volunteer.notification');
 });
 
 
