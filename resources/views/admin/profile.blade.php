@@ -3,43 +3,60 @@
 @section('title', 'Admin Profile')
 
 @section('content')
-    <div style="margin-top: 110px; margin-left: 90%">Sign Out 
-        <svg xmlns="http://www.w3.org/2000/svg" width="33" height="36" viewBox="0 0 33 36" fill="none">
-            <g clip-path="url(#clip0_811_180)" filter="url(#filter0_d_811_180)">
-                <g filter="url(#filter1_d_811_180)">
-                <path d="M16 4C9.383 4 4 9.383 4 16C4 22.617 9.383 28 16 28C20.05 28 23.64 25.988 25.813 22.906L24.188 21.75C23.2656 23.0647 22.0397 24.1374 20.6142 24.8773C19.1888 25.6172 17.606 26.0023 16 26C10.465 26 6 21.535 6 16C6 10.465 10.465 6 16 6C17.6059 5.99813 19.1886 6.38343 20.614 7.12326C22.0393 7.86309 23.2653 8.93564 24.188 10.25L25.813 9.094C24.7064 7.51956 23.2369 6.2347 21.5289 5.34805C19.8209 4.4614 17.9245 3.99902 16 4ZM23.344 11.281L21.906 12.719L24.188 15H12V17H24.188L21.906 19.281L23.344 20.719L27.344 16.719L28.03 16L27.343 15.281L23.344 11.281Z" fill="#AB2695"/>
-                </g>
-            </g>
-            <defs>
-                <filter id="filter0_d_811_180" x="-4" y="0" width="40" height="40" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                <feOffset dy="4"/>
-                <feGaussianBlur stdDeviation="2"/>
-                <feComposite in2="hardAlpha" operator="out"/>
-                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_811_180"/>
-                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_811_180" result="shape"/>
-                </filter>
-                <filter id="filter1_d_811_180" x="0" y="4" width="32.03" height="32" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                <feOffset dy="4"/>
-                <feGaussianBlur stdDeviation="2"/>
-                <feComposite in2="hardAlpha" operator="out"/>
-                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_811_180"/>
-                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_811_180" result="shape"/>
-                </filter>
-                <clipPath id="clip0_811_180">
-                <rect width="32" height="32" fill="white"/>
-                </clipPath>
-            </defs>
-        </svg>
+    <div style="margin-top: 110px; margin-left: 90%">
+        <!-- Sign Out Form -->
+        <form method="POST" action="{{ route('admin.logout') }}">
+            @csrf
+            <button type="submit" class="sign-out-button">
+                Sign Out 
+                <!-- Your SVG icon here -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="33" height="36" viewBox="0 0 33 36" fill="none">
+                    <g clip-path="url(#clip0_794_1825)" filter="url(#filter0_d_794_1825)">
+                        <g filter="url(#filter1_d_794_1825)">
+                        <path d="M16 4C9.383 4 4 9.383 4 16C4 22.617 9.383 28 16 28C20.05 28 23.64 25.988 25.813 22.906L24.188 21.75C23.2656 23.0647 22.0397 24.1374 20.6142 24.8773C19.1888 25.6172 17.606 26.0023 16 26C10.465 26 6 21.535 6 16C6 10.465 10.465 6 16 6C17.6059 5.99813 19.1886 6.38343 20.614 7.12326C22.0393 7.86309 23.2653 8.93564 24.188 10.25L25.813 9.094C24.7064 7.51956 23.2369 6.2347 21.5289 5.34805C19.8209 4.4614 17.9245 3.99902 16 4ZM23.344 11.281L21.906 12.719L24.188 15H12V17H24.188L21.906 19.281L23.344 20.719L27.344 16.719L28.03 16L27.343 15.281L23.344 11.281Z" fill="#AB2695"/>
+                        </g>
+                    </g>
+                    <defs>
+                        <filter id="filter0_d_794_1825" x="-4" y="0" width="40" height="40" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                        <feOffset dy="4"/>
+                        <feGaussianBlur stdDeviation="2"/>
+                        <feComposite in2="hardAlpha" operator="out"/>
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_794_1825"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_794_1825" result="shape"/>
+                        </filter>
+                        <filter id="filter1_d_794_1825" x="0" y="4" width="32.0298" height="32" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                        <feOffset dy="4"/>
+                        <feGaussianBlur stdDeviation="2"/>
+                        <feComposite in2="hardAlpha" operator="out"/>
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_794_1825"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_794_1825" result="shape"/>
+                        </filter>
+                        <clipPath id="clip0_794_1825">
+                        <rect width="32" height="32" fill="white"/>
+                        </clipPath>
+                    </defs>
+                </svg>
+            </button>
+        </form>
     </div>
 
     <h1 class="profileH1">Profile Information</h1>
-    <form class="profile-form" method="POST" action="{{ route('application') }}">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <form class="profile-form" method="POST" action="{{ route('admin.updateProfile') }}">
         @csrf
         <div id="profile">
             <div>
@@ -65,36 +82,38 @@
                         <label for="last-name">Last Name:</label>
                     </div>
                     <div class="grid-row">
-                        <input type="text" id="first-name" name="firstName" value="">
-                        <input type="text" id="last-name" name="lastName" value="">
+                        <input type="text" id="first-name" name="firstName" value="{{ $admin->first_name }}" readonly>
+                        <input type="text" id="last-name" name="lastName" value="{{ $admin->last_name }}" readonly>
                     </div>
                     <div class="grid-row">
                         <label for="middle-name">Middle Name:</label>
                         <label for="schoolID">School ID:</label>
                     </div>
                     <div class="grid-row">
-                        <input type="text" id="middle-name" name="middleName" value="">
-                        <input type="text" id="schoolID" name="schoolID" value="">
+                        <input type="text" id="middle-name" name="middleName" value="{{ $admin->middle_name }}" readonly>
+                        <input type="text" id="schoolID" name="schoolID" value="{{ $admin->school_id }}" readonly>
                     </div>
                     <div class="grid-row">
                         <label for="email">Email Address:</label>
                         <label for="course">Course:</label>
                     </div>
                     <div class="grid-row">
-                        <input type="email" id="email" name="email" value="">
-                        <input type="text" id="course" name="course" value="">
+                        <input type="email" id="email" name="email" value="{{ $admin->email }}" readonly>
+                        <input type="text" id="course" name="course" value="{{ $admin->course }}" readonly>
                     </div>
                     <div class="grid-row">
-                        <label for="email">Password:</label>
-                        <label for="course">Confirm Password:</label>
+                        <label for="password">Password:</label>
+                        <label for="confirm-password">Confirm Password:</label>
                     </div>
                     <div class="grid-row">
-                        <input type="password" id="password" name="password" value="">
-                        <input type="password" id="password" name="password" value="">
+                        <input type="password" id="password" name="password" placeholder="Leave blank to keep current password">
+                        <input type="password" id="confirm-password" name="password_confirmation" placeholder="Confirm new password">
                     </div>
                 </div>  
             </div>
         </div>
-        <input type="submit" value="Update Info">
+        <input type="submit" class="save-button" value="Save Changes" style="display: none;">
+        <button type="button" class="cancel-button" style="display: none;">Cancel</button>
+        <button type="button" class="edit-button">Edit Profile</button>
     </form>          
 @endsection
