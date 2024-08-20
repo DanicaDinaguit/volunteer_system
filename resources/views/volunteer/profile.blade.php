@@ -47,6 +47,15 @@
     </div>
 
     <h1 class="profileH1">Profile Information</h1>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form class="profile-form" method="POST" action="{{ route('volunteer.updateProfile') }}">
         @csrf
         <div id="profile">
@@ -73,43 +82,42 @@
                         <label for="last-name">Last Name:</label>
                     </div>
                     <div class="grid-row">
-                        <input type="text" id="first-name" name="firstName" value="{{ $user->first_name }}" {{ $editing ? '' : 'readonly' }}>
-                        <input type="text" id="last-name" name="lastName" value="{{ $user->last_name }}" {{ $editing ? '' : 'readonly' }}>
+                        <input type="text" id="first-name" name="first_name" value="{{ $volunteer->first_name }}" readonly>
+                        <input type="text" id="last-name" name="last_name" value="{{ $volunteer->last_name }}" readonly>
                     </div>
                     <div class="grid-row">
                         <label for="middle-name">Middle Name:</label>
                         <label for="schoolID">School ID:</label>
                     </div>
                     <div class="grid-row">
-                        <input type="text" id="middle-name" name="middleName" value="{{ $user->middle_name }}" {{ $editing ? '' : 'readonly' }}>
-                        <input type="text" id="schoolID" name="schoolID" value="{{ $user->studentID }}" {{ $editing ? '' : 'readonly' }}>
+                        <input type="text" id="middle-name" name="middle_name" value="{{ $volunteer->middle_name }}" readonly>
+                        <input type="text" id="studentID" name="studentID" value="{{ $volunteer->studentID }}" readonly>
                     </div>
                     <div class="grid-row">
                         <label for="email">Email Address:</label>
                         <label for="course">Course:</label>
                     </div>
                     <div class="grid-row">
-                        <input type="email" id="email" name="email" value="{{ $user->email }}" {{ $editing ? '' : 'readonly' }}>
-                        <input type="text" id="course" name="course" value="{{ $user->course }}" {{ $editing ? '' : 'readonly' }}>
+                        <input type="email" id="email" name="email" value="{{ $volunteer->email }}" readonly>
+                        <input type="text" id="course" name="course" value="{{ $volunteer->course }}" readonly>
                     </div>
                     <div class="grid-row">
                         <label for="password">Password:</label>
                         <label for="confirm-password">Confirm Password:</label>
                     </div>
                     <div class="grid-row">
-                        <input type="password" id="password" name="password" {{ $editing ? '' : 'readonly' }}>
-                        <input type="password" id="confirm-password" name="confirm-password" {{ $editing ? '' : 'readonly' }}>
+                        <input type="password" id="password" name="password" readonly>
+                        <input type="password" id="confirm-password" name="confirm-password" readonly>
                     </div>
                 </div>  
             </div>
         </div>
         <label for="bio">About Me:</label><br>
-        <textarea style="width: 80%;" name="aboutMe" id="bio">{{ $user->aboutMe }}</textarea>
-        @if ($editing)
-            <input type="submit" value="Save Changes">
-        @else
-            <button type="button" onclick="toggleEditMode()">Update Info</button>
-        @endif
+        <textarea style="width: 80%;" name="aboutMe" id="bio">{{ $volunteer->aboutMe }}</textarea>
+        
+        <input type="submit" class="save-button" value="Save Changes" style="display: none;">
+        <button type="button" class="cancel-button" style="display: none;">Cancel</button>
+        <button type="button" class="edit-button">Edit Profile</button>
     </form>
 
     <script>
