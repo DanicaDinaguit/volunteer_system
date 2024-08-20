@@ -95,7 +95,7 @@ Route::get('/volunteer/signUp', [MemberController::class, 'showSignUpForm'])->na
 Route::post('/volunteer/signUp', [MemberController::class, 'store'])->name('volunteer.signup.store');
 
 // Volunteer Sign In Page
-Route::get('/volunteer/signIn', [MemberController::class, 'showSignInForm'])->name('volunteer.signIn');
+Route::get('/volunteer/signIn', [MemberController::class, 'showSignInForm'])->name('volunteer.signin');
 Route::post('/volunteer/signIn', [MemberController::class, 'signIn'])->name('volunteer.signIn.submit');
 
 // Auth Routes (This includes routes for login, register, and password resets)

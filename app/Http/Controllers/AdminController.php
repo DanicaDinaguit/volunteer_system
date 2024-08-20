@@ -67,9 +67,9 @@ class AdminController extends Controller
             return redirect()->route('admin.signin')->withErrors(['message' => 'You must be logged in to view your profile.']);
         }
         // Check for edit mode
-    $editing = $request->has('edit') && $request->query('edit') == 'true';
+        $editing = $request->has('edit') && $request->query('edit') == 'true';
 
-    return view('admin.profile', compact('admin', 'editing'));
+        return view('admin.profile', compact('admin', 'editing'));
     }
 
     public function signIn(Request $request)
