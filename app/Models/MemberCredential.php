@@ -11,7 +11,7 @@ class MemberCredential extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $table = 'tblmembercredentials';
-    protected $primaryKey = 'memberApplicationID'; // Specify your primary key column name
+    protected $primaryKey = 'memberCredentialsID'; // Specify your primary key column name
     public $incrementing = true; // Set to true if primary key is auto-incrementing
     protected $keyType = 'int'; // Use 'string' if the primary key is a UUID
 
@@ -23,6 +23,7 @@ class MemberCredential extends Authenticatable
         'studentID',
         'email',
         'password',
+        'aboutMe'
     ];
 
     protected $hidden = [
