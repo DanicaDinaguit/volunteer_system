@@ -83,71 +83,88 @@ class MemberController extends Controller
     
     public function signIn(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'email' => 'required|email',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:6',
         ]);
+
+        $credentials = $request->only('email', 'password');
     
-        if (Auth::guard('web')->attempt($validatedData)) {
+        if (Auth::guard('web')->attempt($credentials)) {
+            $request->session()->regenerate(); // Regenerate session ID on login
+            Log::info('Session Data:', session()->all());
             return redirect()->route('volunteer.Home');
         }
     
         return redirect()->back()->withErrors(['email' => 'Invalid credentials'])->withInput();
     }
     
-    public function profile()
+    public function profile(Request $request)
     {
-        $user = Auth::user();
-        return view('volunteer.profile', [
-            'user' => $user,
-            'editing' => false // Initially not in editing mode
-        ]);
-    }
+        $volunteer = Auth::guard('web')->user();
 
-    public function editProfile()
-    {
-        $user = Auth::user();
-        return view('volunteer.profile', [
-            'user' => $user,
-            'editing' => true // profile editing mode
-        ]);
+        Log::info('Volunteer User:', ['volunteer' => $volunteer]);
+        if (!$volunteer) {
+            return redirect()->route('volunteer.signin')->withErrors(['message' => 'You must be logged in to view your profile.']);
+        }
+        // Check for edit mode
+        $editing = $request->has('edit') && $request->query('edit') == 'true';
+
+        return view('volunteer.profile', compact('volunteer', 'editing'));
     }
 
     public function updateProfile(Request $request)
     {
-        $user = Auth::user();
-
-        // Validate the input data
-        $request->validate([
-            'firstName' => 'required|string|max:255',
-            'lastName' => 'required|string|max:255',
-            'middleName' => 'required|string|max:255',
-            'schoolID' => 'required|string|max:255',
-            'email' => 'required|email',
+        $volunteer = Auth::guard('web')->user();
+        Log::info('Update Profile Request Data:', $request->all());
+        
+        $rules = [
+            'first_name' => 'nullable|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'studentID' => 'nullable|string|max:255',
+            'email' => 'nullable|email',
             'password' => 'nullable|string|min:8|confirmed',
             'aboutMe' => 'nullable|string',
-        ]);
-
-        // Update user data
-        $user->first_name = $request->input('firstName');
-        $user->last_name = $request->input('lastName');
-        $user->middle_name = $request->input('middleName');
-        $user->studentID = $request->input('schoolID');
-        $user->email = $request->input('email');
-        
-        if ($request->input('password')) {
-            $user->password = Hash::make($request->input('password'));
+        ];
+        $validatedData = $request->validate(array_filter($rules, function ($rule, $key) use ($request) {
+            return $request->has($key);
+        }, ARRAY_FILTER_USE_BOTH));
+    
+        if ($request->filled('first_name')) {
+            $volunteer->first_name = $request->input('first_name');
+        }
+        if ($request->filled('middle_name')) {
+            $volunteer->last_name = $request->input('middle_name');
+        }
+        if ($request->filled('last_name')) {
+            $volunteer->middle_name = $request->input('last_name');
+        }
+        if ($request->filled('studentID')) {
+            $volunteer->studentID = $request->input('studentID');
+        }
+        if ($request->filled('email')) {
+            $volunteer->email = $request->input('email');
+        }
+    
+        // Update password only if a new one is provided
+        if ($request->filled('password')) {
+            $volunteer->password = Hash::make($request->input('password'));
         }
         
-        $user->aboutMe = $request->input('aboutMe');
-        $user->save();
+        if ($request->filled('aboutMe')) {
+            $volunteer->aboutMe = $request->input('aboutMe');
+        }
 
+        $volunteer->save();
+
+        Log::info('Volunteer Profile Updated:', ['volunteer' => $volunteer]);
         return redirect()->route('volunteer.profile')->with('success', 'Profile updated successfully!');
     }
 
     public function logout()
     {
         Auth::guard('web')->logout();
-        return redirect()->route('volunteer.signIn')->with('success', 'Successfully logged out.');
+        return redirect()->route('volunteer.signin')->with('success', 'Successfully logged out.');
     } 
 }
