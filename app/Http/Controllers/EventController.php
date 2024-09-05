@@ -45,7 +45,6 @@ class EventController extends Controller
             'event_location' => $request->elocation,
             'category' => $request->etype,
             'event_status' => 'upcoming', // Assuming a default status
-            'time_range' => $request->timeStart . ' - ' . $request->timeEnd, // Assuming a time range column
         ]);
 
         // Redirect to a success page or back to the form with a success message
