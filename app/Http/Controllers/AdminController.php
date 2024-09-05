@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\MemberApplication;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Log;
@@ -44,10 +45,7 @@ class AdminController extends Controller
         return view('admin.viewApplication', compact('applicants'));
     }
 
-    public function messages()
-    {
-        return view('admin.messages');
-    }
+    
 
     public function gallery()
     {
@@ -143,5 +141,17 @@ class AdminController extends Controller
     {
         Auth::guard('admin')->logout();
         return redirect()->route('admin.signin')->with('success', 'Successfully logged out.');
+    }
+
+    // New Method for Notifications
+    public function notifications()
+    {
+        $admin = Auth::guard('admin')->user();
+        $notifications = Notification::where('user_id', $admin->adminID)
+                                     ->where('user_type', Admin::class)
+                                     ->orderBy('created_at', 'desc')
+                                     ->get();
+
+        return view('admin.notification', compact('notifications'));
     }
 }
