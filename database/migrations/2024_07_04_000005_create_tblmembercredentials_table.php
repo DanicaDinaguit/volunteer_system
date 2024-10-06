@@ -11,6 +11,7 @@ class CreateTblmembercredentialsTable extends Migration
         Schema::create('tblmembercredentials', function (Blueprint $table) {
             $table->id('memberCredentialsID');
             $table->unsignedBigInteger('positionID');
+            $table->unsignedBigInteger('memberApplicationID');
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('last_name');
@@ -20,6 +21,7 @@ class CreateTblmembercredentialsTable extends Migration
             $table->timestamps();
 
             $table->foreign('positionID')->references('positionID')->on('tblposition')->onDelete('cascade');
+            $table->foreign('memberApplicationID')->references('memberApplicationID')->on('tblmemberapplication')->onDelete('cascade');
         });
     }
 
