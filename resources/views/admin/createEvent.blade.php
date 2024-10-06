@@ -16,6 +16,7 @@
     
     <form action="{{ route('admin.createEvent.submit') }}" method="POST" class="form-event">
         @csrf
+        <h3>Create Event Form</h3>
         <label for="ename">Event Name:</label><br>
         <input type="text" name="ename" required><br>
         <label for="etype">Event Type:</label><br>
@@ -25,7 +26,7 @@
             <option value="Health and Environment">Health and Environment</option>
             <option value="Education and Technology">Education and Technology</option>
         </select><br>
-        <label for="edesc">Description:</label>
+        <label for="edesc">Description:</label><br>
         <textarea name="edesc" rows="5" cols="50" required></textarea>
         <div class="grid-row">
             <label for="slots">Volunteer Slots:</label>
@@ -42,7 +43,7 @@
         <label for="elocation">Location:</label><br>
         <input type="text" name="elocation" required><br>
         <label for="epartner">Partner/s:</label><br>
-        <input type="text" name="epartner" required><br><br>
-        <input type="submit" value="Add Event"><br><br>
+        <input type="text" name="epartner" required><br>
+        <input type="submit" value="Add Event">
     </form>
 @endsection
