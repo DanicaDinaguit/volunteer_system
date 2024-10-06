@@ -115,5 +115,47 @@
         <input type="submit" class="save-button" value="Save Changes" style="display: none;">
         <button type="button" class="cancel-button" style="display: none;">Cancel</button>
         <button type="button" class="edit-button">Edit Profile</button>
-    </form>          
+    </form>        
+    
+    <script>
+        //profile page button toggle
+        const editButton = document.querySelector('.edit-button');
+        const saveButton = document.querySelector('.save-button'); // Updated class name
+        const cancelButton = document.querySelector('.cancel-button'); // Updated class name
+        const form = document.querySelector('.profile-form');
+        const inputs = form.querySelectorAll('input, textarea');
+
+        function toggleEditMode() {
+            let isEditing = form.classList.contains('editing');
+            inputs.forEach(input => input.readOnly = !isEditing);
+
+            // Toggle visibility of buttons
+            if (editButton) {
+                editButton.style.display = isEditing ? 'none' : 'inline';
+            }
+            if (saveButton) {
+                saveButton.style.display = isEditing ? 'inline' : 'none';
+            }
+            if (cancelButton) {
+                cancelButton.style.display = isEditing ? 'inline' : 'none';
+            }
+        }
+
+        if (editButton) {
+            editButton.addEventListener('click', function() {
+                form.classList.add('editing');
+                toggleEditMode();
+            });
+        }
+
+        if (cancelButton) {
+            cancelButton.addEventListener('click', function() {
+                form.classList.remove('editing');
+                toggleEditMode();
+            });
+        }
+        
+        // Initialize the form state
+        toggleEditMode();
+    </script>
 @endsection
