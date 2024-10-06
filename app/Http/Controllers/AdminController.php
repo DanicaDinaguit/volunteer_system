@@ -39,22 +39,18 @@ class AdminController extends Controller
     
     public function viewApplications()
     {
-        // Fetch all applicants from the database
-        $applicants = MemberApplication::where('status', 'Pending')->get(); // Only get applicants whose status is pending
-        // Pass applicants data to the view
-        return view('admin.viewApplication', compact('applicants'));
-    }
+        // Fetch applicants based on status
+        $pendingApplicants = MemberApplication::where('status', 'Pending')->get();
+        $approvedApplicants = MemberApplication::where('status', 'Approved')->get();
+        $rejectedApplicants = MemberApplication::where('status', 'Rejected')->get();
 
-    
+        // Pass applicants data to the view
+        return view('admin.viewApplication', compact('pendingApplicants', 'approvedApplicants', 'rejectedApplicants'));
+    }
 
     public function gallery()
     {
         return view('admin.gallery');
-    }
-
-    public function createCertification()
-    {
-        return view('admin.createCertification');
     }
 
     public function profile(Request $request)
@@ -153,5 +149,26 @@ class AdminController extends Controller
                                      ->get();
 
         return view('admin.notification', compact('notifications'));
+    }
+
+    public function destroy($id)
+    {
+        // Get the currently authenticated admin user
+        $admin = Auth::guard('admin')->user();
+
+        // Find the notification by ID, user ID, and user type
+        $notification = Notification::where('id', $id)
+                                    ->where('user_id', $admin->adminID)
+                                    ->where('user_type', Admin::class)
+                                    ->first();
+
+        if ($notification) {
+            // Delete the notification if found
+            $notification->delete();
+            return response()->json(['success' => true]);
+        }
+
+        // Return a 404 error if the notification is not found
+        return response()->json(['success' => false], 404);
     }
 }
