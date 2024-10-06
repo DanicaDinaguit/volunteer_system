@@ -6,8 +6,10 @@ use App\Models\MemberCredential;
 use App\Models\Event;
 use App\Models\Position;
 use Illuminate\Http\Request;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class MemberController extends Controller
@@ -25,9 +27,33 @@ class MemberController extends Controller
             'last_name' => 'required|string|max:255',
             'studentID' => 'required|string|max:255',
             'email' => 'required|email|unique:tblmembercredentials,email',
-            'password' => 'required|string|min:8',
+            'password' => [
+                'required',
+                'string',
+                'min:8', // Minimum 8 characters
+                'regex:/[a-z]/', // At least one lowercase letter
+                'regex:/[A-Z]/', // At least one uppercase letter
+                'regex:/[0-9]/', // At least one digit
+                'regex:/[@$!%*#?&]/', // At least one special character
+            ],
+        ], [
+            'password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.',
         ]);
 
+        // Check if the email exists in tblmemberapplication and the application is approved
+        $application = DB::table('tblmemberapplication')
+            ->where('email_address', $validatedData['email'])
+            ->first();
+
+        if (!$application) {
+            // Email does not exist in tblmemberapplication
+            return redirect()->back()->with('error', 'No application found for this email.');
+        } elseif ($application->status !== 'Approved') {
+            // Application exists but not approved
+            return redirect()->back()->with('error', 'Your application is not approved yet.');
+        }
+
+        // If the email exists and the application is approved, proceed with sign-up
         // Create a new position entry for 'member'
         $position = Position::create([
             'position_name' => 'member',
@@ -37,9 +63,6 @@ class MemberController extends Controller
 
         // Refresh the position instance to ensure the ID is available
         $position->refresh();
-
-        // Log the position to check if it's created successfully
-        Log::info('Position created:', ['positionID' => $position->positionID]);
 
         // Ensure positionID is not null
         if ($position && $position->positionID) {
@@ -52,6 +75,10 @@ class MemberController extends Controller
             $member->studentID = $validatedData['studentID'];
             $member->email = $validatedData['email'];
             $member->password = Hash::make($validatedData['password']); // Hash the password
+            
+            // Store the memberApplicationID from the application table
+            $member->memberApplicationID = $application->memberApplicationID;
+            
             $member->created_at = now(); // Explicitly set created_at
             $member->updated_at = now(); // Explicitly set updated_at
             $member->save();
@@ -70,6 +97,7 @@ class MemberController extends Controller
         }
     }
 
+
     public function showSignInForm()
     {
         return view('volunteer.signIn');
@@ -85,7 +113,7 @@ class MemberController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:8',
         ]);
 
         $credentials = $request->only('email', 'password');
@@ -167,4 +195,15 @@ class MemberController extends Controller
         Auth::guard('web')->logout();
         return redirect()->route('volunteer.signin')->with('success', 'Successfully logged out.');
     } 
+
+    public function notifications()
+    {
+        $volunteer = Auth::guard('web')->user();
+        $notifications = Notification::where('user_id', $volunteer->memberCredentialsID)
+                                     ->where('user_type', MemberCredential::class)
+                                     ->orderBy('created_at', 'desc')
+                                     ->get();
+
+        return view('volunteer.notification', compact('notifications'));
+    }
 }
