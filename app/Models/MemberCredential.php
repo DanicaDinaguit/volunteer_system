@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\MessageThread;
 
 class MemberCredential extends Authenticatable
 {
@@ -31,4 +32,19 @@ class MemberCredential extends Authenticatable
     ];
 
     public $timestamps = true;
+
+    /**
+     * Get the notifications for the volunteer.
+     */
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'user');
+    }
+
+    public function messageThreads()
+    {
+        return $this->morphToMany(MessageThread::class, 'participant', 'message_thread_participants', 'participant_id', 'thread_id')
+                ->withPivot('participant_type')
+                ->withTimestamps();
+    }
 }
