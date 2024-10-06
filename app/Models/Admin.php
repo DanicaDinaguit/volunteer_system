@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\MessageThread;
 
 class Admin extends Authenticatable
 {
@@ -26,4 +27,19 @@ class Admin extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    /**
+     * Get the notifications for the admin.
+     */
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'user');
+    }
+
+    public function messageThreads()
+    {
+        return $this->morphToMany(MessageThread::class, 'participant', 'message_thread_participants', 'participant_id', 'thread_id')
+        ->withPivot('participant_type')
+        ->withTimestamps();
+    }
 }
