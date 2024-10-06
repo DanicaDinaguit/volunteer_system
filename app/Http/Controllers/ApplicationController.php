@@ -87,4 +87,42 @@ class ApplicationController extends Controller
         }
         return response()->json($applicant);
     }
+
+    public function approveApplication($memberApplicationID)
+    {
+        // Approve the application logic
+        $application = MemberApplication::where('memberApplicationID', $memberApplicationID)->first();
+
+        // Log the application instance to check if it's found
+        \Log::info('applicant:', [$application]);
+
+        if (!$application) {
+            return response()->json(['message' => 'Application not found'], 404);
+        }
+
+        // Update the status
+        $application->status = 'approved';
+        $application->save();
+
+        return response()->json(['message' => 'Application approved successfully']);
+    }
+
+    public function rejectApplication($memberApplicationID)
+    {
+        // Approve the application logic
+        $application = MemberApplication::where('memberApplicationID', $memberApplicationID)->first();
+
+        // Log the application instance to check if it's found
+        \Log::info('applicant:', [$application]);
+
+        if (!$application) {
+            return response()->json(['message' => 'Application not found'], 404);
+        }
+
+        // Update the status
+        $application->status = 'rejected';
+        $application->save();
+
+        return response()->json(['message' => 'Application rejected successfully']);
+    }
 }
