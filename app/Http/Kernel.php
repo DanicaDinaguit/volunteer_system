@@ -18,6 +18,7 @@ class Kernel extends HttpKernel
     protected $middleware = [
         // Other middleware...
         \Illuminate\Session\Middleware\StartSession::class,
+        \App\Http\Middleware\CorsMiddleware::class,
     ];
 
     /**
@@ -53,6 +54,7 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'admin' => AdminAuth::class, // Register admin middleware
         'volunteer' => VolunteerAuth::class, // Register volunteer middleware
+        'cors' => \App\Http\Middleware\CorsMiddleware::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
