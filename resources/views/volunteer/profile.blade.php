@@ -121,15 +121,44 @@
     </form>
 
     <script>
+        //profile page button toggle
+        const editButton = document.querySelector('.edit-button');
+        const saveButton = document.querySelector('.save-button'); // Updated class name
+        const cancelButton = document.querySelector('.cancel-button'); // Updated class name
+        const form = document.querySelector('.profile-form');
+        const inputs = form.querySelectorAll('input, textarea');
+
         function toggleEditMode() {
-            // Toggle editing mode
-            let form = document.querySelector('.profile-form');
-            let inputs = form.querySelectorAll('input, textarea');
-            inputs.forEach(input => input.readOnly = !input.readOnly);
-            let button = form.querySelector('input[type="submit"], button');
-            if (button) {
-                button.style.display = button.style.display === 'none' ? 'inline' : 'none';
+            let isEditing = form.classList.contains('editing');
+            inputs.forEach(input => input.readOnly = !isEditing);
+
+            // Toggle visibility of buttons
+            if (editButton) {
+                editButton.style.display = isEditing ? 'none' : 'inline';
+            }
+            if (saveButton) {
+                saveButton.style.display = isEditing ? 'inline' : 'none';
+            }
+            if (cancelButton) {
+                cancelButton.style.display = isEditing ? 'inline' : 'none';
             }
         }
+
+        if (editButton) {
+            editButton.addEventListener('click', function() {
+                form.classList.add('editing');
+                toggleEditMode();
+            });
+        }
+
+        if (cancelButton) {
+            cancelButton.addEventListener('click', function() {
+                form.classList.remove('editing');
+                toggleEditMode();
+            });
+        }
+        
+        // Initialize the form state
+        toggleEditMode();
     </script>
 @endsection
