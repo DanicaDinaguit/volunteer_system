@@ -6,9 +6,10 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
-
+use App\Http\Controllers\GoogleCalendarController;
 
 
 // Public routes
@@ -26,13 +27,23 @@ Route::post('/application', [ApplicationController::class, 'submitApplication'])
 
 
 
+
 // Admin Routes (Protected with admin.auth middleware)
 Route::prefix('admin')->group(function () {
     // Admin Home Page
     Route::get('/Home', [AdminController::class, 'Home'])->name('admin.Home');
 
     // Admin Calendar Page
+    Route::get('/events', [GoogleCalendarController::class, 'fetchEvents']);
     Route::get('/calendar', [AdminController::class, 'calendar'])->name('admin.calendar');
+    Route::post('/calendar/create', [AdminController::class, 'storeEvent'])->name('admin.createEvent');
+    Route::resource('/events', EventController::class);
+    
+
+    // Route::get('/calendar', [GoogleCalendarController::class, 'listEvents']);
+    // Route::get('/auth/google', [GoogleCalendarController::class, 'redirectToGoogle']);
+    // Route::get('/callback', [GoogleCalendarController::class, 'handleGoogleCallback']);
+    // Route::post('/calendar/create', [GoogleCalendarController::class, 'createEvent']);
 
     // Admin Create New Event Page
     Route::get('/createEvent', [EventController::class, 'viewCreateEvent'])->name('admin.createEvent');

@@ -19,10 +19,11 @@ class CreateTbleventTable extends Migration
             $table->time('start'); 
             $table->time('end');
             $table->date('event_date');
-            $table->text('description');
-            $table->integer('number_of_volunteers');
+            $table->text('description')->nullable();
+            $table->integer('number_of_volunteers')->nullable();
             $table->integer('volunteers_joined')->default(0);
-            $table->string('event_location');
+            $table->string('event_location')->nullable();  
+            $table->string('partnership')->nullable();
             $table->string('category');
             $table->string('event_status');
             $table->timestamps();

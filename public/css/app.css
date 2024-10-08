@@ -7,25 +7,32 @@ body {
     height: 100%;
 }
 
+/* #pre-navdiv {
+    max-width: 100%;
+    height: 35px;
+    background: #d98641;
+} */
+
 #navdiv{
     width: 100%;
     height: 80px;
     background: white;
+    /* background-color: #6f833f; */
     box-shadow: 0px 5px 40.5px rgba(0, 0, 0, 0.25);
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 1000;
 }
 
 .logo{
     position: absolute;
-    top: 0;
+    top: 9px;
     bottom: 0;
-    left: 98px;
+    left: 200px;
     display: flex;
     align-items: center;
-    height: 90%;
+    height: 80%;
 }
 
 .nav-items {
@@ -34,13 +41,11 @@ body {
     margin: 0;
     padding: 0;
     position: absolute;
-    
+    top: 28px;
+    right: 200px;
     justify-content: flex-end;
     align-items: center;
     width: fit-content;
-    top: 20px;
-    right: 30px;
-    
 }
 
 .nav-item {
@@ -49,7 +54,6 @@ body {
 
 .nav-item a {
     text-decoration: none;
-    color: white;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -57,51 +61,55 @@ body {
 }
 
 .nav-item a img {
-    height: 30px;
-    width: 30px;
-    margin-bottom: 5px;
+    height: 20px;
+    width: 20px;
+    align-items: center;
 }
 
 .nav-item a span {
-    font-size: 12px;
-    color: #D3203A;
-
+    font-size: 16px;
+    color: #d98641;
+    font-weight: 500;
 }
-
+ 
 #banner{
-    width: 100%;  
+    max-width: 100%; 
+    height: 588px; 
     display: flex;
     flex-direction: row;
     justify-content: space-between; 
     padding: 20px;
-    margin-top: 110px;
+    margin-top: 55px;
+    opacity: 0.6;
+    background: url('/images/hero-banner.svg') #6f833f 50% / cover no-repeat;
 }
 
-.bannerImg{
-    padding-left: 0%;
-    width: 93%; /* Add this line to make the image fit within the container */
-    object-fit: cover; /* Add this line to make the image cover the entire container */
-    height: 100%;
-    
-    padding-bottom: 20px;
-    box-sizing: border-box;
+#hero-content img{
+    position: absolute; /* Position the image absolutely within the banner */
+    z-index: 500; /* Ensure it is on top of the banner */
+    width: 245.861px;
+    height: 250px;
+    top: 42%; /* Adjust the position as needed */
+    left: 50%; /* Adjust the position as needed */
+    transform: translate(-50%, -50%);
 }
 
-.volunteerneeded{
-    width: 530px; 
-    height: 116.80px; 
-    text-align: justify; 
-    color: rgba(189, 35, 130, 1); 
-    font-size: 101.10px; 
-    font-family: Poppins; 
-    font-weight: 800; 
-    line-height: 20.54px; 
-    letter-spacing: 1.01px; 
-    word-wrap: break-word;
-    margin-left: 67px; 
-    margin-top: 129.98px; 
-    
+#hero-title{
+    position: absolute; /* Position the title absolutely within the banner */
+    z-index: 500; /* Ensure it appears on top of the banner */
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 50px;
+    font-weight: 600;
+    line-height: 147.111%; /* 73.555px */
+    letter-spacing: 0.5px;
+    top: 75%; /* Vertically center the title */
+    left: 50%; /* Horizontally center the title */
+    transform: translate(-50%, -50%); /* Adjust to perfectly center */
+    padding: 20px;
 }
+
 hr{
     margin-left: 67px;
     width: 258.08px; 
@@ -111,7 +119,7 @@ hr{
 
 .bannertext, br{
     text-align: justify; 
-    color: #9B28A6; 
+    color: #d98641; 
     font-size: 15px; 
     font-family: Poppins; 
     font-weight: 500; 
@@ -1048,6 +1056,51 @@ a.footerText{
 }
 
 /* Admin View Membership Application END */
+
+/* Calendar */
+
+.fc-toolbar .fc-button {
+    background-color: #d98641 !important;
+    border-color: #d98641 !important;
+    color: white !important;
+}
+
+.fc-toolbar .fc-button:hover,
+.fc-toolbar .fc-button:focus {
+    background-color: #b87432 !important;
+    border-color: #b87432 !important;
+}
+
+.fc-toolbar .fc-button.fc-button-active {
+    background-color: #a9602b !important;
+    border-color: #a9602b !important;
+}
+
+#calendar .fc .fc-button {
+    background-color: #d98641 !important;
+    border-color: #d98641 !important;
+    color: white !important;
+}
+
+.fc-toolbar-title {
+    color: #866e5d;
+}
+
+.fc-scrollgrid-sync-inner a {
+    color: #6f833f;
+}
+
+/* Calendar End */
+
+/* Responsiveness */
+
+@media (max-width: 768px) {
+    .nav-text {
+        display: none;
+    }
+}   
+
+/* Responsiveness End */
 
 /* MESSAGES PAGE START */
 #messages {

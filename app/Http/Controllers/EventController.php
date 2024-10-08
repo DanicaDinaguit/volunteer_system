@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    public function viewCreateEvent()
+    public function index()
     {
         return view('admin.createEvent');
     }
@@ -28,8 +28,7 @@ class EventController extends Controller
         $events = Event::all(); // Fetch all events from the table
         return view('index', compact('events')); // Pass events to the view
     }
-
-    public function store(Request $request)
+    public function update(Request $request, $id)
     {
         // Validate the request data
         $request->validate([

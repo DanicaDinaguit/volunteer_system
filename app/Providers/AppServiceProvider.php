@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use app\Services\GoogleCalendarService;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Admin;
 use App\Models\MemberCredential;
@@ -15,9 +16,9 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
+    public function register():void
     {
-        //
+        
     }
 
     /**

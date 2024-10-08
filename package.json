@@ -17,6 +17,12 @@
     },
     "dependencies": {
         "laravel-echo": "^1.16.1",
-        "pusher-js": "^8.4.0-rc2"
+        "pusher-js": "^8.4.0-rc2",
+        "@fullcalendar/core": "^6.1.15",
+        "@fullcalendar/daygrid": "^6.1.15",
+        "@fullcalendar/interaction": "^6.1.15",
+        "@fullcalendar/timegrid": "^6.1.15",
+        "fullcalendar": "^6.1.15",
+        "jquery": "^3.7.1"
     }
 }

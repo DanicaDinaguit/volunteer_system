@@ -1,19 +1,25 @@
 @extends('layouts.admin_app')
 
-@section('title', 'Admin Home')
+@section('title', 'Home - SOCI')
 
 @section('content')
     <!-- div for Banner -->
     <div id="banner">
-            <div>
-                <h1 class="volunteerneeded">Volunteer<br/><br/><br/><br/><br/>Needed</h1>
-                <hr>
-                <p class="bannertext">Come join us in helping those who need help with </br> health and education services.</p>
-                <img class="unite" src="{{ asset('images/uniteasone.png') }}" alt="Unite as One" >
-            </div>
-            <div>
-                <img src="{{ asset('images/bannerImg.png') }}"  class="bannerImg" alt="Banner Image">
-            </div>
+            <!-- <div>
+                <h1 class="volunteerneeded">Volunteer<br/><br/><br/><br/><br/>Needed</h1> -->
+                <!-- <hr> -->
+                <!-- <p class="bannertext">Come join us in helping those who need help with </br> health and education services.</p> -->
+                <!-- <img class="unite" src="{{ asset('images/uniteasone.png') }}" alt="Unite as One" > -->
+            <!-- </div> -->
+            <!-- <div>
+                <img src="{{ asset('images/hero-banner.png') }}"  class="bannerImg" alt="Banner Image">
+            </div> -->
+    </div>
+    <div id="hero-content">
+        <img src="{{ asset('images/LOGO.png') }}">
+    </div>
+    <div>
+        <h1 id="hero-title">LET'S MAKE THE WORLD A BETTER PLACE</h1>
     </div>
 
     <!-- div for events flexed -->

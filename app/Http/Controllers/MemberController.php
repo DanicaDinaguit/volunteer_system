@@ -109,6 +109,26 @@ class MemberController extends Controller
         return view('volunteer.Home', compact('events')); // Make sure you have this view file created
     }
     
+    public function calendar()
+    {
+        return view('volunteer.calendar');
+    }
+
+    public function messages()
+    {
+        return view('volunteer.messages');
+    }
+
+    public function notification()
+    {
+        return view('volunteer.notification');
+    }
+    
+    public function gallery()
+    {
+        return view('volunteer.gallery');
+    } 
+
     public function signIn(Request $request)
     {
         $request->validate([

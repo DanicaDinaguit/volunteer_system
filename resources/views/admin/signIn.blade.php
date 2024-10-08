@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Sign In</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap">
 
@@ -18,7 +18,7 @@
             </div>
 
             <div id="signInForm">
-                <form action="{{ route('admin.signin') }}" method="POST">
+                <form action="{{ route('admin.signIn') }}" method="POST">
                     @csrf
                     <fieldset class="custom-input">
                         <legend>Email Address</legend>
