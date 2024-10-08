@@ -9,7 +9,7 @@ class Admin extends Authenticatable
 {
     use HasFactory;
 
-    protected $table = 'tbladmin';
+    protected $table = 'tbl_admin';
     protected $fillable = [
         'first_name',
         'middle_name',

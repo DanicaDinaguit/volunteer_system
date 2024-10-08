@@ -81,6 +81,26 @@ class MemberController extends Controller
         return view('volunteer.Home', compact('events')); // Make sure you have this view file created
     }
     
+    public function calendar()
+    {
+        return view('volunteer.calendar');
+    }
+
+    public function messages()
+    {
+        return view('volunteer.messages');
+    }
+
+    public function notification()
+    {
+        return view('volunteer.notification');
+    }
+    
+    public function gallery()
+    {
+        return view('volunteer.gallery');
+    } 
+
     public function signIn(Request $request)
     {
         $validatedData = $request->validate([
@@ -98,6 +118,11 @@ class MemberController extends Controller
     public function profile()
     {
         $user = Auth::user();
+
+        // if (!$user) {
+        //     return redirect()->route('volunteer.signIn')->with('error', 'User not authenticated.');
+        // }
+
         return view('volunteer.profile', [
             'user' => $user,
             'editing' => false // Initially not in editing mode
@@ -107,6 +132,11 @@ class MemberController extends Controller
     public function editProfile()
     {
         $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('volunteer.signIn')->with('error', 'User not authenticated.');
+        }
+
         return view('volunteer.profile', [
             'user' => $user,
             'editing' => true // profile editing mode
@@ -116,6 +146,10 @@ class MemberController extends Controller
     public function updateProfile(Request $request)
     {
         $user = Auth::user();
+
+        if (!$user) {
+            return redirect()->route('volunteer.signIn')->with('error', 'User not authenticated.');
+        }
 
         // Validate the input data
         $request->validate([

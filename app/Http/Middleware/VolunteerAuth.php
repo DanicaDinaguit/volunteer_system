@@ -9,13 +9,13 @@ use Illuminate\Support\Facades\Log;
 
 class VolunteerAuth
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
+    // /**
+    //  * Handle an incoming request.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @param  \Closure  $next
+    //  * @return mixed
+    //  */
     public function handle(Request $request, Closure $next)
     {
         Log::info('VolunteerAuth: Checking volunteer authentication.');

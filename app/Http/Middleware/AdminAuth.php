@@ -9,21 +9,17 @@ use Illuminate\Support\Facades\Log;
 
 class AdminAuth
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
     public function handle(Request $request, Closure $next)
     {
         Log::info('AdminAuthMiddleware: Checking admin authentication.');
-        // Check if the user is authenticated as an admin
+        
         if (!Auth::guard('admin')->check()) {
-            return redirect()->route('admin.signin')->with('error', 'Please sign in as admin to access this page.');
+            Log::warning('AdminAuthMiddleware: Unauthenticated access attempt.');
+            return redirect()->route('admin.signIn')->with('error', 'Please sign in as admin to access this page.');
         }
-
+        
         return $next($request);
+        
+        
     }
 }
