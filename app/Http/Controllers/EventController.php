@@ -14,10 +14,6 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    public function index()
-    {
-        return view('admin.createEvent');
-    }
     public function showAdmin($id)
     {
         $event = Event::where('id', $id)->firstOrFail();
@@ -60,25 +56,6 @@ class EventController extends Controller
         return redirect()->back()->with('success', 'Event created successfully!');
     }
 
-    // app/Http/Controllers/EventController.php
-    public function update(Request $request, $id)
-    {
-        $event = Event::where('id', $id)->firstOrFail();;
-
-        $event->update([
-            'title' => $request->ename,
-            'category' => $request->etype,
-            'description' => $request->edesc,
-            'number_of_volunteers' => $request->slots,
-            'event_date' => $request->edate,
-            'start' => $request->timeStart,
-            'end' => $request->timeEnd,
-            'event_location' => $request->elocation,
-            // 'partners' => $request->epartner,
-        ]);
-
-        return redirect()->route('admin.eventDetails', ['id' => $id])->with('success', 'Event updated successfully.');
-    }
 
     public function destroy($id)
     {
