@@ -162,54 +162,55 @@ class AdminController extends Controller
 
         return back()->withErrors(['email' => 'Invalid credentials.']);
     }
+
     public function updateProfile(Request $request)
-{
-    // Fetch the currently authenticated admin
-    $admin = Auth::guard('admin')->user();
+    {
+        // Fetch the currently authenticated admin
+        $admin = Auth::guard('admin')->user();
 
-    // Log the request data for debugging
-    Log::info('Update Profile Request Data:', $request->all());
+        // Log the request data for debugging
+        Log::info('Update Profile Request Data:', $request->all());
 
-    $rules = [
-        'firstName' => 'nullable|string|max:255',
-        'lastName' => 'nullable|string|max:255',
-        'middleName' => 'nullable|string|max:255',
-        'phoneNumber' => 'nullable|string|max:20',
-        'email' => 'nullable|email',
-        'password' => 'nullable|string|min:8|confirmed',
-    ];
+        $rules = [
+            'firstName' => 'nullable|string|max:255',
+            'lastName' => 'nullable|string|max:255',
+            'middleName' => 'nullable|string|max:255',
+            'phoneNumber' => 'nullable|string|max:20',
+            'email' => 'nullable|email',
+            'password' => 'nullable|string|min:8|confirmed',
+        ];
 
-    $validatedData = $request->validate(array_filter($rules, function ($rule, $key) use ($request) {
-        return $request->has($key);
-    }, ARRAY_FILTER_USE_BOTH));
+        $validatedData = $request->validate(array_filter($rules, function ($rule, $key) use ($request) {
+            return $request->has($key);
+        }, ARRAY_FILTER_USE_BOTH));
 
-    if ($request->filled('firstName')) {
-        $admin->first_name = $request->input('firstName');
+        if ($request->filled('firstName')) {
+            $admin->first_name = $request->input('firstName');
+        }
+        if ($request->filled('lastName')) {
+            $admin->last_name = $request->input('lastName');
+        }
+        if ($request->filled('middleName')) {
+            $admin->middle_name = $request->input('middleName');
+        }
+        if ($request->filled('phoneNumber')) {
+            $admin->phone_number = $request->input('phoneNumber');
+        }
+        if ($request->filled('email')) {
+            $admin->email = $request->input('email');
+        }
+
+        // Update password only if a new one is provided
+        if ($request->filled('password')) {
+            $admin->password = Hash::make($request->input('password'));
+        }
+
+        $admin->save();
+
+        Log::info('Admin Profile Updated:', ['admin' => $admin]);
+
+        return redirect()->route('admin.profile')->with('success', 'Profile updated successfully!');
     }
-    if ($request->filled('lastName')) {
-        $admin->last_name = $request->input('lastName');
-    }
-    if ($request->filled('middleName')) {
-        $admin->middle_name = $request->input('middleName');
-    }
-    if ($request->filled('phoneNumber')) {
-        $admin->phone_number = $request->input('phoneNumber');
-    }
-    if ($request->filled('email')) {
-        $admin->email = $request->input('email');
-    }
-
-    // Update password only if a new one is provided
-    if ($request->filled('password')) {
-        $admin->password = Hash::make($request->input('password'));
-    }
-
-    $admin->save();
-
-    Log::info('Admin Profile Updated:', ['admin' => $admin]);
-
-    return redirect()->route('admin.profile')->with('success', 'Profile updated successfully!');
-}
 
 
     public function logout()
