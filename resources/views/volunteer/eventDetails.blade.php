@@ -1,4 +1,3 @@
-
 @extends('layouts.volunteer_app')
 
 @section('title', 'Event Details')
@@ -10,7 +9,7 @@
             <div class="col-md-10">
                 <div class="card border-0 shadow-lg mb-4">
                     <div class="card-header bg-primary text-white text-center py-4">
-                        <h3 class="card-title mb-0">{{ $event->event_name }}</h3>
+                        <h3 class="card-title mb-0">{{ $event->title }}</h3>
                     </div>
                     <div class="card-body p-5">
                         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -18,8 +17,8 @@
                                 <p class="mb-0 text-muted">
                                     <i class="fas fa-calendar-alt"></i> 
                                     {{ \Carbon\Carbon::parse($event->event_date)->format('F j, Y') }} 
-                                    from {{ \Carbon\Carbon::parse($event->event_start)->format('g:i A') }} 
-                                    to {{ \Carbon\Carbon::parse($event->event_end)->format('h:i A') }}
+                                    from {{ \Carbon\Carbon::parse($event->start)->format('g:i A') }} 
+                                    to {{ \Carbon\Carbon::parse($event->end)->format('h:i A') }}
                                 </p>
                             </div>
                         </div>
@@ -47,6 +46,17 @@
                                     {{ $hasJoined ? 'Joined' : 'Join' }}
                                 </button>
                             </div>
+                        </div>
+
+                        <!-- QR Code Display Section -->
+                        <div class="mt-4" id="qr-code-section" style="display: none;">
+                            <h5 class="text-primary"><strong>This is your QR Code for attendance purposes.</strong></h5>
+                            <img id="qr-code-image" src="" alt="QR Code" class="img-fluid">
+                            <br>
+                            <!-- Download QR Code Button -->
+                            <a id="download-qr-code" href="#" download="qr_code.png" class="btn btn-outline-success mt-3">
+                                Download QR Code
+                            </a>
                         </div>
 
                         <div class="mt-4 text-muted">
@@ -77,22 +87,24 @@
     }
 </style>
 
-
 <script>
     document.getElementById('join-btn').addEventListener('click', function() {
         const joinButton = this;
         const volunteersNeededElement = document.getElementById('volunteers-needed');
-        const eventID = "{{ $event->eventID }}";
+        const qrCodeSection = document.getElementById('qr-code-section');
+        const qrCodeImage = document.getElementById('qr-code-image');
+        const downloadQrCodeLink = document.getElementById('download-qr-code');
+        const id = "{{ $event->id }}";
 
         if (confirm('Are you sure you want to join this event?')) {
-            fetch(`/volunteer/eventDetails/${eventID}/join`, {  // Adjust route if necessary
+            fetch(`/volunteer/eventDetails/${id}/join`, {  // Adjust route if necessary
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    eventID: eventID
+                    id: id
                 })  // Pass the eventID or any other necessary data
             })
             .then(response => response.json())
@@ -109,6 +121,13 @@
                         joinButton.disabled = true;
                         joinButton.textContent = "Joined";
                     }
+
+                    // Show the QR code
+                    qrCodeSection.style.display = 'block';
+                    qrCodeImage.src = data.qr_code; // Set the QR code image URL
+
+                    // Set the download link to the QR code image URL
+                    downloadQrCodeLink.href = data.qr_code;  // Ensure the QR code can be downloaded
                 } else {
                     alert('Error joining event: ' + data.message);
                 }
