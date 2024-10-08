@@ -26,11 +26,12 @@ class CreateTblmemberapplicationTable extends Migration
             $table->enum('civil_status', ['Single', 'Married', 'Divorced', 'Widowed']);
             $table->string('college');
             $table->string('course');
-            $table->enum('year_level', ['1st Year', '2nd Year', '3rd Year', '4th Year', '5th Year']);
+            $table->enum('year_level', ['1st Year', '2nd Year', '3rd Year', '4th Year']);
             $table->string('schoolID', 50);
             $table->string('high_school');
             $table->string('elementary');
             $table->text('reasons_for_joining');
+            $table->enum('status', ['Pending', 'Approved', 'Rejected'])->default('Pending');
             $table->timestamps();
         });
     }

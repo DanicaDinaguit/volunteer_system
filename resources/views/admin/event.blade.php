@@ -76,9 +76,9 @@
                 <tbody>
                     @forelse($events as $event)
                     <tr>
-                        <td>{{ $event->event_name }}</td>
+                        <td>{{ $event->title }}</td>
                         <td>{{ \Carbon\Carbon::parse($event->event_date)->format('F j, Y') }}</td>
-                        <td>{{ \Carbon\Carbon::parse($event->event_start)->format('h:i A') }} - {{ \Carbon\Carbon::parse($event->event_end)->format('h:i A') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($event->start)->format('h:i A') }} - {{ \Carbon\Carbon::parse($event->end)->format('h:i A') }}</td>
                         <td>{{ $event->number_of_volunteers }}</td>
                         <td>
                             <button class="btn btn-primary btn-sm" title="View Attendance">
@@ -86,13 +86,13 @@
                             </button>
                         </td>
                         <td class="text-center">
-                            <a href="{{ route('admin.eventDetails', $event->eventID) }}" class="btn btn-info btn-sm me-1" title="View Event">
+                            <a href="{{ route('admin.eventDetails', $event->id) }}" class="btn btn-info btn-sm me-1" title="View Event">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <a href="{{ route('admin.eventDetails', $event->eventID) }}" class="btn btn-warning btn-sm me-1" title="Edit Event">
+                            <a href="{{ route('admin.eventDetails', $event->id) }}" class="btn btn-warning btn-sm me-1" title="Edit Event">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form action="{{ route('admin.events.destroy', $event->eventID) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this event?');">
+                            <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this event?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm" title="Delete Event">

@@ -14,13 +14,14 @@ class CreateTbleventTable extends Migration
     public function up()
     {
         Schema::create('tblevent', function (Blueprint $table) {
-            $table->id('eventID');
-            $table->string('event_name');
-            $table->time('event_start'); 
-            $table->time('event_end');
+            $table->id('id');
+            $table->string('title');
+            $table->time('start'); 
+            $table->time('end');
             $table->date('event_date');
             $table->text('description');
             $table->integer('number_of_volunteers');
+            $table->integer('volunteers_joined')->default(0);
             $table->string('event_location');
             $table->string('category');
             $table->string('event_status');

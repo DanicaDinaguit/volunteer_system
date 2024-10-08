@@ -18,6 +18,7 @@ class CreateTblmembercredentialsTable extends Migration
             $table->string('studentID')->unique();
             $table->string('email')->unique();
             $table->string('password');
+            $table->text('aboutMe')->nullable();
             $table->timestamps();
 
             $table->foreign('positionID')->references('positionID')->on('tblposition')->onDelete('cascade');

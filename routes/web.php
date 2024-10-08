@@ -89,8 +89,8 @@ Route::prefix('volunteer')->group(function () {
     // Volunteer Home Page
     Route::get('/Home', [MemberController::class, 'Home'])->name('volunteer.Home');
 
-    Route::get('/eventDetails/{eventID}', [EventController::class, 'showEventDetails'])->name('volunteer.eventDetails');
-    Route::post('/eventDetails/{eventID}/join', [EventController::class, 'join'])->name('volunteer.eventDetails.join');
+    Route::get('/eventDetails/{id}', [EventController::class, 'showEventDetails'])->name('volunteer.eventDetails');
+    Route::post('/eventDetails/{id}/join', [EventController::class, 'join'])->name('volunteer.eventDetails.join');
     // Volunteer Gallery
     Route::get('/gallery', [MemberController::class, 'gallery'])->name('volunteer.gallery');
 

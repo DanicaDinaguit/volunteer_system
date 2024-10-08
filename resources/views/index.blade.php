@@ -26,10 +26,10 @@
                     </div>
                     <img src="{{ asset('images/event-image.jpg') }}" alt="Event Image">
                     <div class="event-info">
-                        <h2>{{ $event->event_name }}</h2>
+                        <h2>{{ $event->event_nametitle }}</h2>
                         <p>{{ $event->event_location }}</p>
                         <p>{{ \Carbon\Carbon::parse($event->event_date)->format('F j, Y') }}</p>
-                        <p>{{ $event->event_start }} - {{ $event->event_end }}</p>
+                        <p>{{ $event->start }} - {{ $event->end }}</p>
                     </div>
                 </div>
             @endforeach

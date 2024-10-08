@@ -15,7 +15,7 @@ class CreateTblparticipantsTable extends Migration
             $table->timestamps();
 
             $table->foreign('memberCredentialsID')->references('memberCredentialsID')->on('tblmembercredentials')->onDelete('cascade');
-            $table->foreign('eventID')->references('eventID')->on('tblevent')->onDelete('cascade');
+            $table->foreign('eventID')->references('id')->on('tblevent')->onDelete('cascade');
         });
     }
 

@@ -24,13 +24,13 @@
                 <h3 class="mb-4">Event Details</h3>
 
                 <!-- Update Event Form -->
-                <form action="{{ route('admin.events.update', $event->eventID) }}" method="POST" class="row g-3">
+                <form action="{{ route('admin.events.update', $event->id) }}" method="POST" class="row g-3">
                     @csrf
                     @method('PUT')
 
                     <div class="col-md-6">
                         <label for="ename" class="form-label">Event Name</label>
-                        <input type="text" id="ename" name="ename" class="form-control" value="{{ $event->event_name }}" required>
+                        <input type="text" id="ename" name="ename" class="form-control" value="{{ $event->title }}" required>
                     </div>
 
                     <div class="col-md-6">
@@ -60,12 +60,12 @@
 
                     <div class="col-md-3">
                         <label for="timeStart" class="form-label">Time Start</label>
-                        <input type="time" id="timeStart" name="timeStart" class="form-control" value="{{ $event->event_start }}" required>
+                        <input type="time" id="timeStart" name="timeStart" class="form-control" value="{{ $event->start }}" required>
                     </div>
 
                     <div class="col-md-3">
                         <label for="timeEnd" class="form-label">Time End</label>
-                        <input type="time" id="timeEnd" name="timeEnd" class="form-control" value="{{ $event->event_end }}" required>
+                        <input type="time" id="timeEnd" name="timeEnd" class="form-control" value="{{ $event->end }}" required>
                     </div>
 
                     <div class="col-md-6">
@@ -87,7 +87,7 @@
                 </form>
 
                 <!-- Delete Event Form -->
-                <form action="{{ route('admin.events.destroy', $event->eventID) }}" method="POST" class="mt-3" onsubmit="return confirm('Are you sure you want to delete this event?');">
+                <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST" class="mt-3" onsubmit="return confirm('Are you sure you want to delete this event?');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">
