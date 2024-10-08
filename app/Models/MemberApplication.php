@@ -10,6 +10,9 @@ class MemberApplication extends Model
     use HasFactory;
 
     protected $table = 'tblmemberapplication';
+    protected $primaryKey = 'memberApplicationID';
+    public $incrementing = true; // Set to true if primary key is auto-incrementing
+    protected $keyType = 'int'; // Use 'string' if the primary key is a UUID
 
     protected $fillable = [
         'name',

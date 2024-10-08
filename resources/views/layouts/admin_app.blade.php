@@ -77,6 +77,9 @@
                         <a href="#">
                             <img src="{{ asset('images/aboutus.png') }}" alt="About Us Icon">
                             <!-- <span class="nav-text">About Us</span> -->
+                        <a href="{{ route('admin.notification') }}">
+                            <img src="{{ asset('images/about.png') }}" alt="Contact Icon">
+                            <span>Notification</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -108,5 +111,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     @yield('scripts')
         
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -4,49 +4,94 @@
 @section('title', 'Volunteer Notification')
 
 @section('content')
-  <div id="notification">
-    <div class="notif-volunteer" style="margin-top: 115px;">
-        <div><h2>All Notification</h2></div>
-        
-        <!-- Collapsible Search Icon -->
-        <div class="search-container">
-            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="54" viewBox="0 0 56 54" fill="none" id="search-icon">
-              <g filter="url(#filter0_d_794_1612)">
-                <path d="M44.8575 38.5662L30.8694 25.1152C29.7593 25.9692 28.4826 26.6453 27.0393 27.1435C25.5961 27.6417 24.0604 27.8908 22.4322 27.8908C18.3986 27.8908 14.9852 26.5471 12.192 23.8597C9.39881 21.1724 8.00148 17.8901 8 14.0128C8 10.134 9.39733 6.85172 12.192 4.16579C14.9866 1.47986 18.4 0.136189 22.4322 0.134766C26.4658 0.134766 29.8799 1.47844 32.6745 4.16579C35.4692 6.85314 36.8658 10.1355 36.8643 14.0128C36.8643 15.5785 36.6053 17.0553 36.0872 18.4431C35.5691 19.8309 34.866 21.0585 33.9779 22.1261L47.966 35.577L44.8575 38.5662ZM22.4322 23.6206C25.2076 23.6206 27.567 22.6869 29.5106 20.8194C31.4541 18.9519 32.4251 16.683 32.4237 14.0128C32.4237 11.3439 31.4526 9.07576 29.5106 7.20828C27.5685 5.3408 25.2091 4.40634 22.4322 4.40492C19.6567 4.40492 17.298 5.33937 15.356 7.20828C13.4139 9.07718 12.4421 11.3453 12.4407 14.0128C12.4407 16.6816 13.4124 18.9505 15.356 20.8194C17.2995 22.6883 19.6582 23.622 22.4322 23.6206Z" fill="#AB2695"/>
-              </g>
-              <defs>
-                <filter id="filter0_d_794_1612" x="0.387434" y="0.134766" width="55.191" height="53.6568" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                  <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                  <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                  <feOffset dy="7.61257"/>
-                  <feGaussianBlur stdDeviation="3.80628"/>
-                  <feComposite in2="hardAlpha" operator="out"/>
-                  <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                  <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_794_1612"/>
-                  <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_794_1612" result="shape"/>
-                </filter>
-              </defs>
-            </svg>
-            <input type="text" id="search-field" class="search-field" placeholder="Search...">
-        </div>
-    </div>
-    <div class="notif-result">
-      <div class="notif-notif">
-        <img src="{{ asset('images/notif-icon.png') }}" alt="">
-        <p class="notif-desc">You have joined the feeding program event! Click for more details!</p>
+<div id="notification" class="container py-4" style="text-align: center;">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3>Notifications</h3>
+      <!-- Search Container -->
+      <div class="position-relative">
+          <input type="text" id="search-field" class="form-control" placeholder="Search..." style="display:none; width: 250px;">
+          <button id="search-icon" class="btn btn-outline-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M21 19.31L15.13 13.43C16.09 12.15 16.5 10.56 16.5 9C16.5 4.86 13.14 1.5 9 1.5C4.86 1.5 1.5 4.86 1.5 9C1.5 13.14 4.86 16.5 9 16.5C10.56 16.5 12.15 16.09 13.43 15.13L19.31 21L21 19.31ZM9 14C5.96 14 3.5 11.54 3.5 9C3.5 6.46 5.96 4 9 4C12.04 4 14.5 6.46 14.5 9C14.5 11.54 12.04 14 9 14Z" fill="#000"/>
+              </svg>
+          </button>
       </div>
-    </div>
   </div>
-  
-  <script>
-      document.getElementById('search-icon').addEventListener('click', function() {
-          const searchField = document.getElementById('search-field');
-          if (searchField.style.display === 'block') {
-              searchField.style.display = 'none';
-          } else {
-              searchField.style.display = 'block';
-              searchField.focus();
-          }
-      });
-  </script>
+
+  <!-- Notifications Container with Fixed Height and Scrolling -->
+  <div class="notif-result" style="max-height: 800px; min-height: 30px; overflow-y: auto;">
+      @foreach($notifications as $notification)
+      <div class="col-md-12 mb-2 notif-item" data-notification="{{ strtolower($notification->body) }}">
+          @if ($notification->url)
+              <a href="{{ $notification->url }}" class="text-decoration-none text-dark">
+          @endif
+              <div class="card p-2 d-flex justify-content-between align-items-center shadow-sm" style="border-radius: 8px;">
+                  <div class="d-flex align-items-center">
+                      <img src="{{ asset('images/notif-icon.png') }}" alt="Notification Icon" class="mr-2" style="width: 40px; height: 40px;">
+                      <p class="mb-0" style="font-size: 14px;">{{ $notification->body }}</p>
+                      <small class="text-muted" style="font-size: 12px; margin-left: 20px;">{{ $notification->created_at->diffForHumans() }}</small>
+                      <button class="btn btn-sm btn-outline-danger delete-notif ml-2" style="font-size: 12px;" data-id="{{ $notification->id }}">Delete</button>
+                  </div>
+                  <!-- <div class="ml-2">
+                      
+                  </div> -->
+              </div>
+          @if ($notification->url)
+              </a>
+          @endif
+      </div>
+      @endforeach
+  </div>
+</div>
+
+<script>
+    // Toggle search field display
+    document.getElementById('search-icon').addEventListener('click', function() {
+        const searchField = document.getElementById('search-field');
+        searchField.style.display = searchField.style.display === 'block' ? 'none' : 'block';
+        if (searchField.style.display === 'block') searchField.focus();
+    });
+
+    // Filter notifications based on search input
+    document.getElementById('search-field').addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        const notifications = document.querySelectorAll('.notif-item');
+
+        notifications.forEach(notification => {
+            const notificationText = notification.getAttribute('data-notification');
+            if (notificationText.includes(query)) {
+                notification.style.display = 'flex'; // Show matched notification
+            } else {
+                notification.style.display = 'none'; // Hide non-matched notification
+            }
+        });
+    });
+
+    // Delete notification
+    document.querySelectorAll('.delete-notif').forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            const notificationId = this.getAttribute('data-id');
+            if (confirm('Are you sure you want to delete this notification?')) {
+                fetch(`/admin/notifications/${notificationId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Remove notification
+                        this.closest('.card').remove();
+                    } else {
+                        alert('Error deleting notification');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        });
+    });
+</script>
 @endsection

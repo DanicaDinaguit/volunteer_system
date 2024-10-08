@@ -20,18 +20,20 @@
     <div>
         <div id="eventItems">
             @foreach($events as $event)
-                <div class="event-box">
-                    <div class="day-container">
-                        <p>{{ \Carbon\Carbon::parse($event->event_date)->format('l') }}</p>
+                <a href="{{ route('volunteer.eventDetails', $event->eventID) }}" class="event-link" style="text-decoration: none; color: inherit;">
+                    <div class="event-box">
+                        <div class="day-container">
+                            <p>{{ \Carbon\Carbon::parse($event->event_date)->format('l') }}</p>
+                        </div>
+                        <img src="{{ asset('images/event-image.jpg') }}" alt="Event Image">
+                        <div class="event-info">
+                            <h2>{{ $event->event_name }}</h2>
+                            <p>{{ $event->event_location }}</p>
+                            <p>{{ \Carbon\Carbon::parse($event->event_date)->format('F j, Y') }}</p>
+                            <p>{{ $event->event_time }}</p>
+                        </div>
                     </div>
-                    <img src="{{ asset('images/event-image.jpg') }}" alt="Event Image">
-                    <div class="event-info">
-                        <h2>{{ $event->event_name }}</h2>
-                        <p>{{ $event->event_location }}</p>
-                        <p>{{ \Carbon\Carbon::parse($event->event_date)->format('F j, Y') }}</p>
-                        <p>{{ $event->event_time }}</p>
-                    </div>
-                </div>
+                </a>
             @endforeach
         </div>
         <button id="event-button">View More Events</button>

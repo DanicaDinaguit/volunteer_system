@@ -6,8 +6,10 @@ use App\Models\MemberCredential;
 use App\Models\Event;
 use App\Models\Position;
 use Illuminate\Http\Request;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class MemberController extends Controller
@@ -25,9 +27,33 @@ class MemberController extends Controller
             'last_name' => 'required|string|max:255',
             'studentID' => 'required|string|max:255',
             'email' => 'required|email|unique:tblmembercredentials,email',
-            'password' => 'required|string|min:8',
+            'password' => [
+                'required',
+                'string',
+                'min:8', // Minimum 8 characters
+                'regex:/[a-z]/', // At least one lowercase letter
+                'regex:/[A-Z]/', // At least one uppercase letter
+                'regex:/[0-9]/', // At least one digit
+                'regex:/[@$!%*#?&]/', // At least one special character
+            ],
+        ], [
+            'password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.',
         ]);
 
+        // Check if the email exists in tblmemberapplication and the application is approved
+        $application = DB::table('tblmemberapplication')
+            ->where('email_address', $validatedData['email'])
+            ->first();
+
+        if (!$application) {
+            // Email does not exist in tblmemberapplication
+            return redirect()->back()->with('error', 'No application found for this email.');
+        } elseif ($application->status !== 'Approved') {
+            // Application exists but not approved
+            return redirect()->back()->with('error', 'Your application is not approved yet.');
+        }
+
+        // If the email exists and the application is approved, proceed with sign-up
         // Create a new position entry for 'member'
         $position = Position::create([
             'position_name' => 'member',
@@ -37,9 +63,6 @@ class MemberController extends Controller
 
         // Refresh the position instance to ensure the ID is available
         $position->refresh();
-
-        // Log the position to check if it's created successfully
-        Log::info('Position created:', ['positionID' => $position->positionID]);
 
         // Ensure positionID is not null
         if ($position && $position->positionID) {
@@ -52,6 +75,10 @@ class MemberController extends Controller
             $member->studentID = $validatedData['studentID'];
             $member->email = $validatedData['email'];
             $member->password = Hash::make($validatedData['password']); // Hash the password
+            
+            // Store the memberApplicationID from the application table
+            $member->memberApplicationID = $application->memberApplicationID;
+            
             $member->created_at = now(); // Explicitly set created_at
             $member->updated_at = now(); // Explicitly set updated_at
             $member->save();
@@ -69,6 +96,7 @@ class MemberController extends Controller
             return redirect()->back()->with('error', 'Signup failed due to position creation issue.');
         }
     }
+
 
     public function showSignInForm()
     {
@@ -103,85 +131,99 @@ class MemberController extends Controller
 
     public function signIn(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required|string|min:8',
         ]);
+
+        $credentials = $request->only('email', 'password');
     
-        if (Auth::guard('web')->attempt($validatedData)) {
+        if (Auth::guard('web')->attempt($credentials)) {
+            $request->session()->regenerate(); // Regenerate session ID on login
+            Log::info('Session Data:', session()->all());
             return redirect()->route('volunteer.Home');
         }
     
         return redirect()->back()->withErrors(['email' => 'Invalid credentials'])->withInput();
     }
     
-    public function profile()
+    public function profile(Request $request)
     {
-        $user = Auth::user();
+        $volunteer = Auth::guard('web')->user();
 
-        // if (!$user) {
-        //     return redirect()->route('volunteer.signIn')->with('error', 'User not authenticated.');
-        // }
-
-        return view('volunteer.profile', [
-            'user' => $user,
-            'editing' => false // Initially not in editing mode
-        ]);
-    }
-
-    public function editProfile()
-    {
-        $user = Auth::user();
-
-        if (!$user) {
-            return redirect()->route('volunteer.signIn')->with('error', 'User not authenticated.');
+        Log::info('Volunteer User:', ['volunteer' => $volunteer]);
+        if (!$volunteer) {
+            return redirect()->route('volunteer.signin')->withErrors(['message' => 'You must be logged in to view your profile.']);
         }
+        // Check for edit mode
+        $editing = $request->has('edit') && $request->query('edit') == 'true';
 
-        return view('volunteer.profile', [
-            'user' => $user,
-            'editing' => true // profile editing mode
-        ]);
+        return view('volunteer.profile', compact('volunteer', 'editing'));
     }
 
     public function updateProfile(Request $request)
     {
-        $user = Auth::user();
-
-        if (!$user) {
-            return redirect()->route('volunteer.signIn')->with('error', 'User not authenticated.');
-        }
-
-        // Validate the input data
-        $request->validate([
-            'firstName' => 'required|string|max:255',
-            'lastName' => 'required|string|max:255',
-            'middleName' => 'required|string|max:255',
-            'schoolID' => 'required|string|max:255',
-            'email' => 'required|email',
+        $volunteer = Auth::guard('web')->user();
+        Log::info('Update Profile Request Data:', $request->all());
+        
+        $rules = [
+            'first_name' => 'nullable|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'studentID' => 'nullable|string|max:255',
+            'email' => 'nullable|email',
             'password' => 'nullable|string|min:8|confirmed',
             'aboutMe' => 'nullable|string',
-        ]);
-
-        // Update user data
-        $user->first_name = $request->input('firstName');
-        $user->last_name = $request->input('lastName');
-        $user->middle_name = $request->input('middleName');
-        $user->studentID = $request->input('schoolID');
-        $user->email = $request->input('email');
-        
-        if ($request->input('password')) {
-            $user->password = Hash::make($request->input('password'));
+        ];
+        $validatedData = $request->validate(array_filter($rules, function ($rule, $key) use ($request) {
+            return $request->has($key);
+        }, ARRAY_FILTER_USE_BOTH));
+    
+        if ($request->filled('first_name')) {
+            $volunteer->first_name = $request->input('first_name');
+        }
+        if ($request->filled('middle_name')) {
+            $volunteer->last_name = $request->input('middle_name');
+        }
+        if ($request->filled('last_name')) {
+            $volunteer->middle_name = $request->input('last_name');
+        }
+        if ($request->filled('studentID')) {
+            $volunteer->studentID = $request->input('studentID');
+        }
+        if ($request->filled('email')) {
+            $volunteer->email = $request->input('email');
+        }
+    
+        // Update password only if a new one is provided
+        if ($request->filled('password')) {
+            $volunteer->password = Hash::make($request->input('password'));
         }
         
-        $user->aboutMe = $request->input('aboutMe');
-        $user->save();
+        if ($request->filled('aboutMe')) {
+            $volunteer->aboutMe = $request->input('aboutMe');
+        }
 
+        $volunteer->save();
+
+        Log::info('Volunteer Profile Updated:', ['volunteer' => $volunteer]);
         return redirect()->route('volunteer.profile')->with('success', 'Profile updated successfully!');
     }
 
     public function logout()
     {
         Auth::guard('web')->logout();
-        return redirect()->route('volunteer.signIn')->with('success', 'Successfully logged out.');
+        return redirect()->route('volunteer.signin')->with('success', 'Successfully logged out.');
     } 
+
+    public function notifications()
+    {
+        $volunteer = Auth::guard('web')->user();
+        $notifications = Notification::where('user_id', $volunteer->memberCredentialsID)
+                                     ->where('user_type', MemberCredential::class)
+                                     ->orderBy('created_at', 'desc')
+                                     ->get();
+
+        return view('volunteer.notification', compact('notifications'));
+    }
 }

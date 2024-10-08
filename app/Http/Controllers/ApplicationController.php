@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MemberApplication;
-use Illuminate\Http\Request;
+use App\Events\NewMembershipApplication;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ApplicationSubmitted;
-use Illuminate\Support\Facades\Log;
+use App\Models\Admin;
+use App\Models\MemberApplication;
+use Illuminate\Support\Facades\DB;
+use App\Models\Notification;
+use Illuminate\Http\Request;
+
 
 class ApplicationController extends Controller
 {
@@ -48,6 +53,22 @@ class ApplicationController extends Controller
             // Send email notification
             Mail::to($validatedData['email_address'])->send(new ApplicationSubmitted($validatedData));
 
+            // Create a notification for all admins
+            $admins = Admin::all();
+            foreach ($admins as $admin) {
+                Notification::create([
+                    'user_id' => $admin->adminID, // Assuming 'adminID' is the primary key in tbladmin
+                    'user_type' => Admin::class, // Use the Admin model class as the user type
+                    'type' => 'New Membership Application',
+                    'title' => 'New Membership Application Submitted',
+                    'body' => 'A new membership application has been submitted by ' . $validatedData['name'] . '.',
+                    'url' => route('admin.viewApplication', $application->id), // Assuming you have a route to view the application
+                    'is_read' => false,
+                ]);
+            }
+
+            event(new NewMembershipApplication($application));
+
             // Redirect back with a success message
             return redirect()->back()->with('success', 'Application submitted successfully!');
         } catch (\Exception $e) {
@@ -55,5 +76,53 @@ class ApplicationController extends Controller
             Log::error('Error submitting application: ' . $e->getMessage());
             return redirect()->back()->withErrors('Failed to submit application. Please try again.');
         }
+    }
+
+    public function getApplicantDetails($memberApplicationID)
+    {
+        // $applicant = MemberApplication::findOrFail($memberApplicationID);
+        $applicant = DB::table('tblmemberapplication')->where('memberApplicationID', $memberApplicationID)->first();
+        if (!$applicant) {
+            return response()->json(['message' => 'Applicant not found'], 404);
+        }
+        return response()->json($applicant);
+    }
+
+    public function approveApplication($memberApplicationID)
+    {
+        // Approve the application logic
+        $application = MemberApplication::where('memberApplicationID', $memberApplicationID)->first();
+
+        // Log the application instance to check if it's found
+        \Log::info('applicant:', [$application]);
+
+        if (!$application) {
+            return response()->json(['message' => 'Application not found'], 404);
+        }
+
+        // Update the status
+        $application->status = 'approved';
+        $application->save();
+
+        return response()->json(['message' => 'Application approved successfully']);
+    }
+
+    public function rejectApplication($memberApplicationID)
+    {
+        // Approve the application logic
+        $application = MemberApplication::where('memberApplicationID', $memberApplicationID)->first();
+
+        // Log the application instance to check if it's found
+        \Log::info('applicant:', [$application]);
+
+        if (!$application) {
+            return response()->json(['message' => 'Application not found'], 404);
+        }
+
+        // Update the status
+        $application->status = 'rejected';
+        $application->save();
+
+        return response()->json(['message' => 'Application rejected successfully']);
     }
 }

@@ -15,7 +15,7 @@ class AdminAuth
         
         if (!Auth::guard('admin')->check()) {
             Log::warning('AdminAuthMiddleware: Unauthenticated access attempt.');
-            return redirect()->route('admin.signIn')->with('error', 'Please sign in as admin to access this page.');
+            return redirect()->route('admin.signin')->with('error', 'Please sign in as admin to access this page.');
         }
         
         return $next($request);
