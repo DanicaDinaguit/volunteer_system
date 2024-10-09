@@ -26,44 +26,43 @@
             <ul class="nav-items">
                 <li class="nav-item">
                     <a href="{{ route('volunteer.Home') }}">
-                        <img src="{{ asset('images/home.png') }}" alt="Home Icon">
+                        <!-- <img src="{{ asset('images/home.png') }}" alt="Home Icon"> -->
                         <span>Home</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('volunteer.calendar') }}">
-                        <img src="{{ asset('images/calendar.png') }}" alt="About Icon">
+                    <a href="">
+                        <!-- <img src="{{ asset('images/calendar.png') }}" alt="About Icon"> -->
                         <span>Calendar</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('volunteer.messages') }}">
-                        <img src="{{ asset('images/gallery.png') }}" alt="Services Icon">
+                        <!-- <img src="{{ asset('images/gallery.png') }}" alt="Services Icon"> -->
                         <span>Messages</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('volunteer.notification') }}">
-                        <img src="{{ asset('images/gallery.png') }}" alt="Services Icon">
+                        <!-- <img src="{{ asset('images/gallery.png') }}" alt="Services Icon"> -->
                         <span>Notifications</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('volunteer.gallery') }}">
-                        <img src="{{ asset('images/gallery.png') }}" alt="Services Icon">
+                        <!-- <img src="{{ asset('images/gallery.png') }}" alt="Services Icon"> -->
                         <span>Gallery</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('volunteer.profile') }}">
-                        <img src="{{ asset('images/gallery.png') }}" alt="Services Icon">
-                        <span>Profile</span>
+                    <a href="{{ route('volunteer.about') }}">
+                        <img src="{{ asset('images/aboutus.png') }}" alt="About Us Icon">
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('volunteer.about') }}">
-                        <img src="{{ asset('images/about.png') }}" alt="Contact Icon">
-                        <span>About Us</span>
+                    <a href="{{ route('volunteer.profile') }}">
+                        <img src="{{ asset('images/profile.png') }}" alt="Profile Icon">
+                        <!-- <span>Profile</span> -->
                     </a>
                 </li>
             </ul>  

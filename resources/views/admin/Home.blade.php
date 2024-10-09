@@ -4,23 +4,63 @@
 
 @section('content')
     <!-- div for Banner -->
-    <div id="banner">
-            <!-- <div>
-                <h1 class="volunteerneeded">Volunteer<br/><br/><br/><br/><br/>Needed</h1> -->
-                <!-- <hr> -->
-                <!-- <p class="bannertext">Come join us in helping those who need help with </br> health and education services.</p> -->
-                <!-- <img class="unite" src="{{ asset('images/uniteasone.png') }}" alt="Unite as One" > -->
-            <!-- </div> -->
-            <!-- <div>
-                <img src="{{ asset('images/hero-banner.png') }}"  class="bannerImg" alt="Banner Image">
-            </div> -->
+    <div  style="margin-top; 100px;">
+        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+            <!-- Indicators -->
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+            </div>
+
+            <!-- Carousel Inner (slides) -->
+            <div class="carousel-inner">
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <div id="banner">  
+                    </div>
+                    <div id="hero-content">
+                        <img src="{{ asset('images/LOGO1.png') }}">
+                    </div>
+                    <div alt="First Slide">
+                        <h1 id="hero-title">LET'S MAKE THE WORLD A BETTER PLACE</h1>
+                    </div>
+                    
+                </div>
+
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <div id="banner">  
+                    </div>
+                    <div id="hero-content">
+                        <img src="{{ asset('images/LOGO1.png') }}" >
+                    </div>
+                    <div alt="Second Slide">
+                        <h1 id="hero-title">JOIN US IN OUR MISSION</h1>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="carousel-item">
+                    <img src="{{ asset('images/LOGO1.png') }}" alt="Third Slide">
+                    <div>
+                        <h1 id="hero-title">TOGETHER WE CAN MAKE A CHANGE</h1>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls (next and previous buttons) -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
     </div>
-    <div id="hero-content">
-        <img src="{{ asset('images/LOGO.png') }}">
-    </div>
-    <div>
-        <h1 id="hero-title">LET'S MAKE THE WORLD A BETTER PLACE</h1>
-    </div>
+    
 
     <!-- div for events flexed -->
     <div>
@@ -58,6 +98,14 @@
             </div>
         </div>
     </div>
+
+    <script>
+    var myCarousel = document.querySelector('#heroCarousel');
+    var carousel = new bootstrap.Carousel(myCarousel, {
+        interval: 8000,  // Adjust time between slides
+        ride: 'carousel'
+    });
+</script>
 @endsection
 
 

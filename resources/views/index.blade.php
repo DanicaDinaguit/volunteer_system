@@ -5,17 +5,14 @@
 @section('content')
     <!-- div for Banner -->
     <div id="banner">
-        <div>
-            <h1 class="volunteerneeded">Volunteer<br/><br/><br/><br/><br/>Needed</h1>
-            <hr>
-            <p class="bannertext">Come join us in helping those who need help with <br> health and education services.</p>
-            <img class="unite" src="{{ asset('images/uniteasone.png') }}" alt="Unite as One" >
+        <div id="hero-content">
+            <img src="{{ asset('images/LOGO1.png') }}">
         </div>
         <div>
-            <img src="{{ asset('images/bannerImg.png') }}" class="bannerImg" alt="Banner Image">
+            <h1 id="hero-title">LET'S MAKE THE WORLD A BETTER PLACE</h1>
         </div>
     </div>
-
+    
     <!-- div for events flexed -->
     <div>
         <div id="eventItems">

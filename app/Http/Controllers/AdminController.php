@@ -85,23 +85,7 @@ class AdminController extends Controller
 
     public function showSignInForm()
     {
-        return view('admin.signIn');
-    }
-
-    public function signIn(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
-        ]);
-        
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::guard('admin')->attempt($credentials)) {
-            return redirect()->route('admin.Home');
-        }
-
-        return back()->withErrors(['email' => 'Invalid credentials.']);
+        return view('admin.signin');
     }
 
     public function Home()
@@ -217,39 +201,6 @@ class AdminController extends Controller
     {
         Auth::guard('admin')->logout();
         return redirect()->route('admin.signin')->with('success', 'Successfully logged out.');
-    }
-
-    // New Method for Notifications
-    public function notifications()
-    {
-        $admin = Auth::guard('admin')->user();
-        $notifications = Notification::where('user_id', $admin->adminID)
-                                     ->where('user_type', Admin::class)
-                                     ->orderBy('created_at', 'desc')
-                                     ->get();
-
-        return view('admin.notification', compact('notifications'));
-    }
-
-    public function destroy($id)
-    {
-        // Get the currently authenticated admin user
-        $admin = Auth::guard('admin')->user();
-
-        // Find the notification by ID, user ID, and user type
-        $notification = Notification::where('id', $id)
-                                    ->where('user_id', $admin->adminID)
-                                    ->where('user_type', Admin::class)
-                                    ->first();
-
-        if ($notification) {
-            // Delete the notification if found
-            $notification->delete();
-            return response()->json(['success' => true]);
-        }
-
-        // Return a 404 error if the notification is not found
-        return response()->json(['success' => false], 404);
     }
 
     // New Method for Notifications

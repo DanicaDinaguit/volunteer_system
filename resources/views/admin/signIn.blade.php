@@ -13,12 +13,12 @@
     <div id="signinDiv">
         <div>
             <div style="display: flex; align-items: center;">
-                <img src="{{ asset('images/LOGO.png') }}" alt="Logo" style="margin-left: 15px; margin-top: 10px;">
+                <img src="{{ asset('images/LOGO1.png') }}" alt="Logo" style="margin-left: 15px; margin-top: 10px; width: 64px; height: 64px;">
                 <h1 class="signinWelcome" style="text-align: center;">Welcome Back!</h1>
             </div>
 
             <div id="signInForm">
-                <form action="{{ route('admin.signIn') }}" method="POST">
+                <form action="{{ route('admin.signin') }}" method="POST">
                     @csrf
                     <fieldset class="custom-input">
                         <legend>Email Address</legend>

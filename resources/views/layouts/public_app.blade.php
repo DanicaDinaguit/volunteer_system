@@ -16,29 +16,29 @@
     <!-- Navigation bar for logo and for Home Page general audience view -->
     <div id="navdiv">
             <nav>
-                <img src="{{ asset('images/LOGO.png') }}" class="logo" alt="Logo">
+                <img src="{{ asset('images/LOGO1.png') }}" class="logo" alt="Logo">
                 <ul class="nav-items">
                     <li class="nav-item">
                         <a href="{{ route('index') }}">
-                            <img src="{{ asset('images/home.png') }}" alt="Home Icon">
+                            <!-- <img src="{{ asset('images/home.png') }}" alt="Home Icon"> -->
                             <span>Home</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('calendar') }}">
-                            <img src="{{ asset('images/calendar.png') }}" alt="Calendar Icon">
+                            <!-- <img src="{{ asset('images/calendar.png') }}" alt="Calendar Icon"> -->
                             <span>Calendar</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('gallery') }}">
-                            <img src="{{ asset('images/gallery.png') }}" alt="Gallery Icon">
+                            <!-- <img src="{{ asset('images/gallery.png') }}" alt="Gallery Icon"> -->
                             <span>Gallery</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('about') }}">
-                            <img src="{{ asset('images/about.png') }}" alt="About Us Icon">
+                            <!-- <img src="{{ asset('images/about.png') }}" alt="About Us Icon"> -->
                             <span>About Us</span>
                         </a>
                     </li>

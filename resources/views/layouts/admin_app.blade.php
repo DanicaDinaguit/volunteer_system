@@ -30,7 +30,7 @@
         <div id="navdiv">
             <!-- <div id="pre-navdiv"></div> -->
             <nav>
-                <img src="{{ asset('images/LOGO.png') }}" class="logo" alt="Logo">
+                <img src="{{ asset('images/LOGO1.png') }}" class="logo" alt="Logo">
                 <ul class="nav-items">
                     <li class="nav-item">
                         <a href="{{ route('admin.Home') }}">
@@ -77,10 +77,6 @@
                         <a href="#">
                             <img src="{{ asset('images/aboutus.png') }}" alt="About Us Icon">
                             <!-- <span class="nav-text">About Us</span> -->
-                        <a href="{{ route('admin.notification') }}">
-                            <img src="{{ asset('images/about.png') }}" alt="Contact Icon">
-                            <span>Notification</span>
-                        </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('admin.profile') }}">
