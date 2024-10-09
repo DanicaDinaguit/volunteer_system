@@ -3,7 +3,7 @@
 @section('title', 'Event Dashboard')
 
 @section('content')
-<div style="margin-top: 115px;">
+<div style="margin-top: 90px;">
     <div class="container my-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="fw-bold">Event Dashboard</h2>

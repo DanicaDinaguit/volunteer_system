@@ -3,7 +3,7 @@
 @section('title', 'Admin Event Details')
 
 @section('content')
-<div style="margin-top: 115px;">
+<div style="margin-top: 90px;">
     <div class="container mt-5">
         <!-- Back Button -->
         <div class="mb-4">
@@ -87,13 +87,13 @@
                 </form>
 
                 <!-- Delete Event Form -->
-                <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST" class="mt-3" onsubmit="return confirm('Are you sure you want to delete this event?');">
+                <!-- <form action="{{ route('admin.events.destroy', $event->id) }}" method="POST" class="mt-3" onsubmit="return confirm('Are you sure you want to delete this event?');">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">
                         <i class="fas fa-trash-alt"></i> Delete Event
                     </button>
-                </form>
+                </form> -->
             </div>
         </div>
     </div>

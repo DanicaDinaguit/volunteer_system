@@ -21,7 +21,7 @@ class EventController extends Controller
     }
     public function index()
     {
-        $events = Event::all(); // Fetch all events from the table
+        $events = Event::all()->get(4); // Fetch all events from the table
         return view('index', compact('events')); // Pass events to the view
     }
     public function update(Request $request, $id)

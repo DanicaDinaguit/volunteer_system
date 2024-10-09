@@ -3,7 +3,7 @@
 @section('title', 'Admin Messages')
     
 @section('content')
-    <div id="messages" style="margin-top: 110px;">
+    <div id="messages" style="margin-top: 90px;">
         <div class="message-recepient" >
             <div class="recepient-header">
                 <div><h2>Messages</h2></div>
@@ -50,7 +50,7 @@
                                 <img src="{{ $thread->otherParticipant->profile_image }}" alt="Participant Image">
                             @endif
                                 <h3>{{ $thread->otherParticipant->first_name }} {{ $thread->otherParticipant->last_name }}</h3>
-                                <p>{{ $thread->latestMessage->created_at->diffForHumans() }}</p>
+                                <p>{{ $thread->latestMessage->created_at->diffForHumans() }} ?? ''</p>
                             </div>
                         @endif
                     @endif

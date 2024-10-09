@@ -300,9 +300,6 @@ class MessageController extends Controller
 
             // Call the method to add all participants to the chat
             $this->addAllParticipantsToGroup($adminGroupChat);
-            
-            // Send a welcome message when the group chat is created
-            $this->sendWelcomeMessage($adminGroupChat);
         }
 
         // Check if the current user is already a participant of the group chat
@@ -313,12 +310,13 @@ class MessageController extends Controller
             \Log::info('partcipant :', ['partcipant' => $isParticipant]);
         // If the current user is not a participant, add them to the group chat
         if (!$isParticipant) {
-        MessageThreadParticipant::create([
-        'thread_id' => $adminGroupChat->id,
-        'participant_id' => $user->adminId ?? $user->memberCredentialsID,
-        'participant_type' => $this->getSenderType(),
-        ]);
-}
+            MessageThreadParticipant::create([
+                'thread_id' => $adminGroupChat->id,
+                'participant_id' => $user->adminID ?? $user->memberCredentialsID,
+                'participant_type' => $this->getSenderType(),
+            ]);
+            $this->sendWelcomeMessage($adminGroupChat, $isParticipant);
+        }
         return $adminGroupChat;
     }
 
@@ -358,9 +356,8 @@ class MessageController extends Controller
             
         }
         // Send a welcome message after all participants have been added
-        $this->sendWelcomeMessage($groupChat);
+        $this->sendWelcomeMessage($groupChat, $user = null);
     }
-
 
     public function addParticipantToGroupChat($user)
     {
@@ -370,15 +367,15 @@ class MessageController extends Controller
         // Check if the user is already in the group chat
         $existingParticipant = \DB::table('message_thread_participants')
             ->where('thread_id', $groupChat->id)
-            ->where('participant_id', $user->id)
-            ->where('participant_type', get_class($user))
+            ->where('participant_id', $user->adminID ?? $user->memberCredentialsID)
+            ->where('participant_type', $this->getSenderType())
             ->first();
-
+        \Log::info('This is the existing participant: ', [$existingParticipant]);
         if (!$existingParticipant) {
             // Add the new participant to the group chat
             \DB::table('message_thread_participants')->insert([
-                'participant_id' => $user->id,
-                'participant_type' => get_class($user),
+                'participant_id' => $user->adminID ?? $user->memberCredentialsID,
+                'participant_type' => $this->getSenderType(),
                 'thread_id' => $groupChat->id,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -390,31 +387,31 @@ class MessageController extends Controller
         }
     }
 
-    private function sendWelcomeMessage($groupChat, $newUser = null)
+    private function sendWelcomeMessage($groupChat, $newUser)
     {
         // If a new user is being added, customize the message for them
         if ($newUser) {
             $messageContent = "Welcome, " . $newUser->name . ", to the SOCI Group Chat!";
             Log::info("Sending welcome message to new user: {$messageContent}");
-            $this->createMessage(null, $groupChat->id, $messageContent, 'system', 'group');
+            $this->createMessage(null, $groupChat->id, $messageContent, $this->getSenderType(), $newUser->adminID ?? $newUser->memberCredentialsID);
         } else {
             // If no new user is specified, send a general welcome message to all participants
             $messageContent = "Welcome to the SOCI Group Chat! We're glad to have you here.";
             Log::info("Sending welcome message to participant: {$messageContent}");
                 Log::info("Sending welcome message to participant: {$messageContent}");
-                $this->createMessage(null, $groupChat->id, $messageContent, 'App\Models\System' , );
+                $this->createMessage(null, $groupChat->id, $messageContent, 'system' , 0);
             
         }
     }
 
     // Helper function to create a message
-    private function createMessage($senderId, $threadId, $messageContent, $receiverType, $receiverId = null)
+    private function createMessage($senderId, $threadId, $messageContent, $receiverType, $receiverId)
     {
         Message::create([
-            'sender_id' => $senderId,
+            'sender_id' => $senderId ?? 0,
             'receiver_id' => $receiverId,
             'message_content' => $messageContent,
-            'sender_type' => 'App\Models\System',
+            'sender_type' => 'system',
             'receiver_type' => $receiverType,
             'thread_id' => $threadId,
             'created_at' => now(),
