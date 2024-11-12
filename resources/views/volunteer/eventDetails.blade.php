@@ -8,10 +8,10 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card border-0 shadow-lg mb-4">
-                    <div class="card-header bg-primary text-white text-center py-4">
+                    <div class="card-header text-white text-center py-4" style="background: #D98641;">
                         <h3 class="card-title mb-0">{{ $event->title }}</h3>
                     </div>
-                    <div class="card-body p-5">
+                    <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <div>
                                 <p class="mb-0 text-muted">
@@ -39,12 +39,24 @@
                                 </span> 
                                 out of {{ $event->number_of_volunteers }}
                             </div>
+                            
+                            @php
+                                // Check if the event date is in the past
+                                $isPastEvent = \Carbon\Carbon::parse($event->event_date)->isPast();
+                            @endphp
+
                             <div>
-                                <button class="btn btn-outline-primary btn-lg px-4" id="join-btn" 
-                                    {{ $event->volunteers_joined >= $event->number_of_volunteers ? 'disabled' : '' }}
-                                    {{ $hasJoined ? 'disabled' : '' }}>
-                                    {{ $hasJoined ? 'Joined' : 'Join' }}
-                                </button>
+                                @if ($isPastEvent)
+                                    <!-- Show message for past events -->
+                                    <button class="btn btn-secondary btn-lg px-4" disabled>Event Ended</button>
+                                @else
+                                    <!-- Display Join button if event is not in the past -->
+                                    <button class="btn btn-outline-primary btn-lg px-4" id="join-btn" 
+                                        {{ $event->volunteers_joined >= $event->number_of_volunteers ? 'disabled' : '' }}
+                                        {{ $hasJoined ? 'disabled' : '' }}>
+                                        {{ $hasJoined ? 'Joined' : 'Join' }}
+                                    </button>
+                                @endif
                             </div>
                         </div>
 
