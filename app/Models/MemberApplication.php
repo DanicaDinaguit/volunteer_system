@@ -11,15 +11,20 @@ class MemberApplication extends Model
 
     protected $table = 'tblmemberapplication';
     protected $primaryKey = 'memberApplicationID';
-    public $incrementing = true; // Set to true if primary key is auto-incrementing
-    protected $keyType = 'int'; // Use 'string' if the primary key is a UUID
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     protected $fillable = [
-        'name',
+        'first_name',
+        'middle_name',
+        'last_name',
         'phone_number',
         'email_address',
-        'age',
-        'address',
+        'birthdate',
+        'address_street',
+        'address_city',
+        'address_state',
+        'address_zipcode',
         'religion',
         'gender',
         'citizenship',
@@ -33,5 +38,6 @@ class MemberApplication extends Model
         'reasons_for_joining',
         'status',
     ];
+
     public $timestamps = true;
 }
