@@ -3,16 +3,14 @@
 @section('title', 'Admin Calendar')
 
 @section('content')
-    <div id="calendar-container">
-        <h1 class="text-center">Calendar</h1>
+    <div id="calendar-container" style="margin-top: 95px;">
 
-        <!-- Schedule Event Button -->
-        <!-- <div class="d-flex justify-content-between align-items-center mb-3 mt-4" style="width: 90%; margin: 0 auto;">
-            <button id="scheduleEventButton" class="btn btn-primary">
-                <i class="fas fa-calendar-plus"></i> Schedule Event +
-            </button>
-        </div> -->
-
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        <div id="alertPlaceholder"></div>
         <div id="calendar" class="bg-light p-3 rounded shadow mx-auto mt-2"></div>
 
         <!-- Create New Event Modal -->
@@ -27,14 +25,15 @@
                         <!-- Create Event Form -->
                         <form id="event-form" class="row g-3">
                             @csrf
-                            <div class="col-12 col-md-6">
-                                <label for="title" class="form-label">Event Name</label>
-                                <input type="text" id="title" name="name" class="form-control" placeholder="Event Name" required>
+                            <div class="col-md-6">
+                                <label for="ename" class="form-label">Event Name</label>
+                                <input type="text" id="ename" name="ename" class="form-control" required>
                             </div>
 
-                            <div class="col-12 col-md-6">
-                                <label for="event-type" class="form-label">Event Type</label>
-                                <select id="event-type" name="type" class="form-select" required>
+                            <div class="col-md-6">
+                                <label for="etype" class="form-label">Event Type</label>
+                                <select id="etype" name="etype" class="form-select" required>
+                                    <option value="">Select Event Type</option>
                                     <option value="Values and Education">Values and Education</option>
                                     <option value="Partnership and Development">Partnership and Development</option>
                                     <option value="Environment and Health">Environment and Health</option>
@@ -45,36 +44,42 @@
                             </div>
 
                             <div class="col-md-12">
-                                <label for="event-description" class="form-label">Event Description</label>
-                                <textarea id="event-description" name="description" class="form-control" rows="5" placeholder="Event Description" required></textarea>
+                                <label for="edesc" class="form-label">Description</label>
+                                <textarea id="edesc" name="edesc" rows="5" class="form-control" required></textarea>
                             </div>
 
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <label for="start-time" class="form-label">Start Time</label>
-                                <input type="datetime-local" id="start-time" name="start_time" class="form-control" required>
+                            <div class="col-md-3">
+                                <label for="slots" class="form-label">Volunteer Slots</label>
+                                <input type="number" id="slots" name="slots" class="form-control" required>
                             </div>
 
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <label for="end-time" class="form-label">End Time</label>
-                                <input type="datetime-local" id="end-time" name="end_time" class="form-control" required>
+                            <div class="col-md-3">
+                                <label for="edate" class="form-label">Date</label>
+                                <input type="date" id="edate" name="edate" class="form-control" required>
                             </div>
 
-                            <div class="col-12 col-md-6">
-                                <label for="event-location" class="form-label">Event Location</label>
-                                <input type="text" id="event-location" name="location" class="form-control" placeholder="Event Location" required>
+                            <div class="col-md-3">
+                                <label for="timeStart" class="form-label">Time Start</label>
+                                <input type="time" id="timeStart" name="timeStart" class="form-control" required>
                             </div>
 
-                            <div class="col-12 col-md-6 col-lg-3">
-                                <label for="volunteers-needed" class="form-label">Number of Volunteers</label>
-                                <input type="number" id="volunteers-needed" name="volunteers_needed" class="form-control" placeholder="Number of Volunteers" required>
+                            <div class="col-md-3">
+                                <label for="timeEnd" class="form-label">Time End</label>
+                                <input type="time" id="timeEnd" name="timeEnd" class="form-control" required>
                             </div>
 
-                            <div class="col-12 col-md-6">
-                                <label for="partner" class="form-label">Partner/s</label>
-                                <input type="text" id="partner" name="epartner" class="form-control" placeholder="Partner/s" required>
+                            <div class="col-md-6">
+                                <label for="elocation" class="form-label">Location</label>
+                                <input type="text" id="elocation" name="elocation" class="form-control" required>
                             </div>
 
-                            <div class="col-12">
+                            <div class="col-md-6">
+                                <label for="epartner" class="form-label">Partner/s</label>
+                                <input type="text" id="epartner" name="epartner" class="form-control" required>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="col-md-12">
                                 <button type="submit" id="createEventButton" class="btn btn-success">
                                     <i class="fas fa-save"></i> Save Event
                                 </button>
@@ -84,29 +89,6 @@
                 </div>
             </div>
         </div>
-
-
-        <!-- Event Details Modal -->
-        <!-- <div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="eventModalLabel">Event Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p><strong>Title:</strong> <span id="modalTitle"></span></p>
-                        <p><strong>Description:</strong> <span id="modalDescription"></span></p>
-                        <p><strong>Start:</strong> <span id="modalStart"></span></p>
-                        <p><strong>End:</strong> <span id="modalEnd"></span></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="deleteEventButton" class="btn btn-danger">Delete Event</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div>
 @endsection
 
@@ -116,6 +98,7 @@
             console.log('Initializing FullCalendar...');
             var calendarEl = document.getElementById('calendar');
 
+            var events = @json($events);
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 selectable: true,
@@ -123,7 +106,7 @@
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    right: 'multiMonthYear,dayGridMonth,listYear'
                 },
                 customButtons: {
                     addEventButton: {
@@ -141,8 +124,7 @@
                 expandRows: true,
                 handleWindowResize: true,
                 windowResizeDelay: 100,
-                // events: {!! json_encode($events) !!},
-                events: '/admin/events/',
+                events: events,
                 windowResize: function(view) {
                     if (window.innerWidth < 768) {
                         calendar.changeView('timeGridDay');
@@ -155,35 +137,49 @@
                     createModal.show();
 
                     document.getElementById('event-form').reset();
-                    document.getElementById('start-time').value = info.startStr;
-                    document.getElementById('end-time').value = info.endStr;
+                    document.getElementById('timeStart').value = info.startStr;
+                    document.getElementById('timeEnd').value = info.endStr;
                 },
                 eventClick: function(info) {
-                    var event = info.event;
+                    var googleEventId = info.event.id; // Google Calendar event ID
+                    console.log("Google Event ID:", googleEventId);
 
-                    var eventModal = new bootstrap.Modal(document.getElementById('eventModal'));
-                    document.getElementById('modalTitle').innerText = event.title;
-                    document.getElementById('modalDescription').innerText = event.extendedProps.description || 'No description';
-                    document.getElementById('modalStart').innerText = event.start.toISOString();
-                    document.getElementById('modalEnd').innerText = event.end ? event.end.toISOString() : 'Not specified';
-                    eventModal.show();
+                    // Fetch the actual database ID based on Google event ID
+                    fetch(`/admin/getEventIdByGoogleId/${googleEventId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.db_event_id) {
+                                // Redirect to the Event Details page using the database event ID
+                                window.location.href = '/admin/eventDetails/' + data.db_event_id;
+                            } else {
+                                console.error('Event not found in database.');
+                                alert('Event not found.');
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                    // var eventModal = new bootstrap.Modal(document.getElementById('eventModal'));
+                    // document.getElementById('modalTitle').innerText = event.title;
+                    // document.getElementById('modalDescription').innerText = event.extendedProps.description || 'No description';
+                    // document.getElementById('modalStart').innerText = event.start.toISOString();
+                    // document.getElementById('modalEnd').innerText = event.end ? event.end.toISOString() : 'Not specified';
+                    // eventModal.show();
 
-                    document.getElementById('deleteEventButton').onclick = function() {
-                        if (confirm('Are you sure you want to delete this event?')) {
-                            fetch('/admin/events/' + event.id, {
-                                method: 'DELETE',
-                                headers: {
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                                    'Content-Type': 'application/json'
-                                }
-                            }).then(response => response.json()).then(data => {
-                                if (data.success) {
-                                    event.remove();
-                                    eventModal.hide();
-                                }
-                            });
-                        }
-                    };
+                    // /document.getElementById('deleteEventButton').onclick = function() {
+                    //     if (confirm('Are you sure you want to delete this event?')) {
+                    //         fetch('/admin/events/' + event.id, {
+                    //             method: 'DELETE',
+                    //             headers: {
+                    //                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    //                 'Content-Type': 'application/json'
+                    //             }
+                    //         }).then(response => response.json()).then(data => {
+                    //             if (data.success) {
+                    //                 event.remove();
+                    //                 eventModal.hide();
+                    //             }
+                    //         });
+                    //     }
+                    // };
                 },
                 eventDrop: function(info) {
                     var event = info.event;
@@ -226,8 +222,8 @@
                     createModal.show();
 
                     document.getElementById('event-form').reset();
-                    document.getElementById('start-time').value = info.dateStr + 'T00:00';
-                    document.getElementById('end-time').value = info.dateStr + 'T23:59';
+                    document.getElementById('timeStart').value = info.dateStr + 'T00:00';
+                    document.getElementById('timeEnd').value = info.dateStr + 'T23:59';
                 },
                 // events: function(fetchInfo, successCallback, failureCallback) {
                 //     fetch('/admin/events')
@@ -249,26 +245,23 @@
                 document.body.style.paddingRight = '';
             });
 
-            // document.getElementById('scheduleEventButton').onclick = function () {
-            //     var createModal = new bootstrap.Modal(document.getElementById('createEventModal'));
-            //     document.getElementById('event-form').reset();
-            //     createModal.show();
-            // };
-
             document.getElementById('createEventButton').onclick = function () {
+                event.preventDefault();
+
                 var form = document.getElementById('event-form');
                 const formData = new FormData(form);
                 let eventData = {};
                 formData.forEach((value, key) => eventData[key] = value);
 
-                var startTime = new Date(formData.get('start_time'));
-                var endTime = new Date(formData.get('end_time'));
+                // Ensure start and end times are valid
+                let startTime = new Date(formData.get('edate') + ' ' + formData.get('timeStart'));
+                let endTime = new Date(formData.get('edate') + ' ' + formData.get('timeEnd'));
                 if (endTime <= startTime) {
                     alert('End time must be after start time.');
                     return;
                 }
 
-                fetch('{{ route('admin.createEvent') }}', {
+                fetch('{{ route('admin.createEventCalendar') }}', {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -279,14 +272,14 @@
                         
                         calendar.addEvent({
                             id: data.event.id,
-                            title: formData.get('name'),
-                            start: formData.get('start_time'),
-                            end: formData.get('end_time'),
-                            description: formData.get('description'),
+                            title: data.event.title,
+                            start: new Date(data.event.event_date + ' ' + data.event.start).toISOString(),
+                            end: new Date(data.event.event_date + ' ' + data.event.end).toISOString(),
+                            description: data.event.description,
                             extendedProps: {
-                                location: formData.get('location'),
-                                volunteers_needed: formData.get('volunteers_needed'),
-                                epartner: formData.get('epartner'),
+                                location: data.event.event_location,
+                                volunteers_needed: data.event.number_of_volunteers,
+                                partner: formData.get('epartner')  // Assuming 'epartner' is stored separately
                             }
                         });
                         
@@ -330,7 +323,6 @@
 @section('styles')
     <style>
         body {
-            overflow: hidden;
             font-family: Arial, Helvetica, sans-serif;
             font-size: 14px;
         }
