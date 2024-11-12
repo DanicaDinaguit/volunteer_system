@@ -5,7 +5,7 @@
 @section('content')
 <div id="notification" class="container py-4" style="text-align: center;">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>Notifications</h3>
+        <h3 style="color: #CF803E;">Notifications</h3>
         <!-- Search Container -->
         <div class="position-relative">
             <input type="text" id="search-field" class="form-control" placeholder="Search..." style="display:none; width: 250px;">
@@ -31,9 +31,6 @@
                         <small class="text-muted" style="font-size: 12px; margin-left: 20px;">{{ $notification->created_at->diffForHumans() }}</small>
                         <button class="btn btn-sm btn-outline-danger delete-notif ml-2" style="font-size: 12px;" data-id="{{ $notification->id }}">Delete</button>
                     </div>
-                    <!-- <div class="ml-2">
-                        
-                    </div> -->
                 </div>
             @if ($notification->url)
                 </a>
