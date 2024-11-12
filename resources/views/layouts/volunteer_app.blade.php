@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap">
+    @yield('styles')
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -22,35 +24,30 @@
     <!-- navigation bar for logo and navigation Icons [Volunteer] -->
     <div id="navdiv">
         <nav>
-            <img src="{{ asset('images/LOGO.png') }}" class="logo" alt="Logo">
+            <img src="{{ asset('images/LOGO1.png') }}" class="logo" alt="Logo">
             <ul class="nav-items">
                 <li class="nav-item">
                     <a href="{{ route('volunteer.Home') }}">
-                        <!-- <img src="{{ asset('images/home.png') }}" alt="Home Icon"> -->
                         <span>Home</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="">
-                        <!-- <img src="{{ asset('images/calendar.png') }}" alt="About Icon"> -->
+                    <a href="{{ route('volunteer.calendar') }}">
                         <span>Calendar</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('volunteer.messages') }}">
-                        <!-- <img src="{{ asset('images/gallery.png') }}" alt="Services Icon"> -->
                         <span>Messages</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('volunteer.notification') }}">
-                        <!-- <img src="{{ asset('images/gallery.png') }}" alt="Services Icon"> -->
                         <span>Notifications</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('volunteer.gallery') }}">
-                        <!-- <img src="{{ asset('images/gallery.png') }}" alt="Services Icon"> -->
                         <span>Gallery</span>
                     </a>
                 </li>
@@ -62,7 +59,6 @@
                 <li class="nav-item">
                     <a href="{{ route('volunteer.profile') }}">
                         <img src="{{ asset('images/profile.png') }}" alt="Profile Icon">
-                        <!-- <span>Profile</span> -->
                     </a>
                 </li>
             </ul>  
@@ -78,6 +74,11 @@
     @include('layouts.footer')
     
     <script src="{{ asset('js/index.js') }}"></script>
+    <!-- FullCalendar -->
+    <script src="https://cdn.jsdelivr.net/combine/npm/fullcalendar@6.1.15,npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    @yield('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </body>
