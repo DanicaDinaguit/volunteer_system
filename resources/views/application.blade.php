@@ -40,9 +40,20 @@
                 <fieldset>
                     <div class="grid-row">
                         <div>
-                            <label for="name">Name <span class="required">*</span></label>
-                            <input type="text" id="name" name="name" required aria-required="true" placeholder="John Doe" pattern="[A-Za-z\s]+" title="Only letters are allowed.">
+                            <label for="first_name">First Name <span class="required">*</span></label>
+                            <input type="text" id="first_name" name="first_name" required placeholder="John" pattern="[A-Za-z\s]+" title="Only letters are allowed.">
                         </div>
+                        <div>
+                            <label for="middle_name">Middle Name</label>
+                            <input type="text" id="middle_name" name="middle_name" placeholder="Middle Name" pattern="[A-Za-z\s]+" title="Only letters are allowed.">
+                        </div>
+                        <div>
+                            <label for="last_name">Last Name <span class="required">*</span></label>
+                            <input type="text" id="last_name" name="last_name" required placeholder="Doe" pattern="[A-Za-z\s]+" title="Only letters are allowed.">
+                        </div>
+                    </div>
+                    
+                    <div class="grid-row">
                         <div>
                             <label for="phone_number">Mobile Number <span class="required">*</span></label>
                             <input type="tel" id="phone_number" name="phone_number" required placeholder="(123) 456-7890" pattern="\(\d{3}\) \d{3}-\d{4}" title="Format: (123) 456-7890">
@@ -52,16 +63,48 @@
                             <input type="email" id="email_address" name="email_address" required placeholder="example@example.com">
                         </div>
                         <div>
-                            <label for="age">Age <span class="required">*</span></label>
-                            <input type="number" id="age" name="age" required min="15" max="120" placeholder="18">
+                            <label for="birthdate">Birthdate <span class="required">*</span></label><br>
+                            <input type="date" id="birthdate" name="birthdate" required>
                         </div>
                     </div>
 
                     <div class="grid-row">
                         <div>
-                            <label for="address">Address <span class="required">*</span></label>
-                            <input type="text" id="address" name="address" required placeholder="123 Main St, City, Country">
+                            <label for="street_address">Street Address <span class="required">*</span></label>
+                            <input type="text" id="street_address" name="street_address" required placeholder="123 Main St">
                         </div>
+                        <div>
+                            <label for="city">City <span class="required">*</span></label>
+                            <input type="text" id="city" name="city" required placeholder="City">
+                        </div>
+                        <div>
+                            <label for="state">State/Province <span class="required">*</span></label>
+                            <input type="text" id="state" name="state" required placeholder="State/Province">
+                        </div>
+                    </div>
+
+                    <div class="grid-row">
+                        <div>
+                            <label for="zip_code">Zip Code <span class="required">*</span></label>
+                            <input type="text" id="zip_code" name="zip_code" required placeholder="12345">
+                        </div>
+                        <div>
+                            <label for="country">Country <span class="required">*</span></label>
+                            <input type="text" id="country" name="country" required placeholder="Country">
+                        </div>
+                        <div>
+                            <label for="civil_status">Civil Status <span class="required">*</span></label>
+                            <select id="civil_status" name="civil_status" required>
+                                <option value="">Select Status</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Divorced">Divorced</option>
+                                <option value="Widowed">Widowed</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-row">
                         <div>
                             <label for="religion">Religion <span class="required">*</span></label>
                             <input type="text" id="religion" name="religion" required placeholder="Your religion">
@@ -75,22 +118,9 @@
                                 <option value="Other">Other</option>
                             </select>
                         </div>
-                    </div>
-
-                    <div class="grid-row">
                         <div>
                             <label for="citizenship">Citizenship <span class="required">*</span></label>
                             <input type="text" id="citizenship" name="citizenship" required placeholder="Your Citizenship">
-                        </div>
-                        <div>
-                            <label for="civil_status">Civil Status <span class="required">*</span></label>
-                            <select id="civil_status" name="civil_status" required>
-                                <option value="">Select Status</option>
-                                <option value="Single">Single</option>
-                                <option value="Married">Married</option>
-                                <option value="Divorced">Divorced</option>
-                                <option value="Widowed">Widowed</option>
-                            </select>
                         </div>
                     </div>
                 </fieldset>
@@ -153,7 +183,6 @@
     </form>
 </div>
 
-
 <script>
     const tabs = document.querySelectorAll('.tabs li');
     const tabContents = document.querySelectorAll('.tab-contents');
@@ -166,11 +195,10 @@
             tabs.forEach(t => t.classList.remove('active'));
             tabContents.forEach(content => content.classList.remove('active'));
 
-            // Add active class to the clicked tab and show the corresponding content
+            // Add active class to selected tab and show corresponding content
             tab.classList.add('active');
             document.getElementById(selectedTab).classList.add('active');
         });
     });
 </script>
-
 @endsection
