@@ -86,7 +86,7 @@
     }
 </style>
 
-<div style="margin-top: 100px; ">
+<div style="margin-top: 30px; display: flex; justify-content: center;">
     <div id="view-application" class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-1">
             <h4 class="fw-bold mb-3" style="font-size: 1.5rem;">All Membership Applications</h4>
@@ -122,7 +122,7 @@
             <!-- Pending Applications -->
             <div class="tab-pane fade show active" id="pending-applications">
                 <div class="row">
-                    <div class="col-lg-4 col-md-5 mb-4">
+                    <div class="col-lg-4 col-md-5 mb-2">
                         <div class="list-group">
                             @foreach($pendingApplicants as $applicant)
                                 <button class="list-group-item list-group-item-action applicant-toggle" data-id="{{ $applicant->memberApplicationID }}" data-status="pending">
@@ -133,80 +133,69 @@
                     </div>
 
                     <div class="col-lg-8 col-md-7">
-                        <div id="applicant-details-pending" class="card shadow-sm p-4" style="display:block;">
-                            <h5 class="fw-bold mb-4 text-primary">Applicant Details</h5>
-                            <ul class="list-unstyled mb-4">
-                                <li class="mb-2">
-                                    <strong>Full Name:</strong>
-                                    <span id="detail-name" class="text-muted"></span>
+                        <div id="applicant-details-pending" class="card shadow-sm p-3" style="display:block;">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-bold mb-2 text-primary">Applicant Details</h5>
+                                <a href="" class="btn btn-info btn-sm me-1">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
+
+                            <!-- Tabs for Applicant Details Sections -->
+                            <ul class="nav nav-tabs" id="applicantDetailsTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" id="personal-info-tab" data-bs-toggle="tab" href="#personal-info" role="tab" aria-controls="personal-info" aria-selected="true" style="padding: 0.2rem 0.5rem; font-size: 0.85rem;">Personal Info</a>
                                 </li>
-                                <li class="mb-2">
-                                    <strong>Age:</strong>
-                                    <span id="detail-age" class="text-muted"></span>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="educational-info-tab" data-bs-toggle="tab" href="#educational-info" role="tab" aria-controls="educational-info" aria-selected="false" style="padding: 0.2rem 0.5rem; font-size: 0.85rem;">Educational Background</a>
                                 </li>
-                                <li class="mb-2">
-                                    <strong>Gender:</strong>
-                                    <span id="detail-gender" class="text-muted"></span>
-                                </li>
-                                <li class="mb-2">
-                                    <strong>Phone Number:</strong>
-                                    <span id="detail-phone_number" class="text-muted"></span>
-                                </li>
-                                <li class="mb-2">
-                                    <strong>Email Address:</strong>
-                                    <span id="detail-email_address" class="text-muted"></span>
-                                </li>
-                                <li class="mb-2">
-                                    <strong>Address:</strong>
-                                    <span id="detail-address" class="text-muted"></span>
-                                </li>
-                                <li class="mb-2">
-                                    <strong>Religion:</strong>
-                                    <span id="detail-religion" class="text-muted"></span>
-                                </li>
-                                <li class="mb-2">
-                                    <strong>Citizenship:</strong>
-                                    <span id="detail-citizenship" class="text-muted"></span>
-                                </li>
-                                <li class="mb-2">
-                                    <strong>Civil Status:</strong>
-                                    <span id="detail-civil_status" class="text-muted"></span>
-                                </li>
-                                <li class="mb-2">
-                                    <strong>College:</strong>
-                                    <span id="detail-college" class="text-muted"></span>
-                                </li>
-                                <li class="mb-2">
-                                    <strong>Course:</strong>
-                                    <span id="detail-course" class="text-muted"></span>
-                                </li>
-                                <li class="mb-2">
-                                    <strong>Year Level:</strong>
-                                    <span id="detail-year_level" class="text-muted"></span>
-                                </li>
-                                <li class="mb-2">
-                                    <strong>School ID:</strong>
-                                    <span id="detail-schoolID" class="text-muted"></span>
-                                </li>
-                                <li class="mb-2">
-                                    <strong>High School:</strong>
-                                    <span id="detail-high_school" class="text-muted"></span>
-                                </li>
-                                <li class="mb-2">
-                                    <strong>Elementary:</strong>
-                                    <span id="detail-elementary" class="text-muted"></span>
-                                </li>
-                                <li class="mb-2">
-                                    <strong>Reasons for Joining:</strong>
-                                    <span id="detail-reasons_for_joining" class="text-muted"></span>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" id="application-info-tab" data-bs-toggle="tab" href="#application-info" role="tab" aria-controls="application-info" aria-selected="false" style="padding: 0.2rem 0.5rem; font-size: 0.85rem;">Application Details</a>
                                 </li>
                             </ul>
 
-                            <div class="d-flex justify-content-start mt-4">
-                                <button type="button" class="approve-btn btn btn-success me-3 rounded-pill" data-id="">Approve</button>
-                                <button type="button" class="reject-btn btn btn-danger rounded-pill" data-id="">Reject</button>
+                            <!-- Tab Content for Each Section -->
+                            <div class="tab-content" id="applicantDetailsContent">
+                                <!-- Personal Info Section -->
+                                <div class="tab-pane fade show active" id="personal-info" role="tabpanel" aria-labelledby="personal-info-tab">
+                                    <ul class="list-unstyled mt-2">
+                                        <li class="mb-1"><strong>Full Name:</strong> <span id="detail-name" class="text-muted"></span></li>
+                                        <li class="mb-1"><strong>Age:</strong> <span id="detail-age" class="text-muted"></span></li>
+                                        <li class="mb-1"><strong>Gender:</strong> <span id="detail-gender" class="text-muted"></span></li>
+                                        <li class="mb-1"><strong>Phone Number:</strong> <span id="detail-phone_number" class="text-muted"></span></li>
+                                        <li class="mb-1"><strong>Email Address:</strong> <span id="detail-email_address" class="text-muted"></span></li>
+                                        <li class="mb-1"><strong>Address:</strong> <span id="detail-address" class="text-muted"></span></li>
+                                        <li class="mb-1"><strong>Religion:</strong> <span id="detail-religion" class="text-muted"></span></li>
+                                        <li class="mb-1"><strong>Citizenship:</strong> <span id="detail-citizenship" class="text-muted"></span></li>
+                                        <li class="mb-1"><strong>Civil Status:</strong> <span id="detail-civil_status" class="text-muted"></span></li>
+                                    </ul>
+                                </div>
+
+                                <!-- Educational Background Section -->
+                                <div class="tab-pane fade" id="educational-info" role="tabpanel" aria-labelledby="educational-info-tab">
+                                    <ul class="list-unstyled mt-3">
+                                        <li class="mb-1"><strong>College:</strong> <span id="detail-college" class="text-muted"></span></li>
+                                        <li class="mb-1"><strong>Course:</strong> <span id="detail-course" class="text-muted"></span></li>
+                                        <li class="mb-1"><strong>Year Level:</strong> <span id="detail-year_level" class="text-muted"></span></li>
+                                        <li class="mb-1"><strong>School ID:</strong> <span id="detail-schoolID" class="text-muted"></span></li>
+                                        <li class="mb-1"><strong>High School:</strong> <span id="detail-high_school" class="text-muted"></span></li>
+                                        <li class="mb-1"><strong>Elementary:</strong> <span id="detail-elementary" class="text-muted"></span></li>
+                                    </ul>
+                                </div>
+
+                                <!-- Application Details Section -->
+                                <div class="tab-pane fade" id="application-info" role="tabpanel" aria-labelledby="application-info-tab">
+                                    <ul class="list-unstyled mt-3">
+                                        <li class="mb-2"><strong>Reasons for Joining:</strong> <span id="detail-reasons_for_joining" class="text-muted"></span></li>
+                                    </ul>
+                                    <div class="d-flex justify-content-start mt-4">
+                                        <button type="button" class="approve-btn btn btn-success me-3 rounded-pill" data-id="">Approve</button>
+                                        <button type="button" class="reject-btn btn btn-danger rounded-pill" data-id="">Reject</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -225,7 +214,12 @@
                     </div>
                     <div class="col-lg-8 col-md-7">
                         <div id="applicant-details-approved" class="card shadow-sm p-4" style="display:block;">
-                            <h5 class="fw-bold mb-4 text-primary">Approved Applicants</h5>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-bold mb-2 text-primary">Applicant Details</h5>
+                                <a href="" class="btn btn-info btn-sm me-1">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
                             <ul class="list-unstyled mb-4">
                                 <li class="mb-2">
                                     <strong>Full Name:</strong>
@@ -311,7 +305,12 @@
                     </div>
                     <div class="col-lg-8 col-md-7">
                         <div id="applicant-details-rejected" class="card shadow-sm p-4" style="display:block;">
-                            <h5 class="fw-bold mb-4 text-primary">Rejected Applicants</h5>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="fw-bold mb-2 text-primary">Applicant Details</h5>
+                                <a href="" class="btn btn-info btn-sm me-1">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                            </div>
                             <ul class="list-unstyled mb-4">
                                 <li class="mb-2">
                                     <strong>Full Name:</strong>
