@@ -60,7 +60,18 @@
             </button>
         </div>
     </div>
-    
+  
+    <!-- Brief about section -->
+    <div style="background: #D98641; padding: 15px;">
+        <h2 style="color: #FFF; text-align: center; font-family: Oswald; font-size: 40px; font-style: normal; font-weight: 600;">SOCIAL ORIENTATION AND COMMUNITY INVOLVEMENT</h2>
+        <div style="display: flex; justify-content: center; gap: 5%; margin-top: 20px;">
+            <img src="{{asset('images/bannerImg.png')}}" alt="" style="width: 510px; height: 282px;border-radius: 14px;">
+            <div style="">
+                <p style="align-text: left; width: 591px;color: #FFF; font-family: Oswald; font-size: 18px; font-style: normal; font-weight: 500;">The Social Orientation and Community Involvement (SOCI) is a department that manages, coordinates, and supervises all activities related to Social Orientation and Community Involvement of Asian College-Dumaguete. SOCI  aims to provide acceptable, affordable, attainable, and sustainable community projects and programs.</p>
+                <button style="width: 111px; height: 41px; border-radius: 13px; background: #6F833F; color: white; border: none;" href="{{route('about')}}">Read More</button>
+            </div>
+        </div>
+    </div>
 
     <!-- div for events flexed -->
     <div>
