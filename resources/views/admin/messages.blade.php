@@ -1,11 +1,50 @@
 @extends('layouts.admin_app')
 
 @section('title', 'Admin Messages')
-    
+
+@section('styles')
+    <style>
+        /* Container to position dropdown relative to the icon */
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Dropdown menu styling */
+        .dropdown-menu {
+            position: absolute;
+            top: 100%; /* Positions the dropdown directly below the icon */
+            left: 0;
+            display: none;
+            background-color: #fff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            padding: 8px 0;
+            min-width: 120px;
+            z-index: 10;
+        }
+
+        /* Style dropdown items */
+        .dropdown-menu button {
+            background: none;
+            border: none;
+            padding: 8px 16px;
+            text-align: left;
+            width: 100%;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .dropdown-menu button:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+@endsection
+
 @section('content')
-    <div id="messages" style="margin-top: 90px;">
-        <div class="message-recepient" >
-            <div class="recepient-header">
+    <div id="messages" style="margin: 0 auto; margin-top: 100px !important; display: flex; border-radius: 8px; width: 70%;">
+        <div class="message-recepient">
+            <div class="recepient-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <div><h2>Messages</h2></div>
                 <div id="new-message-icon" data-bs-toggle="modal" data-bs-target="#userSelectModal" style="cursor: pointer;">
                     <svg viewBox="0 0 12 13" width="20" height="20" fill="currentColor" class="x19dipnz x1lliihq x1tzjh5l x1k90msu x2h7rmj x1qfuztq" style="--color: var(--primary-icon);"><g fill-rule="evenodd" transform="translate(-450 -1073)"><g><path d="M105.506 926.862a.644.644 0 0 1-.644.644h-6.724a.644.644 0 0 1-.644-.644v-6.724c0-.356.288-.644.644-.644h2.85c.065 0 .13-.027.176-.074l.994-.993a.25.25 0 0 0-.177-.427h-3.843A2.138 2.138 0 0 0 96 920.138v6.724c0 1.18.957 2.138 2.138 2.138h6.724a2.138 2.138 0 0 0 2.138-2.138v-3.843a.25.25 0 0 0-.427-.177l-1.067 1.067v2.953zm1.024-9.142a.748.748 0 0 0-1.06 0l-.589.588a.25.25 0 0 0 0 .354l1.457 1.457a.25.25 0 0 0 .354 0l.588-.589a.75.75 0 0 0 0-1.06l-.75-.75z" transform="translate(354.5 156)"></path><path d="M99.22 923.97a.75.75 0 0 0-.22.53v.75c0 .414.336.75.75.75h.75a.75.75 0 0 0 .53-.22l4.248-4.247a.25.25 0 0 0 0-.354l-1.457-1.457a.25.25 0 0 0-.354 0l-4.247 4.248z" transform="translate(354.5 156)"></path></g></g></svg>
@@ -22,14 +61,7 @@
                 @foreach($messageThreads as $thread)
                     @if($thread->is_group_chat)
                         <div class="recepient-name" data-message-id="{{ $thread->id }}" style="cursor: pointer;">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64">
-                                <circle cx="9" cy="8" r="4" fill="#9e9e9e"/>
-                                <path d="M15 15c0-2.2-1.8-4-4-4s-4 1.8-4 4v2h8v-2z" fill="#9e9e9e"/>
-                                <circle cx="18" cy="10" r="3" fill="#bdbdbd"/>
-                                <path d="M21 15c0-1.7-1.3-3-3-3s-3 1.3-3 3v1h6v-1z" fill="#bdbdbd"/>
-                                <circle cx="6" cy="10" r="3" fill="#bdbdbd"/>
-                                <path d="M3 15c0-1.7 1.3-3 3-3s3 1.3 3 3v1H3v-1z" fill="#bdbdbd"/>
-                            </svg>
+                            <img src="{{asset('images/messageProfile.png')}}" alt="" style="width: 76px; height: 56px;">
                             <h3>{{ $thread->name }}</h3>
                             <p>{{$thread->latestMessage->created_at->diffForHumans()}}</p>
                         </div>
@@ -41,16 +73,12 @@
                             data-participant-type="{{ get_class($thread->otherParticipant) === 'App\\Models\\Admin' ? 'admin' : 'volunteer' }}"
                             style="cursor: pointer;">
                             @if(!$thread->otherParticipant->profile_image)
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64">
-                                    <circle cx="12" cy="12" r="10" fill="#e0e0e0"/>
-                                    <circle cx="12" cy="8" r="4" fill="#9e9e9e"/>
-                                    <path d="M16 16c0-2.2-1.8-4-4-4s-4 1.8-4 4v2h8v-2z" fill="#9e9e9e"/>
-                                </svg>
+                                <img src="{{asset('images/messageProfile.png')}}" alt="" style="width: 76px; height: 56px;">
                             @else
                                 <img src="{{ $thread->otherParticipant->profile_image }}" alt="Participant Image">
                             @endif
                                 <h3>{{ $thread->otherParticipant->first_name }} {{ $thread->otherParticipant->last_name }}</h3>
-                                <p>{{ $thread->latestMessage->created_at->diffForHumans() }} ?? ''</p>
+                                <p>{{ $thread->latestMessage->created_at->diffForHumans() }}</p>
                             </div>
                         @endif
                     @endif
@@ -59,32 +87,15 @@
 
 
         </div>
-        <div class="message-content">
-            <div class="message-header">
-                <div>
-                    <svg style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="30" height="24" viewBox="0 0 30 24" fill="none">
-                        <g filter="url(#filter0_d_794_1520)">
-                            <path d="M8.86538 9.25486L12.8846 13.2741C13.1667 13.5561 13.302 13.8852 13.2908 14.2613C13.2795 14.6373 13.1441 14.9664 12.8846 15.2485C12.6026 15.5305 12.2679 15.6776 11.8805 15.6899C11.4932 15.7021 11.158 15.5667 10.875 15.2837L4.42308 8.83178C4.14103 8.54973 4 8.22067 4 7.84461C4 7.46854 4.14103 7.13948 4.42308 6.85743L10.875 0.405505C11.157 0.123453 11.4922 -0.0114608 11.8805 0.00076145C12.2688 0.0129837 12.6035 0.15965 12.8846 0.440761C13.1432 0.722812 13.2785 1.05187 13.2908 1.42794C13.303 1.80401 13.1676 2.13307 12.8846 2.41512L8.86538 6.43435H24.5897C24.9893 6.43435 25.3245 6.56973 25.5953 6.8405C25.866 7.11127 26.0009 7.44597 26 7.84461C26 8.24418 25.8646 8.57935 25.5938 8.85012C25.3231 9.12089 24.9884 9.2558 24.5897 9.25486H8.86538Z" fill="#AB2695"/>
-                        </g>
-                        <defs>
-                            <filter id="filter0_d_794_1520" x="0" y="0" width="30" height="23.6914" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                            <feOffset dy="4"/>
-                            <feGaussianBlur stdDeviation="2"/>
-                            <feComposite in2="hardAlpha" operator="out"/>
-                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_794_1520"/>
-                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_794_1520" result="shape"/>
-                            </filter>
-                        </defs>
-                    </svg>
-                </div>
+        <div class="message-content" style="width: 70%; background-color: #fff; padding: 20px; display: flex; flex-direction: column;">
+            <div class="message-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                
                 <div class="receiver-name">
                     <h3 id="receiver-name"></h3>
                 </div>
-                <div>
-                    <svg style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="14" height="28" viewBox="0 0 14 28" fill="none">
+                <div class="dropdown-container">
+                    <!-- Svg for 3 dots option -->
+                    <svg style="cursor: pointer;" id="three-dot-icon" onclick="toggleDropdown()" xmlns="http://www.w3.org/2000/svg" width="14" height="28" viewBox="0 0 14 28" fill="none">
                         <g filter="url(#filter0_d_794_1524)">
                             <circle cx="6.72728" cy="2.72728" r="2.72728" fill="#AB2695"/>
                             <circle cx="6.72728" cy="10.0007" r="2.72728" fill="#AB2695"/>
@@ -103,6 +114,12 @@
                             </filter>
                         </defs>
                     </svg>
+
+                    <!-- Dropdown menu -->
+                    <div id="dropdown-menu" class="dropdown-menu">
+                        <button onclick="editMessage()">Edit</button>
+                        <button class="delete-btn" onclick="deleteMessage()" data-id="">Delete</button>
+                    </div>
                 </div>
             </div> 
 
@@ -173,8 +190,9 @@
             </div>
         </div>
     </div>
+@endsection
 
-
+@section('scripts')
     <script>
         // Handle clicks on recipient names or group chat buttons
         document.querySelectorAll('.recepient-name, .group-message').forEach(item => {
@@ -218,6 +236,7 @@
                 document.querySelector('input[name="receiver_id"]').value = data.other_user_id;
                 document.querySelector('input[name="group_id"]').value = data.group_id;
                 document.querySelector('input[name="receiver_type"]').value = data.other_user_type;
+                document.querySelector('.delete-btn').setAttribute('data-id', data.group_id);
             })
             .catch(error => console.error('Error fetching message content:', error));
         }
@@ -304,7 +323,12 @@
                 .then(data => {
                     let userHtml = '';
                     data.forEach(user => {
-                        userHtml += `<div class="user-item" style="cursor: pointer;" onclick="selectUser(${user.id}, '${user.name}', '${user.type}')">${user.name}</div>`;
+                        const userId = user.id ?? 'Unknown ID';
+                        const userName = user.name ?? 'Unknown Name';
+                        const userType = user.type ?? 'Unknown Type';
+                        const userThread = user.thread_id ?? 'No existing thread';
+
+                        userHtml += `<div class="user-item" style="cursor: pointer;" onclick="selectUser(${userId}, '${userName}', '${userType}', ${userThread})">${userName}</div>`;
                     });
                     document.getElementById('user-list').innerHTML = userHtml;
                 })
@@ -319,7 +343,7 @@
         // const receiver = document.getElementById('receiver_name');
 
         // Function to handle user selection
-        function selectUser(userId, userName, userType, groupId) {
+        function selectUser(userId, userName, userType, threadId = null) {
             // You can close the modal and initiate a new chat with the selected user
             console.log('User selected:', userId, userName);
             // Handle chat initiation logic here
@@ -329,6 +353,49 @@
             document.getElementById('receiver_id').value = userId;
             document.getElementById('receiver_type').value = userType;
             // document.getElementById('group-id').textContent = groupId;
-        }     
+
+            /// Check if a thread exists with this user
+            if (threadId) {
+                // Fetch and display existing messages in the thread
+                fetchMessageContent(threadId);
+            } else {
+                // If no existing thread, clear the message display
+                document.getElementById('message-body').innerHTML = '';
+            }
+        }  
+        
+        function toggleDropdown() {
+            const dropdown = document.getElementById("dropdown-menu");
+            dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
+        }
+
+        // Close the dropdown when clicking outside of it
+        document.addEventListener("click", function(event) {
+            const dropdown = document.getElementById("dropdown-menu");
+            if (!dropdown.contains(event.target) && event.target.closest('svg') === null) {
+                dropdown.style.display = "none";
+            }
+        });
+
+        // Function to handle delete action
+        function handleDelete() {
+            // Code to delete the message or perform the desired action
+            alert("Delete action triggered");
+            document.getElementById("dropdown-menu").style.display = "none"; // Hide dropdown after action
+        }
+
+        function deleteMessage() {
+            // Code to delete the message or perform the desired action
+            alert("Delete message action triggered");
+            document.getElementById("dropdown-menu").style.display = "none"; // Hide dropdown after action
+            fetch(`/admin/messages/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching users:', error);
+                });
+        }
     </script>
 @endsection
