@@ -3,9 +3,9 @@
 @section('title', 'Volunteer Messages')
     
 @section('content')
-    <div id="messages" style="margin-top: 110px;">
-        <div class="message-recepient" >
-            <div class="recepient-header">
+    <div id="messages" style="margin: 0 auto; margin-top: 130px !important; display: flex; border-radius: 8px; width: 80%;">
+        <div class="message-recepient">
+            <div class="recepient-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <div><h2>Messages</h2></div>
                 <div id="new-message-icon" data-bs-toggle="modal" data-bs-target="#userSelectModal" style="cursor: pointer;">
                     <svg viewBox="0 0 12 13" width="20" height="20" fill="currentColor" class="x19dipnz x1lliihq x1tzjh5l x1k90msu x2h7rmj x1qfuztq" style="--color: var(--primary-icon);"><g fill-rule="evenodd" transform="translate(-450 -1073)"><g><path d="M105.506 926.862a.644.644 0 0 1-.644.644h-6.724a.644.644 0 0 1-.644-.644v-6.724c0-.356.288-.644.644-.644h2.85c.065 0 .13-.027.176-.074l.994-.993a.25.25 0 0 0-.177-.427h-3.843A2.138 2.138 0 0 0 96 920.138v6.724c0 1.18.957 2.138 2.138 2.138h6.724a2.138 2.138 0 0 0 2.138-2.138v-3.843a.25.25 0 0 0-.427-.177l-1.067 1.067v2.953zm1.024-9.142a.748.748 0 0 0-1.06 0l-.589.588a.25.25 0 0 0 0 .354l1.457 1.457a.25.25 0 0 0 .354 0l.588-.589a.75.75 0 0 0 0-1.06l-.75-.75z" transform="translate(354.5 156)"></path><path d="M99.22 923.97a.75.75 0 0 0-.22.53v.75c0 .414.336.75.75.75h.75a.75.75 0 0 0 .53-.22l4.248-4.247a.25.25 0 0 0 0-.354l-1.457-1.457a.25.25 0 0 0-.354 0l-4.247 4.248z" transform="translate(354.5 156)"></path></g></g></svg>
@@ -22,14 +22,7 @@
                 @foreach($messageThreads as $thread)
                     @if($thread->is_group_chat)
                         <div class="recepient-name" data-message-id="{{ $thread->id }}" style="cursor: pointer;">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64">
-                                <circle cx="9" cy="8" r="4" fill="#9e9e9e"/>
-                                <path d="M15 15c0-2.2-1.8-4-4-4s-4 1.8-4 4v2h8v-2z" fill="#9e9e9e"/>
-                                <circle cx="18" cy="10" r="3" fill="#bdbdbd"/>
-                                <path d="M21 15c0-1.7-1.3-3-3-3s-3 1.3-3 3v1h6v-1z" fill="#bdbdbd"/>
-                                <circle cx="6" cy="10" r="3" fill="#bdbdbd"/>
-                                <path d="M3 15c0-1.7 1.3-3 3-3s3 1.3 3 3v1H3v-1z" fill="#bdbdbd"/>
-                            </svg>
+                            <img src="{{asset('images/messageProfile.png')}}" alt="" style="width: 66px; height: 56px;">
                             <h3>{{ $thread->name }}</h3>
                             <p>{{$thread->latestMessage->created_at->diffForHumans()}}</p>
                         </div>
@@ -40,17 +33,17 @@
                             data-participant-id="{{ $thread->otherParticipant->id }}" 
                             data-participant-type="{{ get_class($thread->otherParticipant) === 'App\\Models\\Admin' ? 'admin' : 'volunteer' }}"
                             style="cursor: pointer;">
-                                @if(!$thread->otherParticipant->profile_image)
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64">
-                                        <circle cx="12" cy="12" r="10" fill="#e0e0e0"/>
-                                        <circle cx="12" cy="8" r="4" fill="#9e9e9e"/>
-                                        <path d="M16 16c0-2.2-1.8-4-4-4s-4 1.8-4 4v2h8v-2z" fill="#9e9e9e"/>
-                                    </svg>
-                                @else
-                                    <img src="{{ $thread->otherParticipant->profile_image }}" alt="Participant Image">
-                                @endif
+                            @if(!$thread->otherParticipant->profile_image)
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64">
+                                    <circle cx="12" cy="12" r="10" fill="#e0e0e0"/>
+                                    <circle cx="12" cy="8" r="4" fill="#9e9e9e"/>
+                                    <path d="M16 16c0-2.2-1.8-4-4-4s-4 1.8-4 4v2h8v-2z" fill="#9e9e9e"/>
+                                </svg>
+                            @else
+                                <img src="{{ $thread->otherParticipant->profile_image }}" alt="Participant Image">
+                            @endif
                                 <h3>{{ $thread->otherParticipant->first_name }} {{ $thread->otherParticipant->last_name }}</h3>
-                                <p>{{ $thread->latestMessage->created_at->diffForHumans() }}</p>
+                                <p>{{ $thread->latestMessage->created_at->diffForHumans() }} ?? ''</p>
                             </div>
                         @endif
                     @endif
@@ -59,27 +52,9 @@
 
 
         </div>
-        <div class="message-content">
-            <div class="message-header">
-                <div>
-                    <svg style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="30" height="24" viewBox="0 0 30 24" fill="none">
-                        <g filter="url(#filter0_d_794_1520)">
-                            <path d="M8.86538 9.25486L12.8846 13.2741C13.1667 13.5561 13.302 13.8852 13.2908 14.2613C13.2795 14.6373 13.1441 14.9664 12.8846 15.2485C12.6026 15.5305 12.2679 15.6776 11.8805 15.6899C11.4932 15.7021 11.158 15.5667 10.875 15.2837L4.42308 8.83178C4.14103 8.54973 4 8.22067 4 7.84461C4 7.46854 4.14103 7.13948 4.42308 6.85743L10.875 0.405505C11.157 0.123453 11.4922 -0.0114608 11.8805 0.00076145C12.2688 0.0129837 12.6035 0.15965 12.8846 0.440761C13.1432 0.722812 13.2785 1.05187 13.2908 1.42794C13.303 1.80401 13.1676 2.13307 12.8846 2.41512L8.86538 6.43435H24.5897C24.9893 6.43435 25.3245 6.56973 25.5953 6.8405C25.866 7.11127 26.0009 7.44597 26 7.84461C26 8.24418 25.8646 8.57935 25.5938 8.85012C25.3231 9.12089 24.9884 9.2558 24.5897 9.25486H8.86538Z" fill="#AB2695"/>
-                        </g>
-                        <defs>
-                            <filter id="filter0_d_794_1520" x="0" y="0" width="30" height="23.6914" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                            <feOffset dy="4"/>
-                            <feGaussianBlur stdDeviation="2"/>
-                            <feComposite in2="hardAlpha" operator="out"/>
-                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_794_1520"/>
-                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_794_1520" result="shape"/>
-                            </filter>
-                        </defs>
-                    </svg>
-                </div>
+        <div class="message-content" style="width: 75%; background-color: #fff; padding: 20px; display: flex; flex-direction: column;">
+            <div class="message-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                
                 <div class="receiver-name">
                     <h3 id="receiver-name"></h3>
                 </div>
@@ -112,30 +87,30 @@
             </div>
 
             <div class="message-send">
-                <div class="emoji">
+                <!-- <div class="emoji">
                     <svg style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56" fill="none">
-                        <g clip-path="url(#clip0_923_1294)">
-                            <g filter="url(#filter0_d_923_1294)">
-                            <path d="M27.9997 51.9057C41.0547 51.9057 51.9057 41.0778 51.9057 27.9998C51.9057 14.9447 41.0307 4.09375 27.9757 4.09375C14.8987 4.09375 4.09473 14.9447 4.09473 27.9998C4.09473 41.0778 14.9217 51.9057 27.9997 51.9057ZM28.0007 47.9218C16.9367 47.9218 8.09973 39.0618 8.09973 27.9998C8.09973 16.9598 16.9127 8.07775 27.9757 8.07775C39.0147 8.07775 47.8967 16.9608 47.9207 27.9998C47.9437 39.0628 39.0377 47.9218 27.9987 47.9218M21.1787 25.8668C22.5607 25.8668 23.7087 24.6478 23.7087 22.9368C23.7087 21.2267 22.5607 20.0068 21.1787 20.0068C19.8187 20.0068 18.6937 21.2267 18.6937 22.9368C18.6937 24.6478 19.8187 25.8668 21.1787 25.8668ZM34.8887 25.8668C36.2717 25.8668 37.4207 24.6478 37.4207 22.9368C37.4207 21.2267 36.2717 20.0068 34.8897 20.0068C33.5067 20.0068 32.3817 21.2267 32.3817 22.9368C32.3817 24.6478 33.5057 25.8668 34.8887 25.8668ZM27.9997 39.2968C33.6477 39.2968 37.1867 35.2887 37.1867 33.7657C37.1867 33.4607 36.9527 33.3197 36.7187 33.5077C35.0077 34.9377 32.1247 36.3438 27.9987 36.3438C23.8507 36.3438 20.8987 34.8437 19.2577 33.5307C19.0227 33.3207 18.7887 33.4607 18.7887 33.7657C18.7887 35.2887 22.3277 39.2958 27.9987 39.2958" fill="#BD2382"/>
-                            </g>
+                    <g clip-path="url(#clip0_923_1294)">
+                        <g filter="url(#filter0_d_923_1294)">
+                        <path d="M27.9997 51.9057C41.0547 51.9057 51.9057 41.0778 51.9057 27.9998C51.9057 14.9447 41.0307 4.09375 27.9757 4.09375C14.8987 4.09375 4.09473 14.9447 4.09473 27.9998C4.09473 41.0778 14.9217 51.9057 27.9997 51.9057ZM28.0007 47.9218C16.9367 47.9218 8.09973 39.0618 8.09973 27.9998C8.09973 16.9598 16.9127 8.07775 27.9757 8.07775C39.0147 8.07775 47.8967 16.9608 47.9207 27.9998C47.9437 39.0628 39.0377 47.9218 27.9987 47.9218M21.1787 25.8668C22.5607 25.8668 23.7087 24.6478 23.7087 22.9368C23.7087 21.2267 22.5607 20.0068 21.1787 20.0068C19.8187 20.0068 18.6937 21.2267 18.6937 22.9368C18.6937 24.6478 19.8187 25.8668 21.1787 25.8668ZM34.8887 25.8668C36.2717 25.8668 37.4207 24.6478 37.4207 22.9368C37.4207 21.2267 36.2717 20.0068 34.8897 20.0068C33.5067 20.0068 32.3817 21.2267 32.3817 22.9368C32.3817 24.6478 33.5057 25.8668 34.8887 25.8668ZM27.9997 39.2968C33.6477 39.2968 37.1867 35.2887 37.1867 33.7657C37.1867 33.4607 36.9527 33.3197 36.7187 33.5077C35.0077 34.9377 32.1247 36.3438 27.9987 36.3438C23.8507 36.3438 20.8987 34.8437 19.2577 33.5307C19.0227 33.3207 18.7887 33.4607 18.7887 33.7657C18.7887 35.2887 22.3277 39.2958 27.9987 39.2958" fill="#BD2382"/>
                         </g>
-                        <defs>
-                            <filter id="filter0_d_923_1294" x="0.0947266" y="4.09375" width="55.8105" height="55.8125" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                            <feOffset dy="4"/>
-                            <feGaussianBlur stdDeviation="2"/>
-                            <feComposite in2="hardAlpha" operator="out"/>
-                            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_923_1294"/>
-                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_923_1294" result="shape"/>
-                            </filter>
-                            <clipPath id="clip0_923_1294">
-                            <rect width="56" height="56" fill="white"/>
-                            </clipPath>
-                        </defs>
+                    </g>
+                    <defs>
+                        <filter id="filter0_d_923_1294" x="0.0947266" y="4.09375" width="55.8105" height="55.8125" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                        <feOffset dy="4"/>
+                        <feGaussianBlur stdDeviation="2"/>
+                        <feComposite in2="hardAlpha" operator="out"/>
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_923_1294"/>
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_923_1294" result="shape"/>
+                        </filter>
+                        <clipPath id="clip0_923_1294">
+                        <rect width="56" height="56" fill="white"/>
+                        </clipPath>
+                    </defs>
                     </svg>
-                </div>
+                </div> -->
                 <form id="message-form">
                     @csrf
                     <div class="message-input">
@@ -236,7 +211,7 @@
             console.log('Receiver Type', receiverType);
 
             // Send AJAX request
-            fetch('{{ route('messages.store') }}', {
+            fetch('{{ route('messages.stores') }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -282,7 +257,12 @@
                 .then(data => {
                     let userHtml = '';
                     data.forEach(user => {
-                        userHtml += `<div class="user-item" style="cursor: pointer;" onclick="selectUser(${user.id}, '${user.name}', '${user.type}')">${user.name}</div>`;
+                        const userId = user.id ?? 'Unknown ID';
+                        const userName = user.name ?? 'Unknown Name';
+                        const userType = user.type ?? 'Unknown Type';
+                        const userThread = user.thread_id ?? 'No existing thread';
+
+                        userHtml += `<div class="user-item" style="cursor: pointer;" onclick="selectUser(${userId}, '${userName}', '${userType}', ${userThread})">${userName}</div>`;
                     });
                     document.getElementById('user-list').innerHTML = userHtml;
                 })
@@ -293,11 +273,8 @@
         // Attach event listener to the search input
         document.getElementById('user-search').addEventListener('keyup', searchUsers);
 
-        // document.querySelector('user-item')..addEventListener('click', selectUser);
-        // const receiver = document.getElementById('receiver_name');
-
         // Function to handle user selection
-        function selectUser(userId, userName, userType, groupId) {
+        function selectUser(userId, userName, userType, threadId = null) {
             // You can close the modal and initiate a new chat with the selected user
             console.log('User selected:', userId, userName);
             // Handle chat initiation logic here
@@ -307,6 +284,15 @@
             document.getElementById('receiver_id').value = userId;
             document.getElementById('receiver_type').value = userType;
             // document.getElementById('group-id').textContent = groupId;
-        }     
+
+            /// Check if a thread exists with this user
+            if (threadId) {
+                // Fetch and display existing messages in the thread
+                fetchMessageContent(threadId);
+            } else {
+                // If no existing thread, clear the message display
+                document.getElementById('message-body').innerHTML = '';
+            }
+        }       
     </script>
 @endsection
