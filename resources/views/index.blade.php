@@ -109,10 +109,11 @@
         <h2>Other 
             Programs</h2>
         <ul>
-            <li>Values Formation and Partnership</li>
-            <li>Skills/Livelihood Training</li>
-            <li>Health and Environment</li>
-            <li>Education and Technology</li>
+            <li>Values and Education</li>
+            <li>Partnership and Development</li>
+            <li>Environment and Health</li>
+            <li>Social Awareness and Concern</li>
+            <li>Skills and Livelihood</li>
         </ul>
         </div>
         <div>
