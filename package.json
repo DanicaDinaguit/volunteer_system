@@ -10,19 +10,20 @@
         "@vitejs/plugin-vue": "^4.5.0",
         "axios": "^1.6.4",
         "bootstrap": "^5.2.3",
+        "html5-qrcode": "^2.3.8",
         "laravel-vite-plugin": "^1.0",
         "sass": "^1.56.1",
         "vite": "^5.0",
         "vue": "^3.2.37"
     },
     "dependencies": {
-        "laravel-echo": "^1.16.1",
-        "pusher-js": "^8.4.0-rc2",
         "@fullcalendar/core": "^6.1.15",
         "@fullcalendar/daygrid": "^6.1.15",
         "@fullcalendar/interaction": "^6.1.15",
         "@fullcalendar/timegrid": "^6.1.15",
         "fullcalendar": "^6.1.15",
-        "jquery": "^3.7.1"
+        "jquery": "^3.7.1",
+        "laravel-echo": "^1.16.1",
+        "pusher-js": "^8.4.0-rc2"
     }
 }

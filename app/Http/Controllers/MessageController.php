@@ -286,6 +286,16 @@ class MessageController extends Controller
     private function getOrCreateAdminGroupChat()
     {
         $user = $this->currentUser();
+
+        // Handle the case where no user is authenticated
+        if (!$user) {
+            // Redirect based on whether the user is an admin or volunteer
+            if (\Auth::guard('admin')->check()) {
+                return redirect()->route('admin.signin')->with('error', 'You need to be logged in to access this page.');
+            } elseif (\Auth::guard('web')->check()) {
+                return redirect()->route('volunteer.signin')->with('error', 'You need to be logged in to access this page.');
+            }
+        }
         // Check if a group chat with the name "SOCI Group Chat" already exists
         $adminGroupChat = MessageThread::where('is_group_chat', true)
                                         ->where('name', 'SOCI Group Chat')
@@ -304,7 +314,7 @@ class MessageController extends Controller
 
         // Check if the current user is already a participant of the group chat
         $isParticipant = MessageThreadParticipant::where('thread_id', $adminGroupChat->id)
-            ->where('participant_id', $user->adminID ?? $user->memberCredentialsID)
+            ->where('participant_id', $user->adminID ?? $user->memberCredentialsID ?? '')
             ->where('participant_type', $this->getSenderType()) // Check the type (admin/volunteer)
             ->exists();
             \Log::info('partcipant :', ['partcipant' => $isParticipant]);
@@ -312,7 +322,7 @@ class MessageController extends Controller
         if (!$isParticipant) {
             MessageThreadParticipant::create([
                 'thread_id' => $adminGroupChat->id,
-                'participant_id' => $user->adminID ?? $user->memberCredentialsID,
+                'participant_id' => $user->adminID ?? $user->memberCredentialsID ?? '',
                 'participant_type' => $this->getSenderType(),
             ]);
             $this->sendWelcomeMessage($adminGroupChat, $isParticipant);
@@ -447,61 +457,66 @@ class MessageController extends Controller
         return null;
     }
 
-
+    //Search User (to message) function 
     public function searchUsers(Request $request)
     {
+        $user = $this->currentUser();
         $query = $request->get('query');
-
-        // Fetch admins based on the query
-        $admins = Admin::where('first_name', 'LIKE', "%{$query}%")
-                        ->orWhere('middle_name', 'LIKE', "%{$query}%")
-                        ->orWhere('last_name', 'LIKE', "%{$query}%")
+        $isAdmin = isset($user->adminID);
+        $currentUserId = $isAdmin ? $user->adminID : $user->memberCredentialsID;
+        $currentUserType = $isAdmin ? 'admin' : 'volunteer';
+    
+        // Fetch admins based on the query, excluding the current user if they are an admin
+        $admins = Admin::where(function ($q) use ($query) {
+                            $q->where('first_name', 'LIKE', "%{$query}%")
+                              ->orWhere('middle_name', 'LIKE', "%{$query}%")
+                              ->orWhere('last_name', 'LIKE', "%{$query}%");
+                        })
+                        ->when($currentUserType === 'admin', function ($q) use ($currentUserId) {
+                            return $q->where('adminID', '!=', $currentUserId);
+                        })
                         ->get();
-
-        // Fetch volunteers based on the query
-        $volunteers = MemberCredential::where('first_name', 'LIKE', "%{$query}%")
-                        ->orWhere('middle_name', 'LIKE', "%{$query}%")
-                        ->orWhere('last_name', 'LIKE', "%{$query}%")
+    
+        // Fetch volunteers based on the query, excluding the current user if they are a volunteer
+        $volunteers = MemberCredential::where(function ($q) use ($query) {
+                            $q->where('first_name', 'LIKE', "%{$query}%")
+                              ->orWhere('middle_name', 'LIKE', "%{$query}%")
+                              ->orWhere('last_name', 'LIKE', "%{$query}%");
+                        })
+                        ->when($currentUserType === 'volunteer', function ($q) use ($currentUserId) {
+                            return $q->where('memberCredentialsID', '!=', $currentUserId);
+                        })
                         ->get();
-
-        // Combine both collections
-        $users = $admins->map(function($admin) {
+    
+        // Map the search results and check for an existing message thread for each user
+        $mappedUsers = $admins->concat($volunteers)->map(function ($otherUser) use ($currentUserId, $currentUserType) {
+            $otherUserId = $otherUser instanceof Admin ? $otherUser->adminID : $otherUser->memberCredentialsID;
+            $otherUserType = $otherUser instanceof Admin ? 'admin' : 'volunteer';
+    
+            // Query for existing message thread between the current user and the searched user
+            $existingThread = MessageThread::where('is_group_chat', false)
+                ->whereIn('id', function ($query) use ($currentUserId, $currentUserType) {
+                    $query->select('thread_id')
+                          ->from('message_thread_participants')
+                          ->where('participant_id', $currentUserId)
+                          ->where('participant_type', $currentUserType);
+                })
+                ->whereIn('id', function ($query) use ($otherUserId, $otherUserType) {
+                    $query->select('thread_id')
+                          ->from('message_thread_participants')
+                          ->where('participant_id', $otherUserId)
+                          ->where('participant_type', $otherUserType);
+                })
+                ->first();
+    
             return [
-                'id' => $admin->adminID, // Correct column for admin ID
-                'name' => "{$admin->first_name} {$admin->middle_name} {$admin->last_name}",
-                'type' => 'admin',
+                'id' => $otherUserId,
+                'name' => "{$otherUser->first_name} {$otherUser->middle_name} {$otherUser->last_name}",
+                'type' => $otherUserType,
+                'thread_id' => $existingThread ? $existingThread->id : null // Include thread ID if exists
             ];
-        })->merge($volunteers->map(function($volunteer) {
-            return [
-                'id' => $volunteer->memberCredentialsID, // Correct column for volunteer ID
-                'name' => "{$volunteer->first_name} {$volunteer->middle_name} {$volunteer->last_name}",
-                'type' => 'volunteer',
-            ];
-        }));
-
-        return response()->json($users);
-    }
-
-    public function startChat(Request $request)
-    {
-        $request->validate([
-            'user_id' => 'required|exists:users,id', // Adjust as needed
-            'user_type' => 'required|in:admin,volunteer',
-        ]);
-
-        $userModel = $request->input('user_type') === 'admin' ? Admin::class : MemberCredential::class;
-        $userId = $request->input('user_id');
-
-        // Validate the user_id and user_type
-        if (empty($userId) || !in_array($userModel, [Admin::class, MemberCredential::class])) {
-            return response()->json(['success' => false, 'message' => 'Invalid user data'], 400);
-        }
-
-        $thread = MessageThread::create(['is_group_chat' => false]);
-
-        // Ensure participant_id is valid
-        $thread->participants()->attach($userId, ['participant_type' => $userModel]);
-
-        return response()->json(['success' => true, 'thread_id' => $thread->id]);
-    }
+        });
+    
+        return response()->json($mappedUsers->values());
+    }    
 }

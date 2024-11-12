@@ -24,4 +24,9 @@ class Participant extends Model
     {
         return $this->belongsTo(MemberCredential::class, 'memberCredentialsID');
     }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendance::class, 'participantsID', 'participantsID');
+    }
 }

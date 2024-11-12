@@ -245,6 +245,8 @@ hr{
     letter-spacing: 0.20px; 
     word-wrap: break-word;
 }
+/* ---------------------Footer Section----------------------- */
+
 #socMedIcons{
     display: flex;
     justify-content: center;
@@ -253,26 +255,37 @@ hr{
     left: 45%;
     margin-bottom: 10px;
 }
-footer{
+/* footer{
     text-align: center;
-    color: #aa6d3b; 
+    color: #6f833f; 
     font-size: 19.34px; 
     font-family: Poppins; 
     font-weight: 400; 
     letter-spacing: 0.19px;
-    height: auto;
-    width: 100%;
-    background: white; 
+    height: 393px;
+    max-width: 100%;
+    background-color: #d98641; 
     box-shadow: 0px 1.6990113258361816px 13.761992454528809px rgba(0, 0, 0, 0.25);   
     padding: 5px;
     position: relative;
     bottom: 0;
     margin-top: 0px;
+} */
+/* .footer {
+    background-image: url(/public/images/footerdots-img.png);
+} */
+#footerdots-img {
+    max-width: 100%;
+    position: relative;
+    top: 0;
+    bottom: 20px;
+    height: 373px;
+    padding: 0 0 0 0;
+    background: url(/public/images/footerdots-img.png);
 }
 .footerText{
     display: inline-block;
-    color: #d98641; 
-     
+    color: #ffffff; 
     word-wrap: break-word;
     white-space: pre-line;
     /* display: flex;
@@ -290,8 +303,10 @@ a.footerText{
     align-items: center;
 }
 #footer{
-    color: #d98541a1;
+    color: #866e5d;
 }
+
+/* -----------------Footer End------------------- */
 
 /* Styling for Event Items */
 #eventItems {
@@ -373,19 +388,19 @@ a.footerText{
 .mv-box h2 {
     text-align: justify;
     font-family: Poppins;
-    font-size: 78.008px;
+    font-size: 50px;
     font-style: normal;
     font-weight: 800;
     line-height: 70px; /* 30.114% */
     letter-spacing: 0.78px;
-    background: linear-gradient(to right, rgba(171, 38, 149, 1), rgba(189, 35, 130, 1));
+    background: #d98641;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
 .mv-box p {
-    color: rgba(171, 38, 149, 1);
+    color: #d98641;
 }
 .mission {
     margin-right: 20px;
@@ -410,7 +425,7 @@ a.footerText{
 .bg-home h2 {
     text-align: justify;
     font-family: Poppins;
-    font-size: 78.008px;
+    font-size: 50px;
     font-style: normal;
     font-weight: 800;
     line-height: 97px; /* 30.114% */
@@ -418,13 +433,13 @@ a.footerText{
     margin-top: 0;
     margin-bottom: 40px;
     white-space: pre-line;
-    background: linear-gradient(to right, rgba(171, 38, 149, 1), rgba(189, 35, 130, 1));
+    background: #d98641;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 .bg-home h4 {
-    color: #AC2694;
+    color: #d98641;
     text-align: justify;
     font-family: Poppins;
     font-size: 34px;
@@ -472,7 +487,7 @@ a.footerText{
     max-width: 250px; /* Make the button wider */
     height: 50px;
     border-radius: 25px; /* Rounded corners */
-    background: #AB2695;
+    background: #6F833F;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
     color: #FFF;
     font-size: 17px;
@@ -491,28 +506,28 @@ a.footerText{
 }
 
 #form {
-    margin-top: 110px; 
+    margin-top: 70px; 
     padding: 20px; 
 }
 
 #form h1 {
-    color: #AB2695;
+    color: #d98641;
     text-align: center;
     font-size: 25px;
     font-weight: 800;
 }
 
 .form-container {
-    border-radius: 10px;
+    border-radius: 15px;
     background: rgba(217, 217, 217, 0.40);
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
-    width: 70%;
+    width: 60%;
     margin: 0 auto;
     padding: 30px;
 }
 
 .form-container h2 {
-    color: #AB2695;
+    color: #d98641;
     font-size: 24px; /* Slightly smaller than the main heading */
     font-weight: 600;
     margin-bottom: 15px;
@@ -520,12 +535,12 @@ a.footerText{
 
 /* Input field styling */
 .form-container input[type="text"], 
-.form-container input[type="number"], 
+.form-container input[type="tel"], 
 .form-container input[type="email"],
 .form-container select,
 .form-container textarea {
-    width: 100%;
-    padding: 12px;
+    width: 90%;
+    padding: 5px;
     border-radius: 5px;
     background: #FFF;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -598,9 +613,9 @@ a.footerText{
 }
 
 .tabs li.active {
-    background-color: #AB2695; /* Active tab background */
+    background-color: #d98641; /* Active tab background */
     color: #FFF; /* White text for active tab */
-    border-color: #AB2695; /* Border color for active tab */
+    border-color: #d98641; /* Border color for active tab */
 }
 
 /* Tab Content */
@@ -888,9 +903,11 @@ a.footerText{
 
 /* Notification Volunteer START*/
 #notification {
-    margin-left: 60px;
-    margin-right: 60px;
-    margin-top: 115px;
+    margin-top: 130px;
+    width: 50%;
+    height: 500px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
 }
 .notif-volunteer h2 {
     color: #AB2695;
@@ -953,9 +970,8 @@ a.footerText{
     align-items: center;
     
 }
-.notif-notif:hover {
-    transform: scale(1.02);
-    background: rgba(211, 32, 58, 0.35);
+.notif-item .card:hover {  
+    background: rgba(87, 84, 85, 0.35);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     cursor: pointer;
 }
@@ -1102,26 +1118,37 @@ a.footerText{
 
 /* Responsiveness End */
 
+/* Event Dashboard START */
+.btn-create{
+    background-color: #d98641 !important;
+    border-color: #d98641 !important;
+    color: white !important;
+}
+
+.btn-create:hover{
+    background-color: #b87432 !important;
+    border-color: #b87432 !important;
+}
+/* Event Dashboard END */
+
 /* MESSAGES PAGE START */
 #messages {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-top: 1%;
-    padding-left: 4%;
-    padding-right: 4%;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 .recepient-name, .group-message {
-    width: 380px;
+    width: 100%;
     height: 65px;
     border-radius: 5px;
-    background: #F5D2D6;
+    background: #F8F8F8;
     padding: 5px;
     text-align: center;
     cursor: pointer;
     align-items: center;
 }
-.group-message:hover {
+.group-message:hover, .recepient-name:hover {
     background: #F4F0F0;
 }
 .recepient-header {
@@ -1135,6 +1162,15 @@ a.footerText{
     flex-direction: row;
     justify-content: space-between;
 }
+.message-recepient{
+    width: 25%; 
+    border-right: 1px solid #ddd; 
+    /* border-radius: 13.655px;  */
+    border-top-left-radius: 13.655px;
+    border-bottom-left-radius: 13.655px;
+    padding: 20px;
+    background:#F4DBC6;
+}
 .message-recepient h2 {
     color: #AB2695;
     text-align: justify;
@@ -1144,7 +1180,7 @@ a.footerText{
     font-weight: 700;
 }
 .message-recepient h3 {
-    color: #AB2695;
+    color: #DA8641;
     text-align: justify;
     font-family: Poppins;
     font-size: 12.794px;
@@ -1172,8 +1208,9 @@ a.footerText{
     width: 723px;
     height: 546px;
     border-radius: 5px;
+    border-top-right-radius: 13.655px;
+    border-bottom-right-radius: 13.655px;
     background: #F4F0F0;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     padding: 5px;
 }
 .svg-button {
@@ -1198,6 +1235,7 @@ a.footerText{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: 5px;
 }
 .message-send form, .message-header {
     display: flex;
@@ -1208,11 +1246,13 @@ a.footerText{
     border-radius: 10px;
     background: #F5E0E2;
     box-shadow: 0px 2.434px 2.434px 0px rgba(0, 0, 0, 0.25);
-    width: 600px;
+    width:550px;
     height: 50px;
     margin-right: 5px;
 }
-
+#message-form {
+    width: 100%;
+}
 .message-text{
     border-radius: 20px;
     background: #F5E0E2;
@@ -1241,8 +1281,8 @@ a.footerText{
 }
 
 .message-received .message-box {
-    background-color: #d7a8ac;
-    color: #fff;
+    background-color: #F8F8F8;
+    color: #777;
     border-radius: 10px;
     padding: 10px;
     max-width: 100%;

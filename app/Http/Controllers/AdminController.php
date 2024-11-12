@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 use Google_Client;  
 use Google_Service_Calendar;  
 use Google_Service_Calendar_Event;
@@ -19,70 +20,115 @@ class AdminController extends Controller
 {
     public function calendar()
     {
+        $user = $this->currentUser();
+        
         $googleCalendarController = new GoogleCalendarController();
         $response = $googleCalendarController->fetchEvents();
         $events = json_decode($response->getContent(), true);
-        return view('admin.calendar', compact('events'));
+        \Log::info('Event:', ['events' => $events]);
+
+        // Handle the case where there is user is authenticated either admin or volunteer
+        if ($user) {
+            // Redirect based on whether the user is an admin or volunteer
+            if (\Auth::guard('admin')->check()) {
+                return view('admin.calendar', compact('events'));
+            } elseif (\Auth::guard('web')->check()) {
+                return view('volunteer.calendar', compact('events'));
+            } else {
+                return view('calendar', compact('events'));
+            }
+        } else {
+            // Redirect based on whether the user is an admin or volunteer
+            if (\Auth::guard('admin')->check()) {
+                return redirect()->route('admin.signin')->with('error', 'You need to be logged in to access this page.');
+            } elseif (\Auth::guard('web')->check()) {
+                return redirect()->route('volunteer.signin')->with('error', 'You need to be logged in to access this page.');
+            } else {
+                return view('calendar', compact('events'));
+            }
+        }
     }
 
     public function storeEvent(Request $request)
     {
+        // Validate input
         $request->validate([
-            'name' => 'required|string|max:255',
-            'type' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'start_time' => 'required|date_format:Y-m-d\TH:i',
-            'end_time' => 'required|date_format:Y-m-d\TH:i|after:start_time',
-            'location' => 'nullable|string|max:255',
-            'volunteers_needed' => 'nullable|integer',
-            'epartner' => 'nullable|string|max:255',
+            'ename' => 'required|string|max:255',
+            'etype' => 'required|string|max:255',
+            'edesc' => 'required|string',
+            'slots' => 'required|integer',
+            'edate' => 'required|date',
+            'timeStart' => 'required',
+            'timeEnd' => 'required',
+            'elocation' => 'required|string|max:255',
+            'epartner' => 'required|string|max:255',
         ]);
-
-        $event = Event::create([
-            'title' => $request->name,  
-            'category' => $request->input('type'),    
-            'description' => $request->description,
-            'event_start' => $request->start_time,  
-            'event_end' => $request->end_time,      
-            'event_location' => $request->location, 
-            'number_of_volunteers' => $request->volunteers_needed,
-            'partnership' => $request->epartner,
-            'event_date' => date('Y-m-d', strtotime($request->start_time)), 
-            'event_status' => 'Scheduled', 
-        ]);
-
+    
         DB::beginTransaction();
-
+    
         try {
+            // Format start and end DateTime to ISO 8601 format
+            $startDateTime = Carbon::createFromFormat('Y-m-d H:i', $request->edate . ' ' . $request->timeStart)->format(\DateTime::ATOM);
+            $endDateTime = Carbon::createFromFormat('Y-m-d H:i', $request->edate . ' ' . $request->timeEnd)->format(\DateTime::ATOM);
+    
+            // Create Google Calendar Event
+            $googleEvent = new Google_Service_Calendar_Event([
+                'summary' => $request->ename,
+                'location' => $request->elocation,
+                'description' => $request->edesc,
+                'start' => [
+                    'dateTime' => $startDateTime,
+                    'timeZone' => 'Asia/Manila',
+                ],
+                'end' => [
+                    'dateTime' => $endDateTime,
+                    'timeZone' => 'Asia/Manila',
+                ],
+            ]);
+    
+            // Initialize Google Client
             $client = new Google_Client();
             $client->setAuthConfig(storage_path('app/google-calendar/service-account.json'));
             $client->addScope(Google_Service_Calendar::CALENDAR);
-
+    
             $service = new Google_Service_Calendar($client);
-
-            $googleEvent = new Google_Service_Calendar_Event([
-                'summary' => $request->name,
-                'location' => $request->location,
-                'description' => $request->description,
-                'start' => ['dateTime' => $request->start_time,
-                'timeZone' => 'Asia/Manila'],
-                'end' => ['dateTime' => $request->end_time,
-                'timeZone' => 'Asia/Manila'],
+    
+            // Define Calendar ID and Insert Event
+            $calendarId = '5f60ab0fe80f5fb52256c5858400e342e17127ac613eee2f37d19aed2bff487a@group.calendar.google.com';
+            $createdGoogleEvent = $service->events->insert($calendarId, $googleEvent);
+    
+            // Store event in the database with the google_event_id
+            $event = Event::create([
+                'google_event_id' => $createdGoogleEvent->id,
+                'title' => $request->ename,
+                'start' => $request->timeStart,
+                'end' => $request->timeEnd,
+                'event_date' => $request->edate,
+                'description' => $request->edesc,
+                'number_of_volunteers' => $request->slots,
+                'event_location' => $request->elocation,
+                'category' => $request->etype,
+                'event_status' => 'upcoming', // Assuming a default status
             ]);
-
-            $calendarId = '5f60ab0fe80f5fb52256c5858400e342e17127ac613eee2f37d19aed2bff487a@group.calendar.google.com'; 
-            $service->events->insert($calendarId, $googleEvent);
-
+    
+            \Log::info('Event stored with Google event ID:', ['google_event_id' => $event->google_event_id]);
+    
+            // Commit transaction
             DB::commit();
+    
+            // Return success response
             return response()->json(['success' => true, 'event' => $event]);
-
+    
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->withErrors('Failed to create event in Google Calendar: ' . $e->getMessage());
+            \Log::error('Failed to create Google calendar event', ['error' => $e->getMessage()]);
+            // Return error response
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to create event in Google Calendar: ' . $e->getMessage()
+            ], 500);
         }
-        
-    } 
-
+    }
     public function showSignInForm()
     {
         return view('admin.signin');
@@ -90,7 +136,7 @@ class AdminController extends Controller
 
     public function Home()
     {
-        $events = Event::all();
+        $events = Event::take(3)->get();
         return view('admin.Home', compact('events')); 
     }
 
@@ -147,6 +193,7 @@ class AdminController extends Controller
         return back()->withErrors(['email' => 'Invalid credentials.']);
     }
 
+    //Update admin profile
     public function updateProfile(Request $request)
     {
         // Fetch the currently authenticated admin
@@ -196,7 +243,7 @@ class AdminController extends Controller
         return redirect()->route('admin.profile')->with('success', 'Profile updated successfully!');
     }
 
-
+    // Admin logout function
     public function logout()
     {
         Auth::guard('admin')->logout();
@@ -234,5 +281,14 @@ class AdminController extends Controller
 
         // Return a 404 error if the notification is not found
         return response()->json(['success' => false], 404);
+    }
+
+    function currentUser() {
+        if (Auth::guard('admin')->check()) {
+            return Auth::guard('admin')->user();
+        } elseif (Auth::guard('web')->check()) {
+            return Auth::guard('web')->user();
+        }
+        return null;
     }
 }

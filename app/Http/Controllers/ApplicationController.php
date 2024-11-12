@@ -11,10 +11,29 @@ use App\Models\MemberApplication;
 use Illuminate\Support\Facades\DB;
 use App\Models\Notification;
 use Illuminate\Http\Request;
+use PDF;
 
 
 class ApplicationController extends Controller
 {
+
+    public function formApplication()
+    {
+        return view('admin.applicationForm');
+    }
+
+    public function download($id)
+    {
+        // Fetch applicant data by ID
+        $applicant = MemberApplication::findOrFail($id);
+
+        // Create a PDF from a view
+        $pdf = PDF::loadView('admin.applicationForm', compact('applicant'));
+
+        // Stream the generated PDF (you can also use ->download('filename.pdf') to force download)
+        return $pdf->stream('application_' . $applicant->name . '.pdf');
+    }
+
     public function submitApplication(Request $request)
     {
         try {

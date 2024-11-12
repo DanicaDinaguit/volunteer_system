@@ -97,16 +97,15 @@ class MemberController extends Controller
         }
     }
 
+    public function Home()
+    {
+        $events = Event::take(3)->get();
+        return view('volunteer.Home', compact('events')); // Make sure you have this view file created
+    }
 
     public function showSignInForm()
     {
         return view('volunteer.signIn');
-    }
-
-    public function Home()
-    {
-        $events = Event::all();
-        return view('volunteer.Home', compact('events')); // Make sure you have this view file created
     }
     
     public function calendar()

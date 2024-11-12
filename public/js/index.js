@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 document.querySelector('.approve-btn').setAttribute('data-id', data.memberApplicationID);
                 document.querySelector('.reject-btn').setAttribute('data-id', data.memberApplicationID);
+                targetContainer.querySelector('a.btn-info').href = `/admin/applicationForm/${data.memberApplicationID}`;
                 targetContainer.querySelector('#detail-name').textContent = data.name;
                 targetContainer.querySelector('#detail-age').textContent = data.age;
                 targetContainer.querySelector('#detail-gender').textContent = data.gender;

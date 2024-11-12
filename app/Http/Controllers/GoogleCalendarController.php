@@ -29,9 +29,10 @@ class GoogleCalendarController extends Controller
             $formattedEvents[] = [
                 'id' => $event->getId(),
                 'title' => $event->getSummary(),
-                'event_start' => $event->getStart()->getDateTime() ?? $event->getStart()->getDate(),
-                'event_end'   => $event->getEnd()->getDateTime() ?? $event->getEnd()->getDate(),
+                'start' => $event->getStart()->getDateTime() ?? $event->getStart()->getDate(),
+                'end'   => $event->getEnd()->getDateTime() ?? $event->getEnd()->getDate(),
                 'description' => $event->getDescription(),
+                'location' => $event->getLocation(),
             ];
         }
 

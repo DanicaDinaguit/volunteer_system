@@ -14,6 +14,7 @@ class Event extends Model
     public $incrementing = true; // Set to true if primary key is auto-incrementing
     protected $keyType = 'int';
     protected $fillable = [
+        'google_event_id',
         'title', // adjust these to your table columns
         'start',
         'end',

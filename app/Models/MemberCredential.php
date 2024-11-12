@@ -47,4 +47,11 @@ class MemberCredential extends Authenticatable
                 ->withPivot('participant_type')
                 ->withTimestamps();
     }
+    // App\Models\MemberCredential.php
+
+    public function application()
+    {
+        return $this->belongsTo(MemberApplication::class, 'memberApplicationID');
+    }
+
 }

@@ -51,6 +51,7 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
         'admin' => AdminAuth::class, // Register admin middleware
         'volunteer' => VolunteerAuth::class, // Register volunteer middleware
         'cors' => \App\Http\Middleware\CorsMiddleware::class,

@@ -15,11 +15,20 @@ class CreateTblmemberapplicationTable extends Migration
     {
         Schema::create('tblmemberapplication', function (Blueprint $table) {
             $table->id('memberApplicationID');
-            $table->string('name');
+            $table->string('first_name')->after('memberApplicationID');
+            $table->string('middle_name')->nullable()->after('first_name');
+            $table->string('last_name')->after('middle_name');
             $table->string('phone_number', 15);
             $table->string('email_address');
-            $table->integer('age');
-            $table->string('address');
+            $table->date('birthdate')->default('2000-01-01')->after('email_address'); // Example default date
+            
+            // Add detailed address columns
+            $table->string('street_address')->nullable()->after('birthdate');
+            $table->string('city')->after('street_address');
+            $table->string('state')->nullable()->after('city');
+            $table->string('postal_code')->nullable()->after('state');
+            $table->string('country')->default('Philippines')->after('postal_code');
+
             $table->string('religion', 50);
             $table->enum('gender', ['Male', 'Female', 'Other']);
             $table->string('citizenship', 50);

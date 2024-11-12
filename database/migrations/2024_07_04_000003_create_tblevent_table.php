@@ -15,6 +15,7 @@ class CreateTbleventTable extends Migration
     {
         Schema::create('tblevent', function (Blueprint $table) {
             $table->id('id');
+            $table->string('google_event_id')->nullable()->unique();
             $table->string('title');
             $table->time('start'); 
             $table->time('end');
