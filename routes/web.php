@@ -57,7 +57,8 @@ Route::prefix('admin')->group(function () {
     Route::post('/createEvent', [EventController::class, 'storeEvent'])->name('admin.createEvent.submit');
     Route::get('/eventDetails/{id}', [EventController::class, 'showAdmin'])->name('admin.eventDetails');
     Route::get('/eventView/{id}', [EventController::class, 'showEventParticipants'])->name('admin.eventView');
-   
+    
+
     Route::post('/attendance/scan', [AttendanceController::class, 'scan'])->name('admin.attendance.scan');
     Route::get('/attendance/{id}', [AttendanceController::class, 'show'])->name('admin.attendance.show');
     Route::get('/attendanceSummary', [AttendanceController::class, 'attendanceSummary'])->name('admin.attendanceSummary');
@@ -119,6 +120,8 @@ Route::prefix('volunteer')->group(function () {
 
     Route::get('/eventDetails/{id}', [EventController::class, 'showEventDetails'])->name('volunteer.eventDetails');
     Route::post('/eventDetails/{id}/join', [EventController::class, 'join'])->name('volunteer.eventDetails.join');
+    Route::get('/joinedEvents', [EventController::class, 'volunteerEvents'])->name('volunteer.joinedEvents');
+
     // Volunteer Gallery
     Route::get('/gallery', [MemberController::class, 'gallery'])->name('volunteer.gallery');
 
