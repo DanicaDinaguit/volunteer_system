@@ -14,6 +14,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Google_Client;  
 use Google_Service_Calendar;  
@@ -218,9 +219,28 @@ class EventController extends Controller
     //Delete function in Event Dashboard
     public function destroy($id)
     {
-        $event = Event::where('id', $id)->firstOrFail();;
+        $event = Event::where('id', $id)->firstOrFail();
+    
+        // Check if the event has a Google Calendar ID
+        if ($event->google_event_id) {
+            try {
+                $client = new Google_Client();
+                $client->setAuthConfig(storage_path('app/google-calendar/service-account.json'));
+                $client->addScope(Google_Service_Calendar::CALENDAR);
+    
+                $service = new Google_Service_Calendar($client);
+    
+                // Delete the event from Google Calendar
+                $service->events->delete('primary', $event->google_event_id);
+            } catch (\Google_Service_Exception $e) {
+                Log::error('Google Calendar deletion failed: ' . $e->getMessage());
+                return redirect()->route('admin.event')->with('error', 'Failed to delete the event from Google Calendar: ' . $e->getMessage());
+            }
+        }
+    
+        // Delete the event from the database
         $event->delete();
-
+    
         return redirect()->route('admin.event')->with('success', 'Event deleted successfully.');
     }
 

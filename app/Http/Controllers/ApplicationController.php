@@ -39,15 +39,21 @@ class ApplicationController extends Controller
         try {
             // Validate the form data
             $validatedData = $request->validate([
-                'name' => 'required|string|max:255',
-                'phone_number' => 'required|string|max:15',
+                'first_name' => 'required|string|max:255',
+                'middle_name' => 'nullable|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'phone_number' => 'required|string|max:15|regex:/^\(\d{3}\) \d{3}-\d{4}$/',
                 'email_address' => 'required|email|max:255',
-                'age' => 'required|integer',
-                'address' => 'required|string|max:255',
+                'birthdate' => 'required|date',
+                'street_address' => 'required|string|max:255',
+                'city' => 'required|string|max:255',
+                'state' => 'required|string|max:255',
+                'zip_code' => 'required|string|max:10',
+                'country' => 'required|string|max:255',
+                'civil_status' => 'required|in:Single,Married,Divorced,Widowed',
                 'religion' => 'required|string|max:50',
                 'gender' => 'required|in:Male,Female,Other',
                 'citizenship' => 'required|string|max:50',
-                'civil_status' => 'required|in:Single,Married,Divorced,Widowed',
                 'college' => 'required|string|max:255',
                 'course' => 'required|string|max:255',
                 'year_level' => 'required|in:1st Year,2nd Year,3rd Year,4th Year,5th Year',
@@ -56,38 +62,42 @@ class ApplicationController extends Controller
                 'elementary' => 'required|string|max:255',
                 'reasons_for_joining' => 'required|string',
             ]);
-
-            // Log the validated data
-            Log::info('Validated Data:', $validatedData);
-
+    
+            // Combine address fields for storage
+            $validatedData['address'] = "{$validatedData['street_address']}, {$validatedData['city']}, {$validatedData['state']}, {$validatedData['zip_code']}, {$validatedData['country']}";
+    
             // Set default status to 'Pending'
             $validatedData['status'] = 'Pending';
-
+    
+            // Log the validated data
+            Log::info('Validated Data:', $validatedData);
+    
             // Create a new member application
             $application = MemberApplication::create($validatedData);
-
+    
             // Log the creation of the application with status
             Log::info('Application Created:', $application->toArray());
-
+    
             // Send email notification
             Mail::to($validatedData['email_address'])->send(new ApplicationSubmitted($validatedData));
-
+    
             // Create a notification for all admins
             $admins = Admin::all();
             foreach ($admins as $admin) {
                 Notification::create([
-                    'user_id' => $admin->adminID, // Assuming 'adminID' is the primary key in tbladmin
-                    'user_type' => Admin::class, // Use the Admin model class as the user type
+                    'user_id' => $admin->adminID,
+                    'user_type' => Admin::class,
                     'type' => 'New Membership Application',
                     'title' => 'New Membership Application Submitted',
-                    'body' => 'A new membership application has been submitted by ' . $validatedData['name'] . '.',
-                    'url' => route('admin.viewApplication', $application->id), // Assuming you have a route to view the application
+                    'body' => 'A new membership application has been submitted by ' . $validatedData['first_name'] . ' ' . $validatedData['last_name'] . '.',
+                    'url' => route('admin.viewApplication', $application->id),
                     'is_read' => false,
                 ]);
             }
-
+    
+            // Trigger an event for the new application
             event(new NewMembershipApplication($application));
-
+    
             // Redirect back with a success message
             return redirect()->back()->with('success', 'Application submitted successfully!');
         } catch (\Exception $e) {
@@ -96,6 +106,7 @@ class ApplicationController extends Controller
             return redirect()->back()->withErrors('Failed to submit application. Please try again.');
         }
     }
+    
 
     public function getApplicantDetails($memberApplicationID)
     {
