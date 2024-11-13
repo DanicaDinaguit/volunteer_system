@@ -345,5 +345,26 @@ class EventController extends Controller
             'qr_code' => Storage::url($fileName),  // Return the QR code file URL
         ]);
     }
+    
+    //return events the volunteer has joined in
+    public function volunteerEvents(Request $request)
+    {
+        // Get the authenticated volunteer's ID
+        $volunteerId = Auth::guard('web')->user()->memberCredentialsID;
+    
+        // Determine sort order based on user input, default to most recent
+        $sort = $request->input('sort', 'recent') === 'recent' ? 'desc' : 'asc';
+    
+        // Join with events table and sort based on event_date
+        $events = Participant::where('memberCredentialsID', $volunteerId)
+            ->join('tblevent', 'tblparticipants.eventID', '=', 'tblevent.id')
+            ->orderBy('tblevent.event_date', $sort)
+            ->select('tblparticipants.*', 'tblevent.id', 'tblevent.title', 'tblevent.description', 'tblevent.category', 
+                     'tblevent.event_date', 'tblevent.start', 'tblevent.end', 'tblevent.event_location')
+            ->paginate(9);
+    
+        return view('volunteer.joinedEvents', compact('events'));
+    }
+    
 }
 
