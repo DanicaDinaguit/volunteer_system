@@ -6,7 +6,10 @@
         <title>@yield('title', 'Public App')</title>
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+        <!-- Font CSS -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap">
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <!-- AJAX CSS -->
@@ -15,11 +18,10 @@
     </head>
     <body> 
         <!-- Navigation bar for logo and for Home Page general audience view -->
-        <!-- <div id="navdiv"> -->
             <nav class="navbar navbar-light navbar-expand-lg bg-body-tertiary" data-bs-theme="light">
                 <div class="container">
                     <!-- Logo -->
-                    <a class="navbar-brand ps-5" href="#">
+                    <a class="navbar-brand ps-md-5" href="{{ route('index') }}">
                         <img src="{{ asset('images/LOGO1.png') }}" class="logo" alt="Logo" width="55" height="55">
                     </a>
                     <!-- Toggle Button -->
@@ -55,7 +57,7 @@
                         <!-- Sidebar Body -->
                         <div class="offcanvas-body flex-column flex-lg-row p-lg-1">
                             <ul 
-                                class="navbar-nav justify-content-end fs-5 flex-grow-1 pe-5"
+                                class="navbar-nav justify-content-end fs-5 flex-grow-1 pe-md-5"
                             >
                                 <li class="nav-item mx-3">
                                     <a class="nav-link" aria-current="page" href="{{ route('index') }}">Home</a>
@@ -67,15 +69,15 @@
                                     <a class="nav-link" href="{{ route('gallery') }}">Gallery</a>
                                 </li>
                                 <li class="nav-item mx-3">
-                                    <a class="nav-link" href="{{ route('about') }}">About</a>
+                                    <a class="nav-link" href="{{ route('about') }}">
+                                        <img src="{{ asset('images/aboutus.png') }}" class="logo" alt="Logo" width="20" height="20">
+                                    </a>
                                 </li>
                             </ul>
                         </div>
                     </div>  
                 </div>
             </nav>
-        <!-- </div> -->
-
         <main>
             @yield('content')
         </main>
