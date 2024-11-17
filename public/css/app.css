@@ -55,15 +55,15 @@ body {
         height: 90vh !important;
     }
     .carousel-caption {
-        top: 30% !important;
-        transform: translateY(-30%) !important;
+        top: 40% !important;
+        transform: translateY(-40%) !important;
     }
     .carousel-caption .carousel-logo {
-        width: 30vw !important;
+        width: 25vw !important;
         max-width: 250px !important;
     }
     .carousel-title {
-        font-size: 2rem;
+        font-size: 2rem !important;
     }
 }
 
