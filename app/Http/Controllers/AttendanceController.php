@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\Participant;  // Assuming you have a Participant model
 use App\Models\Event;
+use App\Models\BeneficiaryAttendance;
+use App\Models\Partner;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -124,8 +126,40 @@ class AttendanceController extends Controller
         
         // Fetch attendance records for those participants
         $attendances = Attendance::whereIn('participantsID', $participantIds)->get();
+    
+        // Fetch beneficiaries who attended the event
+        $beneficiariesAttendance = BeneficiaryAttendance::where('eventID', $id)->get();
+        
+        // Fetch all partners or filter based on some criteria related to the event
+        $partners = Partner::all();
+    
+        return view('admin/attendance', compact('event', 'attendances', 'beneficiariesAttendance', 'partners'));
+    }
+    
 
-        return view('admin/attendance', compact('event', 'attendances'));
+    public function addBeneficiaryAttendance(Request $request, $eventId)
+    {
+        $validatedData = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'purok' => 'required|string|max:255',
+        ]);
+
+        // Set the date of attendance to the event date
+        $event = Event::findOrFail($eventId);
+        
+        BeneficiaryAttendance::create([
+            'eventID' => $event->id,
+            'first_name' => $validatedData['first_name'],
+            'middle_name' => $validatedData['middle_name'],
+            'last_name' => $validatedData['last_name'],
+            'purok' => $validatedData['purok'],
+            'date_attended' => $event->event_date,
+        ]);
+
+        return redirect()->route('admin.attendance.show', $event->id)
+                        ->with('success', 'Beneficiary attendance added successfully.');
     }
 
     public function attendanceSummary(Request $request)
