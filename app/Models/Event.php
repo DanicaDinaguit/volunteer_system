@@ -30,4 +30,9 @@ class Event extends Model
         'time_range',
         // Add other columns as needed
     ];
+
+    public function beneficiaryAttendances()
+    {
+        return $this->hasMany(BeneficiaryAttendance::class, 'eventID');
+    }
 }
