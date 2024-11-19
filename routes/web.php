@@ -29,9 +29,6 @@ Route::get('/application', function () { return view('application'); })->name('a
 
 Route::post('/application', [ApplicationController::class, 'submitApplication'])->name('application.submit');
 
-
-
-
 // Admin Routes (Protected with admin.auth middleware)
 Route::prefix('admin')->group(function () {
     // Admin Home Page
@@ -43,11 +40,6 @@ Route::prefix('admin')->group(function () {
     Route::post('/calendar/create', [EventController::class, 'storeEvent'])->name('admin.createEventCalendar');
     Route::resource('/events', EventController::class);
     Route::get('/getEventIdByGoogleId/{google_event_id}', [EventController::class, 'getEventIdByGoogleId']);
-
-    // Route::get('/calendar', [GoogleCalendarController::class, 'listEvents']);
-    // Route::get('/auth/google', [GoogleCalendarController::class, 'redirectToGoogle']);
-    // Route::get('/callback', [GoogleCalendarController::class, 'handleGoogleCallback']);
-    // Route::post('/calendar/create', [GoogleCalendarController::class, 'createEvent']);
 
     // Admin Create New Event Page
     Route::get('/createEvent', [EventController::class, 'viewCreateEvent'])->name('admin.createEvent');
