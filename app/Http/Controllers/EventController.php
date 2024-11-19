@@ -9,6 +9,7 @@ use App\Models\Participant;
 use App\Models\MemberCredential;
 use App\Models\MemberApplication;
 use App\Models\Notification;
+use App\Models\BeneficiaryAttendance;
 use Illuminate\Support\Facades\DB;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +20,7 @@ use Carbon\Carbon;
 use Google_Client;  
 use Google_Service_Calendar;  
 use Google_Service_Calendar_Event;
+use Google_Service_Calendar_EventDateTime;
 
 class EventController extends Controller
 {
@@ -45,63 +47,6 @@ class EventController extends Controller
         }  
     }
 
-    //Create Event function for event dashboard
-    // public function store(Request $request)
-    // {
-    //     // Validate the request data
-    //     $request->validate([
-    //         'ename' => 'required|string|max:255',
-    //         'etype' => 'required|string|max:255',
-    //         'edesc' => 'required|string',
-    //         'slots' => 'required|integer',
-    //         'edate' => 'required|date',
-    //         'timeStart' => 'required',
-    //         'timeEnd' => 'required',
-    //         'elocation' => 'required|string|max:255',
-    //         'epartner' => 'required|string|max:255',
-    //     ]);
-    
-    //     DB::beginTransaction(); // Start a database transaction
-    
-    //     try {
-    //         // Create a new event
-    //         $event = Event::create([
-    //             'title' => $request->ename,
-    //             'start' => $request->timeStart,
-    //             'end' => $request->timeEnd,
-    //             'event_date' => $request->edate,
-    //             'description' => $request->edesc,
-    //             'number_of_volunteers' => $request->slots,
-    //             'event_location' => $request->elocation,
-    //             'category' => $request->etype,
-    //             'event_status' => 'upcoming', // Assuming a default status
-    //         ]);
-    
-    //         // Send notifications only after the event is successfully created
-    //         $volunteers = MemberCredential::all();
-    //         foreach ($volunteers as $volunteer) {
-    //             Notification::create([
-    //                 'user_id' => $volunteer->memberCredentialsID, // Assuming this is the correct field for volunteer ID
-    //                 'user_type' => MemberCredential::class, 
-    //                 'type' => 'New Volunteer Event',
-    //                 'title' => 'New Volunteer Event Scheduled',
-    //                 'body' => 'A new Volunteer Event has been posted: ' . $event->title . '.',
-    //                 'url' => route('volunteer.eventDetails', $event->id), // Assuming a route to event details
-    //                 'is_read' => false,
-    //             ]);
-    //         }
-    
-    //         DB::commit(); // Commit transaction if everything is successful
-    
-    //         // Redirect back with a success message
-    //         return redirect()->back()->with('success', 'Event created successfully and notifications sent!');
-        
-    //     } catch (\Exception $e) {
-    //         DB::rollBack(); // Rollback the transaction in case of any errors
-    //         // Log or handle the error as needed
-    //         return redirect()->back()->withErrors('Error creating event: ' . $e->getMessage());
-    //     }
-    // }
     public function storeEvent(Request $request)
     {
         // Validate input
@@ -198,22 +143,86 @@ class EventController extends Controller
             'elocation' => 'required|string|max:255',
             'epartner' => 'required|string|max:255',
         ]);
+        // Log the raw input to understand its structure
+        Log::info('Raw Request Data:', $request->all()); 
 
-        // Create a new event
-        Event::create([
-            'title' => $request->ename,
-            'start' => $request->timeStart,
-            'end' => $request->timeEnd,
-            'event_date' => $request->edate,
-            'description' => $request->edesc,
-            'number_of_volunteers' => $request->slots,
-            'event_location' => $request->elocation,
-            'category' => $request->etype,
-            'event_status' => 'upcoming', // Assuming a default status
-        ]);
+        // Find the event to update
+        $event = Event::findOrFail($id);
+    
+        // Check if the event has a Google Calendar ID
+        if ($event->google_event_id) {
+            try {
+                $client = new Google_Client();
+                $client->setAuthConfig(storage_path('app/google-calendar/service-account.json'));
+                $client->addScope(Google_Service_Calendar::CALENDAR);
+    
+                $service = new Google_Service_Calendar($client);
+    
+                // Define Calendar ID
+                $calendarId = '5f60ab0fe80f5fb52256c5858400e342e17127ac613eee2f37d19aed2bff487a@group.calendar.google.com';
+    
+                // Retrieve the Google Calendar event to update
+                $googleEvent = $service->events->get($calendarId, $event->google_event_id);
+    
+                // Update the Google Calendar event details
+                $googleEvent->setSummary($request->ename);
+                $googleEvent->setDescription($request->edesc);
+                $googleEvent->setLocation($request->elocation);
+    
+                // Trim any extra whitespace from date and time fields
+                $edate = trim($request->edate);
+                $timeStart = trim($request->timeStart);
+                $timeEnd = trim($request->timeEnd);
+    
+                // Check and log if we are getting the correct string values
+                Log::info('Parsed Date and Time:', ['edate' => $edate, 'timeStart' => $timeStart, 'timeEnd' => $timeEnd]);
 
-        // Redirect to a success page or back to the form with a success message
-        return redirect()->back()->with('success', 'Event created successfully!');
+                // Now, proceed with the Carbon parsing and Google Calendar update
+                $startDateTime = Carbon::parse("$edate $timeStart")->format(\DateTime::ATOM);
+                $endDateTime = Carbon::parse("$edate $timeEnd")->format(\DateTime::ATOM);
+    
+                // Set start and end times for the Google Calendar event
+                $start = new Google_Service_Calendar_EventDateTime();
+                $start->setDateTime($startDateTime);
+                $start->setTimeZone('Asia/Manila');
+                $googleEvent->setStart($start);
+    
+                $end = new Google_Service_Calendar_EventDateTime();
+                $end->setDateTime($endDateTime);
+                $end->setTimeZone('Asia/Manila');
+                $googleEvent->setEnd($end);
+
+                Log::info('Date:', ['edate' => $edate]);
+                Log::info('Start Time:', ['timeStart' => $timeStart]);
+                Log::info('End Time:', ['timeEnd' => $timeEnd]);
+
+
+                // Save the updated event to Google Calendar
+                $service->events->update($calendarId, $event->google_event_id, $googleEvent);
+    
+                // If Google Calendar update is successful, update the event details in the database
+                $event->update([
+                    'title' => $request->ename,
+                    'start' => $timeStart,
+                    'end' => $timeEnd,
+                    'event_date' => $edate,
+                    'description' => $request->edesc,
+                    'number_of_volunteers' => $request->slots,
+                    'event_location' => $request->elocation,
+                    'category' => $request->etype,
+                    'event_status' => 'upcoming', // Assuming a default status
+                ]);
+    
+            } catch (\Google_Service_Exception $e) {
+                Log::error('Google Calendar update failed: ' . $e->getMessage());
+                return redirect()->route('admin.event')->with('error', 'Failed to update the event on Google Calendar: ' . $e->getMessage());
+            }
+        } else {
+            return redirect()->route('admin.event')->with('error', 'Google Calendar ID not found for this event.');
+        }
+    
+        // Redirect to the event list with a success message
+        return redirect()->route('admin.event')->with('success', 'Event updated successfully!');
     }
 
     //Delete function in Event Dashboard
@@ -229,9 +238,10 @@ class EventController extends Controller
                 $client->addScope(Google_Service_Calendar::CALENDAR);
     
                 $service = new Google_Service_Calendar($client);
-    
+                $calendarId = '5f60ab0fe80f5fb52256c5858400e342e17127ac613eee2f37d19aed2bff487a@group.calendar.google.com';
+
                 // Delete the event from Google Calendar
-                $service->events->delete('primary', $event->google_event_id);
+                $service->events->delete($calendarId, $event->google_event_id);
             } catch (\Google_Service_Exception $e) {
                 Log::error('Google Calendar deletion failed: ' . $e->getMessage());
                 return redirect()->route('admin.event')->with('error', 'Failed to delete the event from Google Calendar: ' . $e->getMessage());
@@ -299,11 +309,10 @@ class EventController extends Controller
     {
         // Fetch the event details
         $event = Event::findOrFail($id);
-
         // Fetch the participants with their volunteer details
         $participants = Participant::with('volunteer')->where('eventID', $id)->get();
 
-        // Pass the event details and participants to the view
+        // Pass the event details and participants
         return view('admin.eventView', compact('event', 'participants'));
     }
 

@@ -49,7 +49,8 @@ Route::prefix('admin')->group(function () {
     Route::post('/createEvent', [EventController::class, 'storeEvent'])->name('admin.createEvent.submit');
     Route::get('/eventDetails/{id}', [EventController::class, 'showAdmin'])->name('admin.eventDetails');
     Route::get('/eventView/{id}', [EventController::class, 'showEventParticipants'])->name('admin.eventView');
-    
+    Route::post('/add-beneficiary-attendance/{eventId}', [AttendanceController::class, 'addBeneficiaryAttendance'])->name('admin.addBeneficiaryAttendance');
+
 
     Route::post('/attendance/scan', [AttendanceController::class, 'scan'])->name('admin.attendance.scan');
     Route::get('/attendance/{id}', [AttendanceController::class, 'show'])->name('admin.attendance.show');
