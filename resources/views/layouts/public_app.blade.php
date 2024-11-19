@@ -17,7 +17,7 @@
         @yield('styles')
     </head>
     <body> 
-        <!-- Navigation bar for logo and for Home Page general audience view -->
+            <!-- Navigation bar for logo and for Home Page general audience view -->
             <nav class="navbar navbar-light navbar-expand-lg bg-body-tertiary" data-bs-theme="light">
                 <div class="container">
                     <!-- Logo -->
@@ -78,6 +78,10 @@
                     </div>  
                 </div>
             </nav>
+            <!-- Scroll to Top Button -->
+            <button id="scrollTopBtn" class="btn btn-primary">
+                ↑
+            </button>
         <main>
             @yield('content')
         </main>

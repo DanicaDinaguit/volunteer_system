@@ -1,3 +1,38 @@
+// Scroll to Top Button
+// Get the button
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+// Show the button when scrolling down 100px from the top
+window.onscroll = function() {
+    if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+        scrollTopBtn.style.display = "block";
+    } else {
+        scrollTopBtn.style.display = "none";
+    }
+};
+
+// Scroll to top when the button is clicked
+scrollTopBtn.onclick = function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const images = document.querySelectorAll('.animate-on-scroll');
+  
+    const onScroll = () => {
+      images.forEach((img) => {
+        const rect = img.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          img.classList.add('active');
+        }
+      });
+    };
+  
+    window.addEventListener('scroll', onScroll);
+    onScroll(); // Trigger on load in case some images are already in view
+  });
+  
+
 document.addEventListener('DOMContentLoaded', function() {
     // viewApplication js code
     const applicantButtons = document.querySelectorAll('.applicant-toggle');

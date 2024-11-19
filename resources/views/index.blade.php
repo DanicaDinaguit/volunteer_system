@@ -17,7 +17,7 @@
             <div class="carousel-inner">
                 <!-- Slide 1 -->
                 <div class="carousel-item active">
-                    <img src="{{ asset('images/carousel-images/carousel-img1.svg') }}" class="carousel-img1 d-block w-100" alt="First Slide">
+                    <img src="{{ asset('images/carousel-images/carousel-img1.svg') }}" class="carousel-img d-block w-100" alt="First Slide">
                     <div class="carousel-caption d-flex flex-column align-items-center mt-5 mt-md-0">
                         <img src="{{ asset('images/LOGO1.png') }}" alt="Logo" class="carousel-logo">
                         <h1 class="carousel-title">LET'S MAKE THE WORLD A BETTER PLACE</h1>
@@ -26,7 +26,7 @@
 
                 <!-- Slide 2 -->
                 <div class="carousel-item">
-                    <img src="{{ asset('images/carousel-images/carousel-img2.svg') }}" class="carousel-img2 d-block w-100" alt="Second Slide">
+                    <img src="{{ asset('images/carousel-images/carousel-img2.svg') }}" class="carousel-img d-block w-100" alt="Second Slide">
                     <div class="carousel-caption d-flex flex-column align-items-center mt-5 mt-md-0">
                         <img src="{{ asset('images/LOGO1.png') }}" alt="Logo" class="carousel-logo">
                         <h1 class="carousel-title">JOIN US IN OUR MISSION</h1>
@@ -35,7 +35,7 @@
 
                 <!-- Slide 3 -->
                 <div class="carousel-item">
-                    <img src="{{ asset('images/carousel-images/carousel-img3.svg') }}" class="carousel-img2 d-block w-100" alt="Third Slide">
+                    <img src="{{ asset('images/carousel-images/carousel-img3.svg') }}" class="carousel-img d-block w-100" alt="Third Slide">
                     <div class="carousel-caption d-flex flex-column align-items-center mt-5 mt-md-0">
                     <img src="{{ asset('images/LOGO1.png') }}" alt="Logo" class="carousel-logo">
                         <h1 class="carousel-title">TOGETHER WE CAN MAKE A CHANGE</h1>
@@ -56,18 +56,18 @@
     </div>
     <!-- Read More Section -->
     <div>
-        <div class="bg-primary text-white py-4">
+        <div class="read-more text-white py-5">
                 <div class="container">
-                    <h2 class="text-center fw-bold" style="font-family: Oswald; font-size: 2.5rem;">SOCIAL ORIENTATION AND COMMUNITY INVOLVEMENT</h2>
-                    <div class="row justify-content-center align-items-center mt-4">
+                    <h2 class="text-center fw-semibold fs-2">SOCIAL ORIENTATION AND COMMUNITY INVOLVEMENT</h2>
+                    <div class="row justify-content-center align-items-center mt-5">
                         <div class="col-12 col-md-5 mb-3 mb-md-0 text-center">
-                            <img src="{{ asset('images/bannerImg.png') }}" alt="Banner Image" class="img-fluid rounded" style="max-width: 100%; height: auto;">
+                            <img src="{{ asset('images/read-more/read-more-img.png') }}" alt="Read More Image" class="img-fluid rounded animate-on-scroll zoom-in">
                         </div>
                         <div class="col-12 col-md-7">
-                            <p class="fs-5" style="font-family: Oswald; font-weight: 500;">
+                            <p class="fs-6 fw-medium text-wrap text-sm-start">
                                 The Social Orientation and Community Involvement (SOCI) is a department that manages, coordinates, and supervises all activities related to Social Orientation and Community Involvement of Asian College-Dumaguete. SOCI aims to provide acceptable, affordable, attainable, and sustainable community projects and programs.
                             </p>
-                            <a href="{{ route('about') }}" class="btn btn-success text-white" style="border-radius: 10px;">Read More</a>
+                            <a href="{{ route('about') }}" class="btn btn-success text-white shadow fw-semibold fs-6">Read More</a>
                         </div>
                     </div>
                 </div>
