@@ -13,12 +13,18 @@ class BeneficiaryAttendance extends Model
 
     protected $fillable = [
         'eventID',
-        'first_name',
-        'middle_name',
-        'last_name',
-        'purok',
+        'beneficiaryID',
         'date_attended'
     ];
 
     // Define relationships or additional methods here if needed
+    public function beneficiary()
+    {
+        return $this->belongsTo(Beneficiary::class, 'beneficiaryID', 'id');
+    }
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class, 'eventID', 'id');
+    }
 }
