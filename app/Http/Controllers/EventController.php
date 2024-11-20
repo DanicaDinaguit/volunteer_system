@@ -10,6 +10,7 @@ use App\Models\MemberCredential;
 use App\Models\MemberApplication;
 use App\Models\Notification;
 use App\Models\BeneficiaryAttendance;
+use App\Models\Partner;
 use Illuminate\Support\Facades\DB;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
@@ -27,7 +28,8 @@ class EventController extends Controller
     public function showAdmin($id)
     {
         $event = Event::where('id', $id)->firstOrFail();
-        return view('admin.eventDetails', compact('event'));
+        $partners = DB::table('tblpartner')->pluck('partner_name', 'id');
+        return view('admin.eventDetails', compact('event', 'partners'));
     }
     public function index()
     {
@@ -105,6 +107,7 @@ class EventController extends Controller
                 'description' => $request->edesc,
                 'number_of_volunteers' => $request->slots,
                 'event_location' => $request->elocation,
+                'partner' => $request->epartner,
                 'category' => $request->etype,
                 'event_status' => 'upcoming', // Assuming a default status
             ]);
@@ -114,17 +117,29 @@ class EventController extends Controller
             // Commit transaction
             DB::commit();
     
-            // Return success response
-            return response()->json(['success' => true, 'event' => $event]);
+            // Return response based on request type
+            if ($request->ajax()) {
+                // For AJAX requests (e.g., calendar)
+                return response()->json(['success' => true, 'event' => $event]);
+            } else {
+                // For traditional requests (e.g., dashboard)
+                return redirect()->route('event.dashboard')->with('success', 'Event created successfully!');
+            }
     
         } catch (\Exception $e) {
             DB::rollback();
             \Log::error('Failed to create Google calendar event', ['error' => $e->getMessage()]);
             // Return error response
-            return response()->json([
-                'success' => false,
-                'error' => 'Failed to create event in Google Calendar: ' . $e->getMessage()
-            ], 500);
+            if ($request->ajax()) {
+                // For AJAX requests, return JSON error
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Failed to create event in Google Calendar: ' . $e->getMessage()
+                ], 500);
+            } else {
+                // For traditional requests, redirect back with error
+                return redirect()->back()->with('error', 'Failed to create event in Google Calendar.');
+            }
         }
     }
 
@@ -209,10 +224,10 @@ class EventController extends Controller
                     'description' => $request->edesc,
                     'number_of_volunteers' => $request->slots,
                     'event_location' => $request->elocation,
+                    'partner' => $request->epartner,
                     'category' => $request->etype,
                     'event_status' => 'upcoming', // Assuming a default status
                 ]);
-    
             } catch (\Google_Service_Exception $e) {
                 Log::error('Google Calendar update failed: ' . $e->getMessage());
                 return redirect()->route('admin.event')->with('error', 'Failed to update the event on Google Calendar: ' . $e->getMessage());
@@ -275,11 +290,15 @@ class EventController extends Controller
             $query->where('number_of_volunteers', '>=', $request->volunteers);
         }
 
+        // Order events by event_date in descending order
+        $query->orderBy('event_date', 'desc');
+
         // Get the filtered events
         $events = $query->paginate(5); 
-
+        
+        $partners = Partner::all();
         // Return the view with the filtered events
-        return view('admin.event', compact('events'));
+        return view('admin.event', compact('events', 'partners'));
     }
 
     public function showEventDetails($id)
