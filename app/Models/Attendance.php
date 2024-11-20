@@ -42,4 +42,8 @@ class Attendance extends Model
     {
         return $this->participant->event();
     }
+    public function volunteer()
+    {
+        return $this->belongsTo(MemberCredential::class, 'memberCredentialsID');
+    }
 }
