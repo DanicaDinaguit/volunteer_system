@@ -168,42 +168,65 @@ class AttendanceController extends Controller
             // Default date range (semester-based)
             $date_start = $request->get('date_start') ?? now()->startOfYear()->toDateString();
             $date_end = $request->get('date_end') ?? now()->endOfYear()->toDateString();
-    
+        
             // Log the initial date range
             Log::info('Attendance Summary Date Range', ['date_start' => $date_start, 'date_end' => $date_end]);
-    
+        
             // Validate that the date range is correct
             $request->validate([
                 'date_start' => 'required|date',
                 'date_end' => 'required|date',
             ]);
-    
+        
             // Log after validation
             Log::info('Validation passed for date range');
-    
+        
             // Filter events within the provided date range
             $events = Event::whereBetween('event_date', [$date_start, $date_end])->get();
             
-            // Log the number of events retrieved
-            Log::info('Events Retrieved', ['events_count' => $events->count()]);
-    
-            // Get the participants for those events
+            // Get participant IDs for the events within the date range
             $participantIds = Participant::whereIn('eventID', $events->pluck('id'))->pluck('participantsID');
-    
-            // Log participant IDs
-            Log::info('Participant IDs Retrieved', ['participant_ids' => $participantIds]);
-    
+        
             // Fetch attendance records for those participants
             $attendances = Attendance::with('participant.event')->whereIn('participantsID', $participantIds)->get();
+    
+            // Group attendances by volunteer (participant)
+            $groupedAttendances = $attendances->groupBy('participantsID');
+            
+            // Calculate total attendance for each volunteer and certificate tier
+            $attendanceData = $groupedAttendances->map(function($attendances, $participantID) {
+                $totalEventsAttended = $attendances->count();
+                $eventsPresent = $attendances->where('status', 'present')->count();
+                
+                // Determine certificate tier based on attendance percentage
+                $attendancePercentage = ($totalEventsAttended > 0) ? ($eventsPresent / $totalEventsAttended) * 100 : 0;
+                $certificateTier = 'Bronze';  // Default tier
+                
+                if ($attendancePercentage >= 70) {
+                    $certificateTier = 'Silver';
+                }
+                if ($attendancePercentage >= 90) {
+                    $certificateTier = 'Gold';
+                }
 
-                // Calculate total events attended per volunteer
-            $totalEventsAttended = $attendances->groupBy('participantsID')->map->count();
-            // Log the attendance count
-            Log::info('Attendance Records Retrieved', ['attendance_count' => $attendances->count()]);
-            Log::info('Attendance Records', ['attendances' => $attendances->toArray()]);
-
-            // Return view with data
-            return view('admin.attendanceSummary', compact('events', 'attendances', 'date_start', 'date_end', 'totalEventsAttended'));
+                $volunteer = $attendances->first()->participant->volunteer;
+                $volunteerFullName = "{$volunteer->first_name} {$volunteer->middle_name} {$volunteer->last_name}";
+                Log::info('volunteer from attendance', ['volunteer' => $volunteer]);
+                Log::info('volunteer from attendance', ['volunteer' => $volunteerFullName]);
+                Log::info('volunteer from attendance', ['volunteer' => $volunteer->id]);
+                return [
+                    'volunteer' => $volunteer,
+                    'volunteer_full_name' => $volunteerFullName, 
+                    'volunteer_id' => $volunteer->memberCredentialsID,
+                    'events' => $attendances->pluck('event'),
+                    'attendance' => $attendances,
+                    'total_events_attended' => $totalEventsAttended,
+                    'certificate_tier' => $certificateTier,
+                    'events_present' => $eventsPresent
+                ];
+            });
+            // Return the view with the processed data
+            return view('admin.attendanceSummary', compact('attendanceData', 'date_start', 'date_end', 'events'));
         } catch (\Exception $e) {
             // Log any exception that occurs
             Log::error('Error in attendanceSummary: ' . $e->getMessage());
@@ -211,8 +234,75 @@ class AttendanceController extends Controller
             // Optionally, redirect back with an error message
             return redirect()->back()->with('error', 'Something went wrong while fetching attendance summary.');
         }
-    }  
-    
+    }
+       
+    public function getVolunteerAttendance($volunteerId)
+{
+    try {
+        // Fetch the volunteer's attendance records based on their participant ID
+        $attendance = Attendance::with('participant.event')
+            ->whereHas('participant', function($query) use ($volunteerId) {
+                $query->where('participantsID', $volunteerId);
+            })
+            ->get();
+
+        // Group the attendance records by event
+        $groupedAttendance = $attendance->groupBy('eventID');
+
+        // Prepare the response data
+        $attendanceData = $groupedAttendance->map(function($attendances, $eventId) {
+            $event = $attendances->first()->participant->event;
+            $status = $attendances->where('status', 'present')->count();
+            return [
+                'event_id' => $eventId,
+                'event_title' => $event->title,
+                'attendance_count' => $attendances->count(),
+                'present_count' => $status,
+            ];
+        });
+
+        return response()->json(['attendance' => $attendanceData]);
+
+    } catch (\Exception $e) {
+        Log::error('Error in getVolunteerAttendance: ' . $e->getMessage());
+        return response()->json(['error' => 'Something went wrong while fetching attendance for this volunteer.'], 500);
+    }
+}
+
+    public function getEventAttendance($eventId)
+    {
+        try {
+            // Fetch the attendance records for the given event ID
+            $attendance = Attendance::with('participant.volunteer')
+                ->whereHas('participant', function($query) use ($eventId) {
+                    $query->where('eventID', $eventId);
+                })
+                ->get();
+
+            // Group attendance records by volunteer
+            $groupedAttendance = $attendance->groupBy('participantsID');
+
+            // Prepare the response data
+            $attendanceData = $groupedAttendance->map(function($attendances, $participantId) {
+                $volunteer = $attendances->first()->participant->volunteer;
+                $status = $attendances->where('status', 'present')->count();
+                return [
+                    'volunteer_id' => $volunteer->id,
+                    'volunteer_name' => "{$volunteer->first_name} {$volunteer->last_name}",
+                    'attendance_count' => $attendances->count(),
+                    'present_count' => $status,
+                ];
+            });
+
+            return response()->json(['attendance' => $attendanceData]);
+
+        } catch (\Exception $e) {
+            Log::error('Error in getEventAttendance: ' . $e->getMessage());
+            return response()->json(['error' => 'Something went wrong while fetching attendance for this event.'], 500);
+        }
+    }
+
+
     public function download($id)
     {
         // Retrieve the event details by event ID
