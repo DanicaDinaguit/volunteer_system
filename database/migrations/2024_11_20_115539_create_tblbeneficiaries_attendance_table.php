@@ -16,15 +16,13 @@ class CreateTblBeneficiariesAttendanceTable extends Migration
         Schema::create('tblbeneficiaries_attendance', function (Blueprint $table) {
             $table->id('id');
             $table->unsignedBigInteger('eventID'); // Foreign key for event
-            $table->string('first_name');
-            $table->string('middle_name')->nullable();
-            $table->string('last_name');
-            $table->string('purok')->nullable(); // New purok field
+            $table->unsignedBigInteger('beneficiaryID'); // Foreign key for beneficiary
             $table->date('date_attended'); // To match the event's date
             $table->timestamps();
 
-            // Define foreign key constraint
+            // Define foreign key constraints
             $table->foreign('eventID')->references('id')->on('tblevent')->onDelete('cascade');
+            $table->foreign('beneficiaryID')->references('id')->on('tblbeneficiary')->onDelete('cascade');
         });
     }
 
