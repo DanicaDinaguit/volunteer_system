@@ -36,10 +36,12 @@
                     <div class="col-md-6">
                         <label for="etype" class="form-label">Event Type</label>
                         <select id="etype" name="etype" class="form-select" required>
-                            <option value="Values Formation and Partnership" {{ $event->category == 'Values Formation and Partnership' ? 'selected' : '' }}>Values Formation and Partnership</option>
-                            <option value="Skills/Livelihood Training" {{ $event->category == 'Skills/Livelihood Training' ? 'selected' : '' }}>Skills/Livelihood Training</option>
-                            <option value="Health and Environment" {{ $event->category == 'Health and Environment' ? 'selected' : '' }}>Health and Environment</option>
-                            <option value="Education and Technology" {{ $event->category == 'Education and Technology' ? 'selected' : '' }}>Education and Technology</option>
+                            <option value="">Select Event Type</option>
+                            <option value="Values and Education" {{ $event->category == 'Values and Education' ? 'selected' : '' }}>Values and Education</option>
+                            <option value="Partnership and Development" {{ $event->category == 'Partnership and Development' ? 'selected' : '' }}>Partnership and Development</option>
+                            <option value="Environment and Health" {{ $event->category == 'Environment and Health' ? 'selected' : '' }}>Environment and Health</option>
+                            <option value="Social Awareness and Concern" {{ $event->category == 'Social Awareness and Concern' ? 'selected' : '' }}>Social Awareness and Concern</option>
+                            <option value="Skills and Livelihood" {{ $event->category == 'Skills and Livelihood' ? 'selected' : '' }}>Skills and Livelihood</option>
                         </select>
                     </div>
 
@@ -75,7 +77,14 @@
 
                     <div class="col-md-6">
                         <label for="epartner" class="form-label">Partner/s</label>
-                        <input type="text" id="epartner" name="epartner" class="form-control" value="{{ $event->partners }}" required>
+                        <select id="epartner" name="epartner" class="form-select" required>
+                            <option value="">Select a Partner</option>
+                            @foreach($partners as $id => $name)
+                                <option value="{{ $name }}" {{ $event->partner == $name ? 'selected' : '' }}>
+                                    {{ $name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <!-- Submit Button -->
