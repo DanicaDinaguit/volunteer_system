@@ -3,7 +3,7 @@
 @section('title', 'Public Calendar of Events')
     
 @section('content')
-    <div id="calendar-container" style="margin-top: 95px;">
+    <div id="calendar-container">
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -84,19 +84,6 @@
             font-size: 14px;
         }
 
-        #calendar-container {
-            margin: 100px 0 0 0;
-        }
-
-        #calendar {   
-            width: 80%;
-            margin: 0 auto;
-            margin-top: -30px;
-            padding: 20px;    
-            background-color: #f8f9fa; 
-            border-radius: 10px; 
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-        }
         .past-event {
             /* color: white; Gray out past events */
             /* background-color: gray; */
