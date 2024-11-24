@@ -1,8 +1,11 @@
+html {
+    scroll-behavior: smooth;
+}
 body {
-    background: #B6B1B1;
+    background: #F8F9FA !important;
     font-family: 'Oswald', sans-serif !important;
     margin: 0;
-    padding: 0;
+    padding: 70px 0 0 0 ;
     overflow-x: hidden;
     width: 100%;
     height: 100%;
@@ -25,10 +28,10 @@ body {
         transform: translateY(-50%) !important;
     }
     .carousel-logo {
-        max-width: 300px !important;
+        max-width: 250px !important;
     }
     .carousel-title {
-        font-size: 4rem !important;
+        font-size: 3rem !important;
     }
 }
 
@@ -42,10 +45,10 @@ body {
         transform: translateY(-50%) !important;
     }
     .carousel-logo {
-        max-width: 300px !important;
+        max-width: 250px !important;
     }
     .carousel-title {
-        font-size: 4rem !important;
+        font-size: 3rem !important;
     }
 }
 
@@ -173,8 +176,8 @@ body {
         height: 90vh !important;
     }
     .carousel-caption {
-        top: 45% !important;
-        transform: translateY(-45%) !important;
+        top: 40% !important;
+        transform: translateY(-40%) !important;
     }
     .carousel-caption .carousel-logo {
         width: 45vw !important;
@@ -186,6 +189,10 @@ body {
 }
 /* --------------------------------MEDIA QUERIES END-------------------------------- */
 /* -----------------------------NAVIGATION SECTION-------------------------- */
+.nav {
+    box-shadow: 0 5px 7px rgba(0, 0, 0, 0.5) !important;
+    z-index: 1000 !important;
+}
 .nav-link {
     color: #D98641 !important;
     font-family: 'Open Sans', sans-serif !important;
@@ -200,6 +207,42 @@ body {
     transform: scale(1.10);
 }
 /* -------------------------------NAVIGATION END------------------------------ */
+/* -------------------------------FOOTER SECTION------------------------------- */
+.footer {
+    margin-top: -75px;
+}
+.main-footer h1 {
+    font-size: 1.5rem;
+}
+.main-footer h5 {
+    font-size: 1rem; 
+    font-weight: 400;
+}
+.main-footer p {
+    font-family: 'Open Sans', 'sans-serif';
+    font-size: 0.875rem; 
+    font-weight: 400;
+}
+.main-footer .bi {
+    color: #f8b966;
+}
+.sub-footer {
+    background: #F8F9FA;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    margin: 0;
+    padding: 0;
+}
+.sub-footer p {
+    font-family: 'Open Sans', 'sans-serif';
+    margin: 0;
+    color: #d98641;
+    font-size: 1rem;
+    font-weight: 400;
+}
+/* -------------------------------FOOTER SECTION---------------------------------- */
 /* -------------------------------SCROLL TO TOP BUTTON----------------------- */
 #scrollTopBtn {
     display: none; 
@@ -226,7 +269,7 @@ body {
 
 .carousel-img {
     height: 90vh;
-    opacity: 0.6;
+    opacity: 0.7;
     object-fit: cover;
     filter: brightness(50%);
 }
@@ -251,43 +294,66 @@ body {
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
     margin: 0;
     line-height: 1.2;
-  }
-
+}
+.carousel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: brightness(90%);
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 0;
+}
 /* ----------------------------------CAROUSEL END------------------------------------ */
 /* ----------------------------------READ MORE SECTION------------------------------------ */
-.read-more {
-    background-color: #d98641;
-    height: 70vh;
-}
 .read-more h2 {
     text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
     margin: 0;
     line-height: 1.2;
+    z-index: 1;
+    position: relative;
 }
 .read-more img {
     max-width: 100%;
     height: auto;
 }
 .read-more p {
+    font-family: 'Open Sans', 'sans-serif';
     line-height: 200%;
     letter-spacing: 15%;
+    z-index: 1;
+    position: relative;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
 }
 .read-more .btn {
     background-color: #6F833F;
     font-family: 'Open Sans', 'sans-serif';
-    border-radius: 13px;
-    border: none;
+    border: #6F833F;
     letter-spacing: 1%;
-    transition: transform 0.2s ease, color 0.2s ease
+    transition: transform 0.2s ease, color 0.2s ease;
+    z-index: 1;
+    position: relative;
 }
 .read-more .btn:hover {
     background-color: #2d3718;
     transform: scale(1.05);
 }
+.read-more::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(217, 134, 65, 0.7);
+    z-index: 0;
+}
 .animate-on-scroll {
     opacity: 0;
     transform: translateY(50px);
-    transition: all 0.6s ease-out;
+    transition: 0.8s ease-out;
   }
 .animate-on-scroll.active {
     opacity: 1;
@@ -298,7 +364,44 @@ body {
 }
 /* ----------------------------------READ MORE END------------------------------------ */
 
-/* Event box styling */
+/*------------------------------------HOME EVENTS SECTION START-------------------------------*/
+.home-events {
+    color: #F8F9FA;
+    height: 70vh auto;
+    position: relative;
+}
+.home-events::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(111, 131, 63, 0.6);
+    z-index: 0;
+}
+.sample-events {
+    z-index: 5 !important;
+    position: relative !important;
+}
+.vm-events {
+    z-index: 1;
+    position: relative;
+}
+.vm-events button {
+    background-color: #D98641 !important;
+    font-family: 'Open Sans', 'sans-serif' !important;
+    border: none !important;
+    letter-spacing: 1% !important;
+    transition: transform 0.2s ease, color 0.2s ease !important;
+    max-width: 200px;
+    width: auto;
+    display: inline-block;
+}
+.vm-events button:hover {
+    background-color: #6b401c !important;
+    transform: scale(1.05) !important;
+}
 /* .event-box .day-container {
     font-size: 1.5rem;
     color: #333;
@@ -323,41 +426,118 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: #f0f0f0;
 }
 
 /* Button styling */
 #event-button {
     margin-top: 20px;
 }
-
-
-
-/* Mission and Vision box */
+/*------------------------------------HOME EVENTS SECTION END-------------------------------*/
+/* ------------------------------MISSION AND VISION BOX START--------------------------------- */
+.mission-vision {
+    color: #F8F9FA;
+    height: 70vh auto;
+    position: relative;
+}
+.mission-vision::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, rgba(217, 134, 65, 0.7), rgba(111, 131, 63, 0.7),rgba(134,110,93,0.7));
+    z-index: 0;
+}
+.mission-vision p {
+    font-family: 'Open Sans', 'sans-serif';
+    line-height: 200%;
+    letter-spacing: 15%;
+    z-index: 1;
+    position: relative;
+}
 .mv-box {
-    max-width: 400px;
+    background-color: rgba(217, 134, 65, 0.7);
+    z-index: 1;
+    position: relative;
+    min-height: 250px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+/* ------------------------------MISSION AND VISION BOX END--------------------------------- */
+/* ------------------------------OTHER PROGRAMS--------------------------------- */
+.programs {
+    color: #F8F9FA;
+    height: 70vh auto;
+    position: relative;
+}
+.programs::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(217, 134, 65, 0.8);
+    z-index: 0;
+}
+.program-box {
+    z-index: 1;
+    position: relative;
+}
+.program-box ul {
+    list-style-type: none;
+    margin: 0;
 }
 
-.bg-primary {
-    background: #D98641 !important;
+.program-box li {
+    font-family: 'Open Sans', 'sans-serif';
+    line-height: 2;
+    letter-spacing: 0.5px;
+    color: #F8F9FA;
+    display: flex;
+    align-items: center;
 }
 
-.bg-secondary {
-    background-color: #6F833F !important;
+.program-box li i {
+    color: #F8F9FA;
+    margin-right: 8px;
+    font-size: 1rem;
 }
-
-.btn-secondary {
+/* ------------------------------OTHER PROGRAMS END--------------------------------- */
+/* ------------------------------HOME VOLUNTEER APPLICATION SECTION START--------------------------------- */
+.application-preview {
+    color: #F8F9FA;
+    height: 80vh;
+    min-height: auto;
+    position: relative;
+}
+.application-preview-box {
+    z-index: 1;
+    position: relative;
+}
+.application-preview-box p {
+    line-height: 200%;
+    letter-spacing: 15%;
+    z-index: 1;
+    position: relative;
+}
+.application-preview button  {
     background-color: #6F833F;
+    font-family: 'Open Sans', 'sans-serif';
     border: none;
+    letter-spacing: 1%;
+    transition: transform 0.2s ease, color 0.2s ease;
+    z-index: 1;
+    position: relative;
 }
-
-/* Button styling */
-#event-button, .btn {
-    border-radius: 8px;
+.application-preview button:hover {
+    background-color: #2d3718;
+    transform: scale(1.05);
 }
-
-
-/* signIn styling START*/
+/* ------------------------------HOME VOLUNTEER APPLICATION SECTION END--------------------------------- */
+/*---------------------------------------SIGN-IN SECTION START----------------------------------------------*/
 #signinDiv{
     width: 100%; 
     display: flex;
@@ -474,69 +654,7 @@ body {
     letter-spacing: 0.20px; 
     word-wrap: break-word;
 }
-/* ---------------------Footer Section----------------------- */
-
-#socMedIcons{
-    display: flex;
-    justify-content: center;
-    width: 115.07px;
-    position: absolute;
-    left: 45%;
-    margin-bottom: 10px;
-}
-/* footer{
-    text-align: center;
-    color: #6f833f; 
-    font-size: 19.34px; 
-    font-family: Poppins; 
-    font-weight: 400; 
-    letter-spacing: 0.19px;
-    height: 393px;
-    max-width: 100%;
-    background-color: #d98641; 
-    box-shadow: 0px 1.6990113258361816px 13.761992454528809px rgba(0, 0, 0, 0.25);   
-    padding: 5px;
-    position: relative;
-    bottom: 0;
-    margin-top: 0px;
-} */
-/* .footer {
-    background-image: url(/public/images/footerdots-img.png);
-} */
-#footerdots-img {
-    max-width: 100%;
-    position: relative;
-    top: 0;
-    bottom: 20px;
-    height: 373px;
-    padding: 0 0 0 0;
-    background: url(/public/images/footerdots-img.png);
-}
-.footerText{
-    display: inline-block;
-    color: #ffffff; 
-    word-wrap: break-word;
-    white-space: pre-line;
-    /* display: flex;
-    justify-content: space-around; */
-}
-p.footerText{
-    margin-bottom: 0;
-}
-a.footerText{
-    text-decoration: none;
-}
-.footerTextContainer{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-#footer{
-    color: #866e5d;
-}
-
-/* -----------------Footer End------------------- */
-
+/*---------------------------------------SIGN-IN SECTION END----------------------------------------------*/
 /* Styling for Event Items */
 #eventItems {
     display: flex;
@@ -593,120 +711,7 @@ a.footerText{
     letter-spacing: 0.176px;   
 }
 
-/* Mission Vission */
-#MV {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-}
-  
-.mv-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    
-    width: 80%;
-}
-  
-.mv-box {
-    width: 45%;
-    padding: 20px; 
-}
-  
-.mv-box h2 {
-    text-align: justify;
-    font-family: Poppins;
-    font-size: 50px;
-    font-style: normal;
-    font-weight: 800;
-    line-height: 70px; /* 30.114% */
-    letter-spacing: 0.78px;
-    background: #d98641;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.mv-box p {
-    color: #d98641;
-}
-.mission {
-    margin-right: 20px;
-}
-
-.vision {
-    margin-left: 20px;
-}
-
-.bg-home {
-  
-    background-size: cover;
-    width: 100%; 
-    height: 800px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 28%;
-    align-items: center;
-    padding: 30px;
-}
-.bg-home h2 {
-    text-align: justify;
-    font-family: Poppins;
-    font-size: 50px;
-    font-style: normal;
-    font-weight: 800;
-    line-height: 97px; /* 30.114% */
-    letter-spacing: 0.78px;
-    margin-top: 0;
-    margin-bottom: 40px;
-    white-space: pre-line;
-    background: #d98641;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.bg-home h4 {
-    color: #d98641;
-    text-align: justify;
-    font-family: Poppins;
-    font-size: 34px;
-    font-style: normal;
-    font-weight: 800;
-}
-.bg-home li {
-    list-style: none;
-    color: #d98641;
-    font-family: Poppins;
-    font-size: 16.671px;
-    font-style: normal;
-    font-weight: 400;
-}
-.bg-home p {
-    color: rgba(0, 0, 0, 0.57);
-    text-align: center;
-    font-family: Poppins;
-    font-size: 24.801px;
-    font-style: normal;
-    font-weight: 300;
-    white-space: pre-line;
-}
-.bg-home button {
-    border-radius: 14.166px;
-    background: #d98641;
-    border-color: #d98641;
-    box-shadow: 0px 3.828px 3.828px 0px rgba(0, 0, 0, 0.25);
-    color: #FFF;
-    font-family: Poppins;
-    font-size: 15.487px;
-    font-style: normal;
-    font-weight: 400;
-    cursor: pointer;
-}
-/* MV END */
-
-/* application form START */
+/*---------------------------------------APPLICATION FORM SECTION START----------------------------------------------*/
 #app-bg {
     background: url(Images/app-bg.png) lightgray -1177.951px -4227.618px / 293.56% 415.875% no-repeat;
 }
@@ -730,8 +735,8 @@ a.footerText{
 }
 
 .app-form-btn:hover {
-    background: #940f6b; /* Darker shade on hover */
-    transform: scale(1.05); /* Slightly scale up on hover */
+    background: #2d3718;
+    transform: scale(1.05);
 }
 
 #form {
@@ -825,7 +830,7 @@ a.footerText{
     padding: 0;
     display: flex;
     justify-content: space-between;
-    border-bottom: 2px solid #AB2695;
+    border-bottom: 2px solid #866e5d;
     margin-bottom: 20px;
 }
 
@@ -856,27 +861,57 @@ a.footerText{
     display: block; /* Show active tab content */
 }
 
-/* application form END */
-
-
-
-/* about.html START*/
-#about img{
-    display: block;
-    margin: 0 auto;
+/*---------------------------------------APPLICATION FORM SECTION END----------------------------------------------*/
+/*------------------------------------ABOUT SECTION START-------------------------------------------*/
+.main-about {
+    color: #F8F9FA;
+    height: 100vh;
+    height: auto;
+    position: relative;
 }
-
-#about p {
-    color: #AB2695;
-    text-align: justify;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    margin: 30px;
+.main-about img {
+    z-index: 1;
+    position: relative;
 }
-/* about.html END*/
-
-/* gallery.html */
+.main-about p {
+    font-family: 'Open Sans', 'sans-serif';
+    line-height: 200%;
+    letter-spacing: 15%;
+    z-index: 1;
+    position: relative;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+.main-about::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: brightness(80%);
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 0;
+}
+.sub-about {
+    height: 100vh;
+    height: auto;
+    z-index: 1;
+    position: relative;
+    color: #D98641;
+}
+.sub-about-content {
+    z-index: 1;
+    position: relative;
+}
+.sub-about-content h2 {
+    font-family: 'Oswald', 'sans-serif';
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+}
+.sub-about-content img {
+    margin-top: -50px;
+}
+/*------------------------------------ABOUT SECTION END-------------------------------------------*/
+/*------------------------------------GALLERY SECTION START-------------------------------------------*/
 #gallery-bg{
     margin-top: 110px;
     background-image: url('/images/gallery-bg.png');
@@ -927,7 +962,7 @@ a.footerText{
     border-radius: 29.562px;
     background:  lightgray 50% / cover no-repeat;
 }
-/* gallery.html END */
+/*------------------------------------GALLERY SECTION END-------------------------------------------*/
 
 /* CreateEvent.html START*/
 .back-arrow {

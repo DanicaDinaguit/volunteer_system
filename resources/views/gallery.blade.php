@@ -1,6 +1,6 @@
 @extends('layouts.public_app')
 
-@section('title', 'Public Calendar of Events')
+@section('title', 'SOCI - Gallery')
     
 @section('content')
     <div id="gallery-bg" style="margin-bottom: 110px;">

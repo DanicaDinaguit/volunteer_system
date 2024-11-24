@@ -1,6 +1,6 @@
 @extends('layouts.public_app')
 
-@section('title', 'Public Calendar of Events')
+@section('title', 'SOCI - Calendar')
     
 @section('content')
     <div id="calendar-container">
