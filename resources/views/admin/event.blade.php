@@ -51,10 +51,9 @@
                     <i class="fas fa-plus me-2"></i>Create New Event
                 </button>
 
-                <!-- Scan Button -->
-                <button type="button" class="btn btn-primary btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#scanModal">
-                    <i class="fas fa-qrcode me-2"></i>Scan
-                </button>
+                <a href="{{ route('admin.beneficiaries') }}" class="btn text-white btn-sm me-1" style="background-color: #6f833f; margin-left: 10px;" title="Register Beneficiary">
+                   <i></i>Register Beneficiaries
+                </a>
             </div> 
         </div>
 
@@ -229,7 +228,12 @@
 
                     <div class="col-md-6">
                         <label for="epartner" class="form-label">Partner/s</label>
-                        <input type="text" id="epartner" name="epartner" class="form-control" required>
+                        <select id="epartner" name="epartner" class="form-select" required>
+                            <option value="">Select a Partner</option>
+                            @foreach($partners as $partner)
+                                <option value="{{ $partner->partner_name }}">{{ $partner->partner_name }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <!-- Submit Button -->
@@ -239,22 +243,6 @@
                         </button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Scan QR Code Modal -->
-<div class="modal fade" id="scanModal" tabindex="-1" aria-labelledby="scanModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="scanModalLabel">Scan QR Code</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div id="qr-reader" style="width: 100%;"></div>
-                <div id="qr-reader-results"></div>
             </div>
         </div>
     </div>

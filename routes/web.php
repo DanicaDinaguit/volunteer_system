@@ -9,6 +9,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BeneficiaryController;
 use App\Http\Controllers\GoogleCalendarController;
 
 
@@ -56,6 +57,13 @@ Route::prefix('admin')->group(function () {
     Route::get('/attendance/{id}', [AttendanceController::class, 'show'])->name('admin.attendance.show');
     Route::get('/attendanceSummary', [AttendanceController::class, 'attendanceSummary'])->name('admin.attendanceSummary');
     Route::get('/attendanceForm/{id}', [AttendanceController::class, 'download'])->name('admin.attendanceForm');
+    Route::get('/getVolunteerAttendance/{volunteerId}', [AttendanceController::class, 'getVolunteerAttendance']);
+    Route::get('/getEventAttendance/{eventId}', [AttendanceController::class, 'getEventAttendance']);
+
+    //For beneficiary
+    Route::get('/createBeneficiary', [BeneficiaryController::class, 'create'])->name('admin.createBeneficiary');
+    Route::post('/beneficiaries', [BeneficiaryController::class, 'store'])->name('admin.beneficiaries.store');
+
     // Admin View Application Page
     Route::get('/viewApplication', [AdminController::class, 'viewApplications'])->name('admin.viewApplication');
     Route::get('/viewApplication/{memberApplicationID}', [ApplicationController::class, 'getApplicantDetails'])

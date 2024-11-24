@@ -18,6 +18,8 @@ class ApplicationSubmitted extends Mailable
     public function __construct(array $data)
     {
         $this->data = $data;
+        // Combine first, middle, and last names into a single name
+        $this->data['name'] = "{$data['first_name']} {$data['middle_name']} {$data['last_name']}";
     }
 
     public function build()

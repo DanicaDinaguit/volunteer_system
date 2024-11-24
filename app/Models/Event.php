@@ -23,6 +23,7 @@ class Event extends Model
         'number_of_volunteers',
         'volunteers_joined',
         'event_location',
+        'partner',
         'category',
         'event_status',
         'created_at',

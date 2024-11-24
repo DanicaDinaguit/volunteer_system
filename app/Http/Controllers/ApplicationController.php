@@ -42,13 +42,13 @@ class ApplicationController extends Controller
                 'first_name' => 'required|string|max:255',
                 'middle_name' => 'nullable|string|max:255',
                 'last_name' => 'required|string|max:255',
-                'phone_number' => 'required|string|max:15|regex:/^\(\d{3}\) \d{3}-\d{4}$/',
+                'phone_number' => 'required|string|max:15',
                 'email_address' => 'required|email|max:255',
                 'birthdate' => 'required|date',
                 'street_address' => 'required|string|max:255',
                 'city' => 'required|string|max:255',
                 'state' => 'required|string|max:255',
-                'zip_code' => 'required|string|max:10',
+                'postal_code' => 'required|string|max:10',
                 'country' => 'required|string|max:255',
                 'civil_status' => 'required|in:Single,Married,Divorced,Widowed',
                 'religion' => 'required|string|max:50',
@@ -56,7 +56,7 @@ class ApplicationController extends Controller
                 'citizenship' => 'required|string|max:50',
                 'college' => 'required|string|max:255',
                 'course' => 'required|string|max:255',
-                'year_level' => 'required|in:1st Year,2nd Year,3rd Year,4th Year,5th Year',
+                'year_level' => 'required|in:1st Year,2nd Year,3rd Year,4th Year',
                 'schoolID' => 'required|string|max:50',
                 'high_school' => 'required|string|max:255',
                 'elementary' => 'required|string|max:255',
@@ -64,7 +64,7 @@ class ApplicationController extends Controller
             ]);
     
             // Combine address fields for storage
-            $validatedData['address'] = "{$validatedData['street_address']}, {$validatedData['city']}, {$validatedData['state']}, {$validatedData['zip_code']}, {$validatedData['country']}";
+            $validatedData['address'] = "{$validatedData['street_address']}, {$validatedData['city']}, {$validatedData['state']}, {$validatedData['postal_code']}, {$validatedData['country']}";
     
             // Set default status to 'Pending'
             $validatedData['status'] = 'Pending';
@@ -94,10 +94,10 @@ class ApplicationController extends Controller
                     'is_read' => false,
                 ]);
             }
-    
+            
             // Trigger an event for the new application
             event(new NewMembershipApplication($application));
-    
+            Log::info('Notification created for admin ID: ' . $admin->adminID);
             // Redirect back with a success message
             return redirect()->back()->with('success', 'Application submitted successfully!');
         } catch (\Exception $e) {
