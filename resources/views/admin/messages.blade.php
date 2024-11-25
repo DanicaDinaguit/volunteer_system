@@ -42,7 +42,7 @@
 @endsection
 
 @section('content')
-    <div id="messages" style="margin: 0 auto; margin-top: 100px !important; display: flex; border-radius: 8px; width: 70%;">
+    <div id="messages" style="margin: 0 auto; margin-top: 40px !important; display: flex; border-radius: 8px; width: 70%;">
         <div class="message-recepient">
             <div class="recepient-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <div><h2>Messages</h2></div>
