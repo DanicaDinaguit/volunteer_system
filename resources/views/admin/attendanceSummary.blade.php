@@ -3,7 +3,7 @@
 @section('title', 'Attendance Statistics')
 
 @section('content')
-<div class="container" style="margin-top: 70px;">
+<div class="container" style="margin-top: 40px;">
     <h4 class="text-center mb-3" style="color: #d98641; font-family: Oswald;">Attendance Summary ({{ request()->date_start }} - {{ request()->date_end }})</h4>
 
     @if($attendanceData->isNotEmpty())
@@ -21,11 +21,15 @@
                 <div class="card bg-success text-white shadow-sm rounded-lg" id="total-events-card" style="cursor: pointer; padding: 5px; transition: all 0.3s ease-in-out;">
                     <div class="card-body text-center">
                         <h5 class="card-title" style="font-size: 1.1rem;">Total Events</h5>
-                        <h3 class="card-text" style="font-size: 1.8rem;">{{ $events->count() }}</h3>
+                        <h3 class="card-text" style="font-size: 1.8rem;">{{ $eventAll->count() }}</h3>
                     </div>
                 </div>
             </div>
         </div>
+        <a href="{{ route('admin.attendanceStatistics', ['date_start' => request()->date_start, 'date_end' => request()->date_end]) }}" 
+            class="btn btn-info btn-sm text-white">
+            <i class="fas fa-download"></i> Export
+        </a>
 
         <!-- Attendance Table -->
         <div class="table-responsive">
@@ -34,11 +38,18 @@
                     <tr>
                         <th>#</th>
                         <th>Volunteer</th>
-                        @foreach($events as $event)
-                            <th class="text-center">{{ $event->title }}</th>
-                        @endforeach
+                        <th colspan="{{ count($events) }}" class="text-center">Event Type</th> <!-- Add a heading for event types -->
                         <th class="text-center">Total</th>
-                        <th class="text-center">Certificate Tier</th>
+                        <th class="text-center">Certificate</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        @foreach($events as $category => $categoryEvents)
+                            <th class="text-center">{{ $category }}</th> <!-- Display category names under "Event Type" -->
+                        @endforeach
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,13 +57,34 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $data['volunteer_full_name'] ?? 'Volunteer information missing' }}</td>
-                            @foreach($events as $event)
+                            @foreach($events as $category => $categoryEvents)
                                 @php
-                                    // Check if the volunteer attended this event
-                                    $attendance = $data['attendance']->firstWhere('participant.eventID', $event->id);
+                                    Log::info('Attendance Data', [
+                                        'attendance' => $data['attendance']->toArray()
+                                    ]);
+
+                                    // Calculate attendance for this volunteer in this category
+                                    $eventsInCategory = $categoryEvents->pluck('id')->toArray();  // Get event IDs as an array
+
+                                    // Filter attendance based on events in the current category
+                                    $attendanceInCategory = $data['attendance']->filter(function ($attendance) use ($eventsInCategory) {
+                                        // Access the event ID through the nested participant relationship
+                                        $eventId = $attendance->participant->event->id;
+
+                                        // Check if the event ID is in the list of event IDs for the current category
+                                        return in_array($eventId, $eventsInCategory);
+                                    });
+
+                                    // Log information about the category, event IDs, and attendance count
+                                    Log::info('Processing category attendance', [
+                                        'category' => $category,
+                                        'events_in_category' => $eventsInCategory,
+                                        'attendance_in_category_count' => $attendanceInCategory->count(),  // Log the count of filtered attendance
+                                    ]);
                                 @endphp
-                                <td class="text-center">{{ $attendance ?  '1' : '0' }}</td>
+                                <td class="text-center">{{ $attendanceInCategory->count() }}</td>  
                             @endforeach
+
                             <td class="text-center">{{ $data['total_events_attended'] }}</td>
                             <td class="text-center">{{ $data['certificate_tier'] }}</td>
                         </tr>
@@ -76,17 +108,13 @@
             <div class="modal-body">
                 <ul id="volunteers-list" class="list-unstyled">
                     @foreach($attendanceData as $data)
-                        <li class="volunteer-item" data-volunteer-id="{{ $data['volunteer_id'] }}">
-                            <a href="javascript:void(0)">{{ $data['volunteer_full_name'] ?? 'Volunteer information missing' }}</a>
-                        </li>
+                    <li>
+                        <a href="{{ route('admin.volunteerAttendance', $data['volunteer_id']) }}">
+                            {{ $data['volunteer_full_name'] ?? 'Volunteer information missing' }}
+                        </a>
+                    </li>
                     @endforeach
                 </ul>
-
-                <!-- Volunteer attendance details will appear here -->
-                <div id="volunteer-details" style="margin-top: 20px;">
-                    <h5>Attendance Details:</h5>
-                    <div id="attendance-details-list"></div>
-                </div>
             </div>
         </div>
     </div>
@@ -102,22 +130,18 @@
             </div>
             <div class="modal-body">
                 <ul id="events-list" class="list-unstyled">
-                    @foreach($events as $event)
+                    @foreach($eventAll as $event)
                         <li class="event-item" data-event-id="{{ $event->id }}">
-                            <a href="javascript:void(0)">{{ $event->title }}</a>
+                            <!-- Link to the admin.attendance.show route -->
+                            <a href="{{ route('admin.attendance.show', ['id' => $event->id]) }}">{{ $event->title }}</a>
                         </li>
                     @endforeach
                 </ul>
-
-                <!-- Event attendance details will appear here -->
-                <div id="event-details" style="margin-top: 20px;">
-                    <h5>Attendance for this Event:</h5>
-                    <div id="event-attendance-details"></div>
-                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 @endsection
 
