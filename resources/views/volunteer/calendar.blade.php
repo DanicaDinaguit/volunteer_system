@@ -3,7 +3,7 @@
 @section('title', 'Volunteer Calendar')
     
 @section('content')
-    <div id="calendar-container" style="margin-top: 95px;">
+    <div id="calendar-container">
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -85,7 +85,7 @@
         }
 
         #calendar-container {
-            margin: 100px 0 0 0;
+            margin: 20px 0 0 0;
         }
 
         #calendar {   
