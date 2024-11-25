@@ -86,8 +86,8 @@
     }
 </style>
 
-<div style="margin-top: 30px; display: flex; justify-content: center;">
-    <div id="view-application" class="container mt-5">
+<div style="display: flex; justify-content: center;">
+    <div id="view-application" class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-1">
             <h4 class="fw-bold mb-3" style="font-size: 1.5rem;">All Membership Applications</h4>
 
