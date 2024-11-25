@@ -70,7 +70,9 @@ class AdminController extends Controller
             // Format start and end DateTime to ISO 8601 format
             $startDateTime = Carbon::createFromFormat('Y-m-d H:i', $request->edate . ' ' . $request->timeStart)->format(\DateTime::ATOM);
             $endDateTime = Carbon::createFromFormat('Y-m-d H:i', $request->edate . ' ' . $request->timeEnd)->format(\DateTime::ATOM);
-    
+            if ($startDateTime >= $endDateTime) {
+                throw new \Exception('Start time must be earlier than end time.');
+            }
             // Create Google Calendar Event
             $googleEvent = new Google_Service_Calendar_Event([
                 'summary' => $request->ename,
