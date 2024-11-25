@@ -3,7 +3,7 @@
 @section('title', 'Admin Calendar')
 
 @section('content')
-    <div id="calendar-container" style="margin-top: 95px;">
+    <div id="calendar-container">
 
         @if(session('success'))
             <div class="alert alert-success">
@@ -328,9 +328,8 @@
         }
 
         #calendar-container {
-            margin: 100px 0 0 0;
+            margin: 40px 0 0 0;
         }
-
         #calendar {   
             width: 80%;
             margin: 0 auto;
