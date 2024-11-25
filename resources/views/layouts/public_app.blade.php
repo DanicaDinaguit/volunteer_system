@@ -18,7 +18,7 @@
     </head>
     <body> 
             <!-- Navigation bar for logo and for Home Page general audience view -->
-            <nav class="navbar navbar-light navbar-expand-lg bg-body-tertiary" data-bs-theme="light">
+            <nav class="navbar navbar-light navbar-expand-lg bg-body-tertiary fixed-top" data-bs-theme="light">
                 <div class="container">
                     <!-- Logo -->
                     <a class="navbar-brand ps-md-5" href="{{ route('index') }}">
