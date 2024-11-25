@@ -50,16 +50,17 @@ Route::prefix('admin')->group(function () {
     Route::post('/createEvent', [EventController::class, 'storeEvent'])->name('admin.createEvent.submit');
     Route::get('/eventDetails/{id}', [EventController::class, 'showAdmin'])->name('admin.eventDetails');
     Route::get('/eventView/{id}', [EventController::class, 'showEventParticipants'])->name('admin.eventView');
-    Route::post('/add-beneficiary-attendance/{eventId}', [AttendanceController::class, 'addBeneficiaryAttendance'])->name('admin.addBeneficiaryAttendance');
-
-
+    Route::get('/search-beneficiary', [BeneficiaryController::class, 'searchBeneficiary'])->name('admin.searchBeneficiary');
+    Route::post('/add-beneficiary-attendance/{id}', [BeneficiaryController::class, 'addBeneficiaryAttendance'])->name('admin.addBeneficiaryAttendance');
+    
+    Route::get('/volunteerAttendance/{volunteerId}', [AttendanceController::class, 'getVolunteerAttendance'])->name('admin.volunteerAttendance');
     Route::post('/attendance/scan', [AttendanceController::class, 'scan'])->name('admin.attendance.scan');
     Route::get('/attendance/{id}', [AttendanceController::class, 'show'])->name('admin.attendance.show');
     Route::get('/attendanceSummary', [AttendanceController::class, 'attendanceSummary'])->name('admin.attendanceSummary');
     Route::get('/attendanceForm/{id}', [AttendanceController::class, 'download'])->name('admin.attendanceForm');
-    Route::get('/getVolunteerAttendance/{volunteerId}', [AttendanceController::class, 'getVolunteerAttendance']);
-    Route::get('/getEventAttendance/{eventId}', [AttendanceController::class, 'getEventAttendance']);
-
+    Route::get('/attendanceStatistics', [AttendanceController::class, 'downloadStatistics'])->name('admin.attendanceStatistics');
+    Route::get('/beneficiaryAttendanceForm/{id}', [BeneficiaryController::class, 'download'])->name('admin.beneficiaryAttendanceForm');
+    
     //For beneficiary
     Route::get('/createBeneficiary', [BeneficiaryController::class, 'create'])->name('admin.createBeneficiary');
     Route::post('/beneficiaries', [BeneficiaryController::class, 'store'])->name('admin.beneficiaries.store');
