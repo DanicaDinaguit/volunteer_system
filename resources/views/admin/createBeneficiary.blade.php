@@ -3,12 +3,14 @@
 @section('title', 'Beneficiary Registration')
 
 @section('content')
-<div class="container" style="margin-top: 70px;">
+<div class="container" style="margin-top: 40px;">
 
     <!-- Page Title -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 style="color: #d98641;">Register New Beneficiary</h2>
-        <a href="#beneficiary-list" class="btn btn-outline-primary">View All Beneficiaries</a>
+        <a href="{{ route('admin.event') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="fas fa-arrow-left me-1"></i> Back to Event
+        </a>
     </div>
 
     <!-- Display validation errors -->
