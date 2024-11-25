@@ -39,9 +39,7 @@
     }
 </style>
 
-
-
-<div style="margin-top: 90px;">
+<div>
     <div class="container my-5">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="fw-bold">Event Dashboard</h2>
@@ -51,7 +49,7 @@
                     <i class="fas fa-plus me-2"></i>Create New Event
                 </button>
 
-                <a href="{{ route('admin.beneficiaries') }}" class="btn text-white btn-sm me-1" style="background-color: #6f833f; margin-left: 10px;" title="Register Beneficiary">
+                <a href="{{ route('admin.createBeneficiary') }}" class="btn text-white btn-sm me-1" style="background-color: #6f833f; margin-left: 10px;" title="Register Beneficiary">
                    <i></i>Register Beneficiaries
                 </a>
             </div> 
@@ -256,49 +254,6 @@
             document.addEventListener("DOMContentLoaded", fn);
         }
     }
-
-    docReady(function() {
-        var resultContainer = document.getElementById('qr-reader-results');
-        var lastResult, countResults = 0;
-
-        var html5QrcodeScanner = new Html5QrcodeScanner(
-            "qr-reader", { fps: 10, qrbox: 250 });
-
-            function onScanSuccess(decodedText, decodedResult) {
-                if (decodedText !== lastResult) {
-                    ++countResults;
-                    lastResult = decodedText;
-                    console.log(`Scan result = ${decodedText}`, decodedResult);
-                    
-                    // Sending the scanned data to AttendanceController using AJAX
-                    $.ajax({
-                        url: "{{ route('admin.attendance.scan') }}",  // Route to your controller method
-                        method: "POST",
-                        data: {
-                            _token: "{{ csrf_token() }}",  // CSRF token for security
-                            qr_data: decodedText  // Sending the scanned data
-                        },
-                        success: function(response) {
-                            // Display success message or handle response
-                            resultContainer.textContent = response.message;
-                            alert(response.message);
-                        },
-                        error: function(xhr) {
-                            // Handle error
-                            resultContainer.textContent = 'Error: ' + xhr.responseText;
-                            alert(xhr.responseText);
-                        }
-                    });
-                }
-            }
-
-        
-        function onScanError(qrCodeError) {
-            // Handle error if needed
-        }
-        
-        html5QrcodeScanner.render(onScanSuccess, onScanError);
-    });
 
     document.getElementById('attendance-summary-btn').addEventListener('click', function(e) {
         e.preventDefault();
