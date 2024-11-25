@@ -160,7 +160,14 @@
         </div>
     </div>
 </div>
-
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1055;">
+    <div id="scanMessageToast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="scanMessageToastBody"></div>
+            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
 <script>
     function docReady(fn) {
         if (document.readyState === "complete" || document.readyState === "interactive") {
@@ -192,19 +199,32 @@
                             qr_data: decodedText  // Sending the scanned data
                         },
                         success: function(response) {
-                            // Display success message or handle response
-                            resultContainer.textContent = response.message;
-                            alert(response.message);
+                            displayToast('success', response.message);
                         },
                         error: function(xhr) {
                             // Handle error
-                            resultContainer.textContent = 'Error: ' + xhr.responseText;
-                            alert(xhr.responseText);
+                            const errorMessage = xhr.responseJSON?.message || 'An error occurred while processing the scan.';
+                            displayToast('danger', errorMessage);
                         }
                     });
                 }
             }
+        // Toast function
+        function displayToast(type, message) {
+            const toastEl = document.getElementById('scanMessageToast');
+            const toastBodyEl = document.getElementById('scanMessageToastBody');
 
+            // Set toast styles based on type
+            toastEl.classList.remove('text-bg-primary', 'text-bg-danger', 'text-bg-success');
+            toastEl.classList.add(`text-bg-${type}`);
+
+            // Set the message
+            toastBodyEl.textContent = message;
+
+            // Show the toast
+            const toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
         
         function onScanError(qrCodeError) {
             // Handle error if needed
