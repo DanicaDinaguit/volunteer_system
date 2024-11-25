@@ -2,7 +2,7 @@ body {
     background: #B6B1B1;
     font-family: 'Oswald', sans-serif !important;
     margin: 0;
-    padding: 0;
+    padding: 70px 0 0 0;
     overflow-x: hidden;
     width: 100%;
     height: 100%;
@@ -735,7 +735,7 @@ a.footerText{
 }
 
 #form {
-    margin-top: 70px; 
+    margin-top: 20px; 
     padding: 20px; 
 }
 
