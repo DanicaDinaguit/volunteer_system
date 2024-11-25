@@ -3,7 +3,7 @@
 @section('title', 'Event Attendance')
 
 @section('content')
-<div class="container" style="margin-top: 70px;">
+<div class="container" style="margin-top: 30px;">
     <!-- Header Section -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="fw-bold" style="color: #d98641;">{{ $event->title }} - Attendance</h2>
@@ -27,13 +27,15 @@
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="fw-bold" style="color: #d98641;">Volunteer Attendance</h4>
-                <a href="{{ route('admin.attendanceForm', $event->id) }}" class="btn btn-info btn-sm text-white">
-                    <i class="fas fa-download"></i> Export
-                </a>
-                <!-- Scan Button -->
-                <button type="button" class="btn text-white btn-sm ms-2" style="background-color: #6f833f;" data-bs-toggle="modal" data-bs-target="#scanModal">
-                    <i class="fas fa-qrcode me-2"></i>Scan
-                </button>
+                <!-- Button Group for Export and Scan -->
+                <div class="btn-group">
+                    <a href="{{ route('admin.attendanceForm', $event->id) }}" class="btn btn-info btn-sm text-white">
+                        <i class="fas fa-download"></i> Export
+                    </a>
+                    <button type="button" class="btn text-white btn-sm" style="background-color: #6f833f;" data-bs-toggle="modal" data-bs-target="#scanModal">
+                        <i class="fas fa-qrcode me-2"></i>Scan
+                    </button>
+                </div>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover text-center align-middle">
@@ -68,20 +70,27 @@
         </div>
     </div>
 
+
     <!-- Beneficiaries Attendance Section -->
     <div class="card border-0 shadow-sm rounded-3 mb-4">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h4 class="fw-bold" style="color: #d98641;">Beneficiaries Attendance</h4>
-                <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#addBeneficiaryModal">
-                    <i class="fas fa-plus"></i> Add Beneficiary
-                </button>
+                <div class="btn-group">
+                    <a href="{{ route('admin.beneficiaryAttendanceForm', $event->id) }}" class="btn btn-info btn-sm text-white">
+                        <i class="fas fa-download"></i> Export
+                    </a>
+                    <button type="button" class="btn text-white btn-sm" style="background-color: #6f833f;" data-bs-toggle="modal" data-bs-target="#addBeneficiaryModal">
+                        <i class="fas fa-plus"></i> Attendance
+                    </button>
+                </div>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover text-center align-middle">
                     <thead class="table-light" style="background-color: #4b7768; color: #fff;">
                         <tr>
                             <th>#</th>
+                            <th>ID</th>
                             <th>Full Name</th>
                             <th>Purok</th>
                             <th>Date Attended</th>
@@ -91,8 +100,9 @@
                         @forelse($beneficiariesAttendance as $index => $beneficiary)
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>{{ $beneficiary->first_name }} {{ $beneficiary->middle_name ?? '' }} {{ $beneficiary->last_name }}</td>
-                            <td>{{ $beneficiary->purok }}</td>
+                            <td>{{$beneficiary->beneficiary->id}}</td>
+                            <td>{{ $beneficiary->beneficiary->first_name }} {{ $beneficiary->beneficiary->middle_name ?? '' }} {{ $beneficiary->beneficiary->last_name }}</td>
+                            <td>{{ $beneficiary->beneficiary->purok }}</td>
                             <td>{{ \Carbon\Carbon::parse($beneficiary->date_attended)->format('F j, Y') }}</td>
                         </tr>
                         @empty
@@ -106,31 +116,33 @@
         </div>
     </div>
 
-    <!-- Add Beneficiary Attendance Modal -->
+   <!-- Add Beneficiary Attendance Modal -->
     <div class="modal fade" id="addBeneficiaryModal" tabindex="-1" aria-labelledby="addBeneficiaryModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title fw-bold" id="addBeneficiaryModalLabel">Add Beneficiary Attendance</h5>
+                    <h5 class="modal-title fw-bold" id="addBeneficiaryModalLabel">Assign Beneficiary Attendance</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('admin.addBeneficiaryAttendance', $event->id) }}" method="POST">
                     @csrf
                     <div class="modal-body">
-                        <div class="row g-3 mb-3">
-                            <div class="col-md">
-                                <input type="text" name="search" class="form-control" placeholder="Search beneficiary" required>
-                            </div>
+                        <div class="mb-3">
+                            <label for="searchBeneficiary" class="form-label">Search Beneficiary</label>
+                            <input type="text" id="searchBeneficiary" class="form-control" placeholder="Type beneficiary's name or ID">
+                            <div id="beneficiaryResults" class="list-group mt-2" style="max-height: 200px; overflow-y: auto;"></div>
                         </div>
+                        <input type="hidden" name="beneficiaryID" id="selectedBeneficiaryID">
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Add Attendance</button>
+                        <button type="submit" class="btn btn-success" id="addBeneficiaryButton" disabled>Add Attendance</button>
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
 
     <!-- Scan QR Code Modal -->
     <div class="modal fade" id="scanModal" tabindex="-1" aria-labelledby="scanModalLabel" aria-hidden="true">
@@ -199,6 +211,47 @@
         }
         
         html5QrcodeScanner.render(onScanSuccess, onScanError);
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("searchBeneficiary");
+        const resultsContainer = document.getElementById("beneficiaryResults");
+        const selectedBeneficiaryID = document.getElementById("selectedBeneficiaryID");
+        const addButton = document.getElementById("addBeneficiaryButton");
+
+        searchInput.addEventListener("input", function () {
+            const query = searchInput.value.trim();
+
+            if (query.length >= 2) {
+                fetch(`/admin/search-beneficiary?query=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        resultsContainer.innerHTML = "";
+                        if (data.length > 0) {
+                            data.forEach(beneficiary => {
+                                const item = document.createElement("button");
+                                item.classList.add("list-group-item", "list-group-item-action");
+                                item.textContent = `${beneficiary.first_name} ${beneficiary.last_name} (${beneficiary.purok})`;
+                                item.dataset.id = beneficiary.id;
+
+                                item.addEventListener("click", () => {
+                                    selectedBeneficiaryID.value = beneficiary.id;
+                                    searchInput.value = `${beneficiary.first_name} ${beneficiary.last_name}`;
+                                    resultsContainer.innerHTML = "";
+                                    addButton.disabled = false;
+                                });
+
+                                resultsContainer.appendChild(item);
+                            });
+                        } else {
+                            resultsContainer.innerHTML = '<div class="text-muted">No results found</div>';
+                        }
+                    })
+                    .catch(error => console.error("Error fetching beneficiaries:", error));
+            } else {
+                resultsContainer.innerHTML = "";
+            }
+        });
     });
 </script>
 @endsection
