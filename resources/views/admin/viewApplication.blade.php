@@ -9,8 +9,8 @@
     }
 
     .nav-tabs .nav-link.active {
-        color: #fff; /* Set color for the active tab */
-        background-color: #007bff; /* Set background color for the active tab */
+        color: #fff !important; /* Set color for the active tab */
+        background-color: #D98641; /* Set background color for the active tab */
     }
 
     .nav-tabs .nav-link:hover {
@@ -89,7 +89,7 @@
 <div style="display: flex; justify-content: center;">
     <div id="view-application" class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-1">
-            <h4 class="fw-bold mb-3" style="font-size: 1.5rem;">All Membership Applications</h4>
+            <h4 class="fw mb-3" style="font-size: 1.5rem; color: #D98641;">All Membership Applications</h4>
 
             <!-- Search Container with SVG Icon -->
             <div class="search-container d-flex align-items-center">
@@ -101,7 +101,7 @@
                 </button>
             </div>
             <!-- Add Application Button -->
-            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addApplicationModal">Add Application</button>
+            <button type="button" class="btn btn-sm" style="background: #6F833F; color: white;" data-bs-toggle="modal" data-bs-target="#addApplicationModal">Add Application</button>
         </div>
 
         <!-- Tabs for filtering applications -->
@@ -126,7 +126,7 @@
                         <div class="list-group">
                             @foreach($pendingApplicants as $applicant)
                                 <button class="list-group-item list-group-item-action applicant-toggle" data-id="{{ $applicant->memberApplicationID }}" data-status="pending">
-                                    {{ $applicant->name }}
+                                    {{ $applicant->first_name }} {{ $applicant->middle_name }} {{ $applicant->last_name }}
                                 </button>
                             @endforeach
                         </div>
@@ -135,7 +135,7 @@
                     <div class="col-lg-8 col-md-7">
                         <div id="applicant-details-pending" class="card shadow-sm p-3" style="display:block;">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h5 class="fw-bold mb-2 text-primary">Applicant Details</h5>
+                                <h5 class="fw-bold mb-2" style="color: #D98641;">Applicant Details</h5>
                                 <a href="" class="btn btn-info btn-sm me-1">
                                     <i class="fas fa-download"></i>
                                 </a>
@@ -207,7 +207,7 @@
                         <div class="list-group">
                             @foreach($approvedApplicants as $applicant)
                                 <button class="list-group-item list-group-item-action applicant-toggle" data-id="{{ $applicant->memberApplicationID }}" data-status="approved">
-                                    {{ $applicant->name }}
+                                {{ $applicant->first_name }} {{ $applicant->middle_name }} {{ $applicant->last_name }}
                                 </button>
                             @endforeach
                         </div>
@@ -215,7 +215,7 @@
                     <div class="col-lg-8 col-md-7">
                         <div id="applicant-details-approved" class="card shadow-sm p-4" style="display:block;">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h5 class="fw-bold mb-2 text-primary">Applicant Details</h5>
+                                <h5 class="fw-bold mb-2" style="color: #D98641;">Applicant Details</h5>
                                 <a href="" class="btn btn-info btn-sm me-1">
                                     <i class="fas fa-download"></i>
                                 </a>
@@ -298,7 +298,7 @@
                         <div class="list-group">
                             @foreach($rejectedApplicants as $applicant)
                                 <button class="list-group-item list-group-item-action applicant-toggle" data-id="{{ $applicant->memberApplicationID }}" data-status="pending">
-                                    {{ $applicant->name }}
+                                {{ $applicant->first_name }} {{ $applicant->middle_name }} {{ $applicant->last_name }}
                                 </button>
                             @endforeach
                         </div>
@@ -306,7 +306,7 @@
                     <div class="col-lg-8 col-md-7">
                         <div id="applicant-details-rejected" class="card shadow-sm p-4" style="display:block;">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h5 class="fw-bold mb-2 text-primary">Applicant Details</h5>
+                                <h5 class="fw-bold mb-2" style="color: #D98641;">Applicant Details</h5>
                                 <a href="" class="btn btn-info btn-sm me-1">
                                     <i class="fas fa-download"></i>
                                 </a>

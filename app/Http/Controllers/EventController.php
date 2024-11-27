@@ -393,13 +393,80 @@ class EventController extends Controller
             'qr_code' => Storage::url($fileName),  // Return the QR code file URL
         ]);
     }
+    // Function to regenerate QrCode
+    public function regenerateQrCode($id)
+    {
+        // Log the start of the QR code regeneration process
+        Log::info("Regenerating QR code for event ID: {$id}");
     
+        $event = Event::findOrFail($id);
+    
+        // Log if the event is found
+        Log::info("Event found: {$event->name}");
+    
+        // Check if the volunteer has joined the event
+        $user = Auth::guard('web')->user();
+        $volunteerID = $user->memberCredentialsID;
+    
+        $participant = Participant::where('eventID', $event->id)
+            ->where('memberCredentialsID', $volunteerID)
+            ->first();
+    
+        if (!$participant) {
+            Log::warning("Volunteer ID: {$volunteerID} has not joined event ID: {$event->id}");
+            return response()->json(['success' => false, 'message' => 'You have not joined this event.'], 403);
+        }
+    
+        // Log the participant's information
+        Log::info("Participant found: ID {$participant->participantsID} for Volunteer ID: {$volunteerID}");
+    
+        // Use the memberApplicationID to get the course from tblmemberapplication
+        $application = MemberApplication::where('memberApplicationID', $user->memberApplicationID)->firstOrFail();
+    
+        // Log the application details
+        Log::info("Application found: Course - {$application->course}, Student ID - {$user->studentID}");
+    
+        // Prepare QR code data
+        $qrData = [
+            'Event' => $event->id,
+            'Participants ID' => $participant->participantsID,
+            'Full Name' => $user->first_name . ' ' . $user->middle_name . ' ' . $user->last_name,
+            'Course' => $application->course,
+            'Student ID' => $user->studentID,
+        ];
+    
+        // Log the QR code data
+        Log::info("QR Code data: " . json_encode($qrData));
+    
+        // Generate QR code with the volunteer's details and event name
+        $qrCodeImage = QrCode::format('png')
+                            ->size(250)
+                            ->generate(json_encode($qrData));
+    
+        // Use the same filename as in the join method
+        $fileName = 'qr_codes/volunteer_'.$volunteerID.'_event_'.$event->id.'.png';
+    
+        // Store the QR code image (overwrite if it exists)
+        Storage::disk('public')->put($fileName, $qrCodeImage);
+    
+        // Log the QR code storage
+        Log::info("QR code for event ID: {$event->id} and volunteer ID: {$volunteerID} stored at: {$fileName}");
+    
+        return response()->json([
+            'success' => true,
+            'qr_code' => Storage::url($fileName), // Return the QR code file URL
+        ]);
+    }
+
     //return events the volunteer has joined in
     public function volunteerEvents(Request $request)
     {
         // Get the authenticated volunteer's ID
-        $volunteerId = Auth::guard('web')->user()->memberCredentialsID;
-    
+        if (Auth::guard('web')->check()) {
+            $volunteerId = Auth::guard('web')->user()->memberCredentialsID;
+        } else {
+            return redirect()->route('volunteer.signin')->with('error', 'You need to be logged in to access this page.');
+        }
         // Determine sort order based on user input, default to most recent
         $sort = $request->input('sort', 'recent') === 'recent' ? 'desc' : 'asc';
     
@@ -412,7 +479,6 @@ class EventController extends Controller
             ->paginate(9);
     
         return view('volunteer.joinedEvents', compact('events'));
-    }
-    
+    }   
 }
 

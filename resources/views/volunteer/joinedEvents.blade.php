@@ -3,8 +3,13 @@
 @section('title', 'My Events')
 
 @section('content')
-<div class="container" style="margin-top: 90px">
-    <h2 class="mb-2 text-center" style="color: #d98641;">My Events</h2>
+<div class="container" style="margin-top: 20px">
+    <h2 class="mb-2 text-center" style="color: #d98641;">
+        <a href="{{ route('volunteer.calendar') }}" class="back-to-calendar-link" aria-label="Back to Calendar">
+            <i class="fas fa-arrow-left"></i> <!-- Back arrow icon -->
+        </a>
+        My Events
+    </h2>
 
     @if($events->isEmpty())
         <div class="alert alert-warning text-center py-3">
@@ -156,6 +161,52 @@
         .pagination .page-item.active .page-link {
             background-color: #007bff;
             border-color: #007bff;
+        }
+
+        /* Back Arrow Link Styling to link back to Calendar */
+        .back-to-calendar-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: #6f833f; /* Custom arrow color */
+            font-size: 1.8rem;
+            transition: transform 0.3s ease, color 0.3s ease;
+            position: relative;
+        }
+
+        .back-to-calendar-link:hover {
+            color: #56722e; /* Slightly darker shade for hover effect */
+            transform: scale(1.1);
+        }
+        .back-to-calendar-link::after {
+            content: "My Calendar";
+            position: absolute;
+            top: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+            visibility: hidden;
+            opacity: 0;
+            background-color: #555;
+            color: #fff;
+            font-size: 0.9rem;
+            border-radius: 5px;
+            padding: 5px 10px;
+            white-space: nowrap;
+            z-index: 10;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .back-to-calendar-link:hover::after {
+            visibility: visible;
+            opacity: 1;
+        }
+        .back-to-calendar-link i {
+            margin-right: 5px; /* Adds space between the arrow and text */
+        }
+
+        .container h2 {
+            font-weight: 700;
+            color: #333;
+            text-transform: uppercase;
         }
     </style>
 @endsection

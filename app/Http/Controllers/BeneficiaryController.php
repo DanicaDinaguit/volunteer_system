@@ -95,5 +95,14 @@ class BeneficiaryController extends Controller
         // Stream the generated PDF or use ->download('filename.pdf') to force download
         return $pdf->stream('beneficiary_attendance_' . $event->title . '.pdf');
     }
+
+    public function downloadListBeneficiary()
+    {
+        $beneficiaries = Beneficiary::all();
+
+        $pdf = PDF::loadView('admin.beneficiaryList', compact('beneficiaries'));
+
+        return $pdf->download('beneficiaries_list.pdf');
+    }
 }
 

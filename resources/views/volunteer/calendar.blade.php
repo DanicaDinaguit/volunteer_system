@@ -3,6 +3,15 @@
 @section('title', 'Volunteer Calendar')
     
 @section('content')
+    <h2 style="text-align: center; margin-top: 20px; color: #D98641;">
+        CALENDAR 
+        <a href="{{ route('volunteer.joinedEvents') }}" class="joined-events-link" aria-label="My Joined Events">
+            <i class="fas fa-arrow-right"></i> <!-- Using Font Awesome for a cleaner arrow icon -->
+        </a>
+    </h2>
+    <!-- <a href="" class="btn btn-primary" style="margin-top: 20px; background: #2c3e50; border: none; padding: 10px 20px; text-decoration: none; color: white; border-radius: 5px;">
+        View Joined Events
+    </a> -->
     <div id="calendar-container">
         @if(session('success'))
             <div class="alert alert-success">
@@ -119,6 +128,47 @@
                 width: 100%;
                 padding: 10px;
             }
+        }
+        .joined-events-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: #6f833f; 
+            font-size: 1.8rem;
+            transition: transform 0.3s ease, color 0.3s ease;
+            position: relative;
+        }
+
+        .joined-events-link:hover {
+            color: #56722e;
+            transform: scale(1.1);
+        }
+
+        .joined-events-link i {
+            margin-left: 5px;
+        }
+
+        .joined-events-link::after {
+            content: "My Joined Events";
+            position: absolute;
+            top: 150%;
+            left: 50%;
+            transform: translateX(-50%);
+            visibility: hidden;
+            opacity: 0;
+            background-color: #555;
+            color: #fff;
+            font-size: 0.9rem;
+            border-radius: 5px;
+            padding: 5px 10px;
+            white-space: nowrap;
+            z-index: 10;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .joined-events-link:hover::after {
+            visibility: visible;
+            opacity: 1;
         }
     </style>
 @endsection

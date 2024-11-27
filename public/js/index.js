@@ -77,11 +77,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else if (status === 'rejected') {
                     targetContainer = document.getElementById('applicant-details-rejected');
                 }
+                const birthdate = new Date(data.birthdate); // Convert the birthdate string to a Date object
+                const today = new Date(); // Get the current date
+
+                // Calculate the age
+                let age = today.getFullYear() - birthdate.getFullYear();
+                const monthDifference = today.getMonth() - birthdate.getMonth();
+                const dayDifference = today.getDate() - birthdate.getDate();
+
+                // Adjust age if the current date is before the birthdate this year
+                if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+                    age--;
+                }
+
                 document.querySelector('.approve-btn').setAttribute('data-id', data.memberApplicationID);
                 document.querySelector('.reject-btn').setAttribute('data-id', data.memberApplicationID);
                 targetContainer.querySelector('a.btn-info').href = `/admin/applicationForm/${data.memberApplicationID}`;
-                targetContainer.querySelector('#detail-name').textContent = data.name;
-                targetContainer.querySelector('#detail-age').textContent = data.age;
+                targetContainer.querySelector('#detail-name').textContent = data.first_name + " " + data.middle_name + " " + data.last_name;
+                targetContainer.querySelector('#detail-age').textContent = age;
                 targetContainer.querySelector('#detail-gender').textContent = data.gender;
                 targetContainer.querySelector('#detail-phone_number').textContent = data.phone_number;
                 targetContainer.querySelector('#detail-email_address').textContent = data.email_address;

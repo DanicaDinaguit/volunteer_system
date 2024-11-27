@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap">
 </head>
-<body>
+<body style="padding: 0px;">
     <!-- div for Sign In for Volunteers-->
     <div id="signinDiv">
-        <div>
+        <div style="display: flex; align-items: center; flex-direction: column; justify-content: center; width: 100%;">
             <div style="display: flex; align-items: center;">
                 <img src="{{ asset('images/LOGO1.png') }}" alt="Logo" style="margin-left: 15px; margin-top: 10px; width: 64px; height: 64px;">
                 <h1 class="signinWelcome" style="text-align: center;">Welcome Back!</h1>
@@ -40,6 +40,5 @@
             <img src="{{ asset('images/bannerImg.png') }}" class="bannerImg" alt="Banner Image">
         </div>
     </div>
-    @include('layouts.footer')
 </body>
 </html>

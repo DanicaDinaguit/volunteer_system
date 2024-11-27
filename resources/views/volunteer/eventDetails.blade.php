@@ -3,7 +3,7 @@
 @section('title', 'Event Details')
 
 @section('content')
-<div style="margin-top: 115px;">
+<div style="margin-top: 40px;">
     <div class="container py-4">
         <div class="row justify-content-center">
             <div class="col-md-10">
@@ -60,11 +60,15 @@
                             </div>
                         </div>
 
-                        <!-- QR Code Display Section -->
-                        <div class="mt-4" id="qr-code-section" style="display: none;">
-                            <h5 class="text-primary"><strong>This is your QR Code for attendance purposes.</strong></h5>
-                            <img id="qr-code-image" src="" alt="QR Code" class="img-fluid">
+                       <!-- QR Code Display Section -->
+                        <div class="mt-4" id="qr-code-section" style="display: {{ $hasJoined ? 'block' : 'none' }};">
+                            <h5 class="text-primary"><strong>Your QR Code</strong></h5>
+                            <img id="qr-code-image" src="{{ $qrCode ?? '' }}" alt="QR Code" class="img-fluid">
                             <br>
+                            <!-- Regenerate QR Code Button -->
+                            @if ($hasJoined)
+                                <button id="regenerate-qr-btn" class="btn btn-outline-warning mt-3">Regenerate QR Code</button>
+                            @endif
                             <!-- Download QR Code Button -->
                             <a id="download-qr-code" href="#" download="qr_code.png" class="btn btn-outline-success mt-3">
                                 Download QR Code
@@ -100,6 +104,7 @@
 </style>
 
 <script>
+    // Join Event
     document.getElementById('join-btn').addEventListener('click', function() {
         const joinButton = this;
         const volunteersNeededElement = document.getElementById('volunteers-needed');
@@ -146,6 +151,38 @@
             })
             .catch(error => console.error('Error:', error));
         }
+    });
+
+    // QR regeneration
+    document.getElementById('regenerate-qr-btn').addEventListener('click', function () {
+        const qrCodeSection = document.getElementById('qr-code-section');
+        const qrCodeImage = document.getElementById('qr-code-image');
+        const downloadQrCodeLink = document.getElementById('download-qr-code');
+        const id = "{{ $event->id }}"; // Event ID
+        console.log('Regenerate QR button clicked, event ID: ' + id);
+        fetch(`/volunteer/eventDetails/regenerate-qr/${id}`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Response data:', data);
+            if (data.success) {
+                // Update the QR code image
+                qrCodeImage.src = data.qr_code;
+
+                // Update the download link
+                downloadQrCodeLink.href = data.qr_code;
+
+                alert('QR Code regenerated successfully!');
+            } else {
+                alert('Error regenerating QR code: ' + data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
     });
 </script>
 @endsection

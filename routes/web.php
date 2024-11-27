@@ -64,6 +64,8 @@ Route::prefix('admin')->group(function () {
     //For beneficiary
     Route::get('/createBeneficiary', [BeneficiaryController::class, 'create'])->name('admin.createBeneficiary');
     Route::post('/beneficiaries', [BeneficiaryController::class, 'store'])->name('admin.beneficiaries.store');
+    Route::get('/beneficiaryList', [BeneficiaryController::class, 'downloadListBeneficiary'])->name('admin.beneficiaryList');
+
 
     // Admin View Application Page
     Route::get('/viewApplication', [AdminController::class, 'viewApplications'])->name('admin.viewApplication');
@@ -80,7 +82,6 @@ Route::prefix('admin')->group(function () {
     
     Route::get('/messages/{id}', [MessageController::class, 'show'])->name('admin.show');
     Route::get('/search-users', [MessageController::class, 'searchUsers'])->name('admin.searchUsers');
-    // Route::get('/messages/{id}/edit', [MessageController::class, 'edit'])->name('messages.edit');
     // Route::put('/messages/{id}', [MessageController::class, 'update'])->name('messages.update');
     Route::delete('/messages/{id}', [MessageController::class, 'destroy'])->name('messages.destroy');
    
@@ -93,9 +94,6 @@ Route::prefix('admin')->group(function () {
     
     // Admin Gallery Page
     Route::get('/gallery', [AdminController::class, 'gallery'])->name('admin.gallery');
-
-    // Admin Create Certification Page
-    Route::get('/createCertification', [AdminController::class, 'createCertification'])->name('admin.createCertification');
 
     // Admin Profile Page
     Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
@@ -123,6 +121,8 @@ Route::prefix('volunteer')->group(function () {
     Route::get('/eventDetails/{id}', [EventController::class, 'showEventDetails'])->name('volunteer.eventDetails');
     Route::post('/eventDetails/{id}/join', [EventController::class, 'join'])->name('volunteer.eventDetails.join');
     Route::get('/joinedEvents', [EventController::class, 'volunteerEvents'])->name('volunteer.joinedEvents');
+    // Add this route in your web.php
+    Route::post('/eventDetails/regenerate-qr/{id}', [EventController::class, 'regenerateQrCode'])->name('volunteer.regenerateQr');
 
     // Volunteer Gallery
     Route::get('/gallery', [MemberController::class, 'gallery'])->name('volunteer.gallery');

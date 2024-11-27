@@ -69,11 +69,15 @@
     <!-- Beneficiary List -->
     <div id="beneficiary-list" class="mt-5">
         <h3 class="text-secondary">List of Registered Beneficiaries</h3>
+        <a href="{{ route('admin.downloadListBeneficiary') }}" class="btn btn-outline-success btn-sm">
+            <i class="fas fa-file-pdf me-1"></i> Export
+        </a>
         <div class="table-responsive">
             <table class="table table-bordered table-hover mt-3">
                 <thead class="table-primary">
                     <tr>
                         <th>#</th>
+                        <th>ID</th>
                         <th>Name</th>
                         <th>Purok</th>
                         <th>Birthdate</th>
@@ -85,6 +89,7 @@
                     @forelse($beneficiaries as $beneficiary)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
+                            <td>{{ $beneficiary->id }}</td>
                             <td>{{ $beneficiary->first_name }} {{ $beneficiary->middle_name }} {{ $beneficiary->last_name }}</td>
                             <td>{{ $beneficiary->purok }}</td>
                             <td>{{ \Carbon\Carbon::parse($beneficiary->birthdate)->format('F j, Y') }}</td>

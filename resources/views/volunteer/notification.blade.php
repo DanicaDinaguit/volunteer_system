@@ -25,12 +25,16 @@
             @if ($notification->url)
                 <a href="{{ $notification->url }}" class="text-decoration-none text-dark">
             @endif
-                <div class="card p-2 d-flex justify-content-between align-items-center shadow-sm" style="border-radius: 8px;">
-                    <div class="d-flex align-items-center">
-                        <img src="{{ asset('images/notif-icon.png') }}" alt="Notification Icon" class="mr-2" style="width: 40px; height: 40px;">
-                        <p class="mb-0" style="font-size: 14px;">{{ $notification->body }}</p>
-                        <small class="text-muted" style="font-size: 12px; margin-left: 20px;">{{ $notification->created_at->diffForHumans() }}</small>
-                        <button class="btn btn-sm btn-outline-danger delete-notif ml-2" style="font-size: 12px;" data-id="{{ $notification->id }}">Delete</button>
+                <div class="card p-2 d-flex justify-content-between align-items-left shadow-sm" style="border-radius: 8px;">
+                    <div class="d-flex align-items-center d-flex justify-content-between">
+                        <div class="btn-group">
+                            <img src="{{ asset('images/notif-icon.png') }}" alt="Notification Icon" class="mr-2" style="width: 40px; height: 40px;">
+                            <p class="mb-0" style="font-size: 14px; margin-left: 5px; align-items: center;">{{ $notification->body }}</p>
+                        </div>
+                        <div class="btn-group">
+                            <small class="text-muted" style="font-size: 12px; margin-left: 20px;">{{ $notification->created_at->diffForHumans() }}</small>
+                            <button class="btn btn-sm btn-outline-danger delete-notif ml-2" style="font-size: 12px;" data-id="{{ $notification->id }}">Delete</button>
+                        </div>
                     </div>
                 </div>
             @if ($notification->url)

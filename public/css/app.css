@@ -412,10 +412,8 @@ body {
     height: 50px;
     margin: 0 auto 10px;
 } */
-/* Ensure event-box respects container and row boundaries */
 .event-box {
     max-width: 100%;
-    padding: 15px; /* Optional padding for a consistent look */
 }
 
 /* Day container styling */
@@ -425,7 +423,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    border-bottom-right-radius: 20%;
 }
 
 /* Button styling */
@@ -547,12 +545,11 @@ body {
 }
 .signinWelcome{ 
     white-space: pre-line;
-    color: #D3203A; 
+    color: #d98641; 
     font-size: 50px; 
     font-family: Poppins; 
     font-weight: 800; 
     line-height: 50px;
-    margin-left: 130px;
 }
 
 .custom-input {
@@ -565,7 +562,7 @@ body {
     height: 61.47px; 
     background: white; 
     border-radius: 6.87px; 
-    border: 1.03px #9B28A6 solid;
+    border: 1.03px #d98641 solid;
     margin-top: 25px;
     margin: 0 auto;
     gap: 10px;
@@ -573,9 +570,8 @@ body {
   
   .custom-input legend {
     text-align: justify; 
-    color: #9B28A6; 
+    color: #6F833F; 
     font-size: 21.42px; 
-    font-family: Poppins; 
     font-weight: 500; 
     line-height: 25.85px; 
     letter-spacing: 0.21px; 
@@ -591,14 +587,13 @@ body {
   }
 
 #logIn{
-    width: 156px; 
+    width: 130px; 
     height: 47px; 
     background: rgba(219, 103, 42, 0); 
     box-shadow: 0px 0.8526661992073059px 0.8526661992073059px rgba(0, 0, 0, 0.25); 
-    border-radius: 29.19px; border: 1.03px #84148E solid;
-    color: #84148E; 
+    border-radius: 29.19px; border: 1.03px #6F833F solid;
+    color: #6F833F; 
     font-size: 22.31px; 
-    font-family: Poppins; 
     font-weight: 500; 
     letter-spacing: 0.22px; 
     word-wrap: break-word;
@@ -606,7 +601,7 @@ body {
     margin: 0 auto;
 }
 #logIn:hover {
-    background: #84148E;
+    background: #6F833F;
     color: white;
 }
 .forgotpass{
@@ -620,9 +615,7 @@ body {
     word-wrap: break-word;
     /* margin-left: 77.61px; */
 }
-#signInForm{
-    margin-left: 194px;   
-}
+
 #signUpForm{
     margin-left: 194px;
 }
@@ -638,7 +631,7 @@ body {
   }
 
 .signUpStyle{
-    color: #D31D33; 
+    color: #6F833F; 
     font-family: Poppins; 
     font-size: 19.92px; 
     font-weight: 500; 
@@ -646,7 +639,7 @@ body {
     
 }
 .bannertextSign{
-    color: #84148E; 
+    color: #d98641; 
     font-size: 19.92px; 
     font-family: Poppins; 
     font-weight: 500; 
@@ -682,33 +675,31 @@ body {
     top: 0;
     left: 0;
     background-color: #f2f2f2;
+    box-shadow:  2px 4px rgba(0, 0, 0, 0.7);
     padding: 5px;
-    border-top-left-radius: 20px;
+    border-top-left-radius: 0px;
 }
 
 .event-info {
     text-align: center;
-    margin-top: 10px;
+    padding: 10px;
 }
 
 #event-button {
     margin: 0 auto;
     margin-top: 50px;
     width: 279.798px;
-    height: 42.234px;
+    height: 35px;
     display: block;
     justify-content: center;
     border-radius: 17.597px;
-    background: #D3203A;
-    border: #D3203A;
+    background: #D98641 ;
+    border: #D98641 ;
     color: #FEFEFE;
     text-shadow: 0px 3.519px 3.519px rgba(0, 0, 0, 0.25);
-    font-family: Poppins;
     font-size: 17.597px;
     font-style: normal;
-    font-weight: 600;
-    line-height: 19.611px; 
-    letter-spacing: 0.176px;   
+    font-weight: 600;  
 }
 
 /*---------------------------------------APPLICATION FORM SECTION START----------------------------------------------*/
@@ -1037,9 +1028,8 @@ body {
 
 /* Admin Profile Page */
 .profileH1 {
-    color: #AB2695;
+    color: #CF803E;
     text-align: center;
-    font-family: Poppins;
     font-size: 2em;
     font-style: normal;
     font-weight: 800;
@@ -1047,9 +1037,8 @@ body {
     margin-bottom: 10px;
 }
 .profileName{
-    color: #AB2695;
+    color: white;
     text-align: center;
-    font-family: Poppins;
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
@@ -1062,7 +1051,13 @@ body {
     justify-content: center;
     text-align: center;
     margin: 0 auto;
-    gap: 15%;
+}
+.profilediv {
+    width: 30%; 
+    border-radius: 8.342px 0px 0px 8.342px;
+    background: #DA8641;  
+    padding: 20px;
+    box-shadow: 4px 0px 0px 4px rgba(0, 0, 0, 0.25);
 }
 .upload-picture{
     width: 200.189px;
@@ -1073,7 +1068,6 @@ body {
     color: #AB2695;
     text-align: center;
     text-shadow: 0px 4.561px 4.561px rgba(0, 0, 0, 0.25);
-    font-family: Poppins;
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
@@ -1081,13 +1075,12 @@ body {
 .edit-button{
     width: 166px;
     height: 40px;
-    border-radius: 11.403px;
-    border: 1.14px solid #AB2695;
+    border-radius: 5.403px;
+    border: 1.14px solid #D98641;
     background: #F2F2F2;
-    color: #AB2695;
+    color: #D98641;
     text-align: center;
     text-shadow: 0px 4.561px 4.561px rgba(0, 0, 0, 0.25);
-    font-family: Poppins;
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
@@ -1098,12 +1091,11 @@ body {
     width: 166px;
     height: 40px;
     border-radius: 11.403px;
-    border: 1.14px solid #AB2695;
-    background: #AB2695; /* Matching the border color of the edit button */
+    border: 1.14px solid #D98641;
+    background: #D98641; /* Matching the border color of the edit button */
     color: #F2F2F2; /* Inverted the text and background color */
     text-align: center;
     text-shadow: 0px 4.561px 4.561px rgba(0, 0, 0, 0.25);
-    font-family: Poppins;
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
@@ -1120,17 +1112,21 @@ body {
 .save-button:active, .cancel-button:active {
     background: #d2188f; /* Darker pink for active state */
 }
+.profile-form {
+    margin-bottom: 40px;
+}
 
 .profile-form input[type="text"],
 .profile-input input[type="email"],
 .profile-form input[type="password"] {
-    width: 100%;
+    width: 90%;
     height: 40px;
-    border-radius: 11.289px;
-    border: 1.129px solid #AB2695;
+    border-radius: 5.289px;
+    border: 1.129px solid #D98641;
     background: #F2F2F2;
     margin-bottom: 10px;
-    padding: 1px;
+    padding: 5px;
+    color: rgba(0, 0, 0, 0.25);
 }
 
 .profile-form .grid-row{
@@ -1139,7 +1135,7 @@ body {
     gap: 20px;   
 }
 .profile-form .grid-row label {
-    color: #AB2695;
+    color: #D98641;
     text-align: justify;
     font-family: Poppins;
     font-size: 20px;
@@ -1161,13 +1157,18 @@ body {
 .profile-form.editing .cancel-button {
     display: inline; /* Show cancel button in editing mode */
 }
-
+.sign-out-button {
+    background: none;
+    border: none;
+    color: black;
+}
 /* Admin Profile Page END*/
 
 
 /* Notification Volunteer START*/
 #notification {
-    margin-top: 130px;
+    margin-top: 40px;
+    margin-bottom: 40px;
     width: 50%;
     height: 500px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);

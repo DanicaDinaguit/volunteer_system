@@ -69,7 +69,7 @@ class AdminController extends Controller
         try {
             // Format start and end DateTime to ISO 8601 format
             $startDateTime = Carbon::createFromFormat('Y-m-d H:i', $request->edate . ' ' . $request->timeStart)->format(\DateTime::ATOM);
-            $endDateTime = Carbon::createFromFormat('Y-m-d H:i', $request->edate . ' ' . $request->timeEnd)->format(\DateTime::ATOM);
+            $endDateTime = Carbon::createFromFormat('Y-m-d H:i', $request->edate . ' ' . $request->timeEnd)->format(\DateTime::ATOM); 
             if ($startDateTime >= $endDateTime) {
                 throw new \Exception('Start time must be earlier than end time.');
             }
@@ -254,8 +254,12 @@ class AdminController extends Controller
 
     // New Method for Notifications
     public function notifications()
-    {
+    {   
         $admin = Auth::guard('admin')->user();
+        // Handle the case where no user is authenticated
+        if (!$admin) {
+            return redirect()->route('admin.signin')->with('error', 'You need to be logged in to access this page.');
+        }
         $notifications = Notification::where('user_id', $admin->adminID)
                                      ->where('user_type', Admin::class)
                                      ->orderBy('created_at', 'desc')

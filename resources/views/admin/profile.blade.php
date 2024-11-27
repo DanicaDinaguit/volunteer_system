@@ -3,50 +3,7 @@
 @section('title', 'Admin Profile')
 
 @section('content')
-    <div style="margin-top: 110px; margin-left: 90%">
-        <!-- Sign Out Form -->
-        <form method="POST" action="{{ route('admin.logout') }}">
-            @csrf
-            <button type="submit" class="sign-out-button">
-                Sign Out 
-                <!-- Your SVG icon here -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="33" height="36" viewBox="0 0 33 36" fill="none">
-                    <g clip-path="url(#clip0_794_1825)" filter="url(#filter0_d_794_1825)">
-                        <g filter="url(#filter1_d_794_1825)">
-                        <path d="M16 4C9.383 4 4 9.383 4 16C4 22.617 9.383 28 16 28C20.05 28 23.64 25.988 25.813 22.906L24.188 21.75C23.2656 23.0647 22.0397 24.1374 20.6142 24.8773C19.1888 25.6172 17.606 26.0023 16 26C10.465 26 6 21.535 6 16C6 10.465 10.465 6 16 6C17.6059 5.99813 19.1886 6.38343 20.614 7.12326C22.0393 7.86309 23.2653 8.93564 24.188 10.25L25.813 9.094C24.7064 7.51956 23.2369 6.2347 21.5289 5.34805C19.8209 4.4614 17.9245 3.99902 16 4ZM23.344 11.281L21.906 12.719L24.188 15H12V17H24.188L21.906 19.281L23.344 20.719L27.344 16.719L28.03 16L27.343 15.281L23.344 11.281Z" fill="#AB2695"/>
-                        </g>
-                    </g>
-                    <defs>
-                        <filter id="filter0_d_794_1825" x="-4" y="0" width="40" height="40" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                        <feOffset dy="4"/>
-                        <feGaussianBlur stdDeviation="2"/>
-                        <feComposite in2="hardAlpha" operator="out"/>
-                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_794_1825"/>
-                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_794_1825" result="shape"/>
-                        </filter>
-                        <filter id="filter1_d_794_1825" x="0" y="4" width="32.0298" height="32" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                        <feOffset dy="4"/>
-                        <feGaussianBlur stdDeviation="2"/>
-                        <feComposite in2="hardAlpha" operator="out"/>
-                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_794_1825"/>
-                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_794_1825" result="shape"/>
-                        </filter>
-                        <clipPath id="clip0_794_1825">
-                        <rect width="32" height="32" fill="white"/>
-                        </clipPath>
-                    </defs>
-                </svg>
-            </button>
-        </form>
-    </div>
-
-    <h1 class="profileH1">Profile Information</h1>
+    <h1 class="profileH1" style="margin-top: 40px;">Profile Information</h1>
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -59,23 +16,38 @@
     <form class="profile-form" method="POST" action="{{ route('admin.updateProfile') }}">
         @csrf
         <div id="profile">
-            <div>
-                <h3 class="profileName">FULL NAME</h3>
-                <!-- Profile Image -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="255" height="255" viewBox="0 0 255 255" fill="none">
-                    <g clip-path="url(#clip0_811_217)">
-                        <path d="M168.11 84.7702C168.11 96.012 163.644 106.793 155.695 114.743C147.746 122.692 136.964 127.158 125.722 127.158C114.481 127.158 103.699 122.692 95.7499 114.743C87.8008 106.793 83.335 96.012 83.335 84.7702C83.335 73.5284 87.8008 62.747 95.7499 54.7978C103.699 46.8486 114.481 42.3828 125.722 42.3828C136.964 42.3828 147.746 46.8486 155.695 54.7978C163.644 62.747 168.11 73.5284 168.11 84.7702Z" fill="#AB2695"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M121.398 211.844C64.8796 209.577 19.7529 163.035 19.7529 105.961C19.7529 47.4342 67.195 -0.0078125 125.721 -0.0078125C184.248 -0.0078125 231.69 47.4342 231.69 105.961C231.69 164.487 184.248 211.929 125.721 211.929H124.27C123.309 211.929 122.352 211.901 121.398 211.844ZM57.7214 172.827C56.9291 170.551 56.6594 168.127 56.9324 165.733C57.2053 163.339 58.0139 161.038 59.2981 158.999C60.5823 156.961 62.3091 155.238 64.3504 153.958C66.3917 152.678 68.695 151.874 71.0893 151.607C112.396 147.034 139.301 147.447 180.406 151.702C182.804 151.952 185.113 152.745 187.157 154.022C189.202 155.299 190.928 157.026 192.205 159.07C193.481 161.115 194.274 163.424 194.523 165.822C194.772 168.22 194.471 170.643 193.642 172.906C211.26 155.082 221.126 131.022 221.093 105.961C221.093 53.289 178.393 10.589 125.721 10.589C73.0497 10.589 30.3498 53.289 30.3498 105.961C30.3498 132.008 40.793 155.617 57.7214 172.827Z" fill="#AB2695"/>
-                    </g>
-                    <defs>
-                        <clipPath id="clip0_811_217">
-                        <rect width="254.324" height="254.324" fill="white"/>
-                        </clipPath>
-                    </defs>
-                </svg><br>
-                <button class="upload-picture">Upload Picture</button>
+            <div class="profilediv">
+                <svg xmlns="http://www.w3.org/2000/svg" width="83" height="83" viewBox="0 0 83 83" fill="none">
+                    <path d="M58.2231 33.3178C58.2231 37.6983 56.4829 41.8995 53.3854 44.997C50.2878 48.0945 46.0867 49.8347 41.7061 49.8347C37.3256 49.8347 33.1244 48.0945 30.0269 44.997C26.9294 41.8995 25.1892 37.6983 25.1892 33.3178C25.1892 28.9372 26.9294 24.7361 30.0269 21.6385C33.1244 18.541 37.3256 16.8008 41.7061 16.8008C46.0867 16.8008 50.2878 18.541 53.3854 21.6385C56.4829 24.7361 58.2231 28.9372 58.2231 33.3178Z" fill="white"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M40.0205 82.8356C17.9973 81.9519 0.412964 63.8163 0.412964 41.5763C0.412964 18.7706 18.8995 0.283997 41.7053 0.283997C64.511 0.283997 82.9976 18.7706 82.9976 41.5763C82.9976 64.382 64.511 82.8686 41.7053 82.8686H41.1396C40.7652 82.8686 40.3922 82.8576 40.0205 82.8356ZM15.208 67.6318C14.8993 66.7451 14.7942 65.8004 14.9005 64.8676C15.0069 63.9348 15.322 63.038 15.8224 62.2437C16.3228 61.4493 16.9957 60.7779 17.7911 60.2792C18.5865 59.7805 19.484 59.4673 20.417 59.363C36.5128 57.5812 46.9969 57.7422 63.0142 59.4001C63.9484 59.4974 64.8482 59.8066 65.6448 60.3042C66.4415 60.8018 67.1142 61.4746 67.6115 62.2714C68.1089 63.0682 68.4179 63.968 68.5149 64.9023C68.612 65.8366 68.4946 66.7807 68.1716 67.6627C75.0367 60.7174 78.8811 51.3419 78.8684 41.5763C78.8684 21.052 62.2296 4.41323 41.7053 4.41323C21.1809 4.41323 4.54219 21.052 4.54219 41.5763C4.54219 51.726 8.61155 60.9259 15.208 67.6318Z" fill="white"/>
+                </svg><br><br>
+                <h3 class="profileName">{{ $admin->first_name }} {{ $admin->middle_name }} {{ $admin->last_name }}</h3>
+                <!-- LOG OUT -->
+                <form method="POST" action="{{ route('admin.logout') }}">
+                    @csrf
+                    <button type="submit" class="sign-out-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18" fill="none">
+                            <g filter="url(#filter0_d_1628_1703)">
+                                <path d="M3.79549 3.63294H4.75988C4.82572 3.63294 4.88745 3.60413 4.92861 3.55337C5.02464 3.43677 5.12752 3.32428 5.2359 3.21728C5.67913 2.77358 6.20415 2.41999 6.78193 2.17607C7.38051 1.92325 8.02387 1.79355 8.67366 1.79471C9.33076 1.79471 9.96728 1.92366 10.5654 2.17607C11.1432 2.41999 11.6682 2.77358 12.1114 3.21728C12.5555 3.65947 12.9095 4.18357 13.154 4.76057C13.4078 5.35868 13.5354 5.99383 13.5354 6.65093C13.5354 7.30802 13.4064 7.94317 13.154 8.54128C12.9098 9.11882 12.5586 9.63874 12.1114 10.0846C11.6642 10.5304 11.1443 10.8816 10.5654 11.1258C9.96728 11.3782 9.33076 11.5071 8.67366 11.5071C8.01656 11.5071 7.38004 11.3796 6.78193 11.1258C6.20302 10.8816 5.68311 10.5304 5.2359 10.0846C5.12752 9.9762 5.02601 9.86371 4.92861 9.74848C4.88745 9.69772 4.82435 9.66892 4.75988 9.66892H3.79549C3.70907 9.66892 3.65557 9.76494 3.70358 9.83765C4.75576 11.4728 6.59673 12.5552 8.68875 12.5497C11.9756 12.5415 14.6109 9.87331 14.5779 6.59057C14.545 3.35995 11.9139 0.75213 8.67366 0.75213C6.58713 0.75213 4.75439 1.83312 3.70358 3.4642C3.65694 3.53691 3.70907 3.63294 3.79549 3.63294ZM2.57595 6.73735L4.52255 8.27378C4.59526 8.3314 4.70089 8.27927 4.70089 8.18736V7.14478H9.00838C9.06874 7.14478 9.11813 7.09539 9.11813 7.03503V6.26682C9.11813 6.20646 9.06874 6.15707 9.00838 6.15707H4.70089V5.1145C4.70089 5.02258 4.59389 4.97046 4.52255 5.02807L2.57595 6.5645C2.56283 6.57477 2.55223 6.58788 2.54493 6.60286C2.53763 6.61783 2.53384 6.63427 2.53384 6.65093C2.53384 6.66758 2.53763 6.68402 2.54493 6.69899C2.55223 6.71397 2.56283 6.72708 2.57595 6.73735Z" fill="white"/>
+                            </g>
+                            <defs>
+                                <filter id="filter0_d_1628_1703" x="0.286552" y="0.752136" width="16.539" height="16.2921" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                <feOffset dy="2.24726"/>
+                                <feGaussianBlur stdDeviation="1.12363"/>
+                                <feComposite in2="hardAlpha" operator="out"/>
+                                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1628_1703"/>
+                                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1628_1703" result="shape"/>
+                                </filter>
+                            </defs>
+                        </svg>
+                        Log Out 
+                    </button>
+                </form>
             </div>
-            <div>
+            <div style="width: 60%; padding: 40px; background-color: #FFF;">
                 <div class="profile-input">
                     <div class="grid-row">
                         <label for="first-name">First Name:</label>
@@ -110,11 +82,11 @@
                         <input type="password" id="confirm-password" name="password_confirmation" placeholder="Confirm new password">
                     </div>
                 </div>  
+                <input type="submit" class="save-button" value="Save Changes" style="display: none;">
+                <button type="button" class="cancel-button" style="display: none;">Cancel</button>
+                <button type="button" class="edit-button">Edit Profile</button>
             </div>
         </div>
-        <input type="submit" class="save-button" value="Save Changes" style="display: none;">
-        <button type="button" class="cancel-button" style="display: none;">Cancel</button>
-        <button type="button" class="edit-button">Edit Profile</button>
     </form>        
     
     <script>

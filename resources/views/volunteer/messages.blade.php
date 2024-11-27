@@ -3,7 +3,7 @@
 @section('title', 'Volunteer Messages')
     
 @section('content')
-    <div id="messages" style="margin: 0 auto; margin-top: 130px !important; display: flex; border-radius: 8px; width: 80%;">
+    <div id="messages" style="margin: 0 auto; margin-top: 40px !important;margin-bottom: 40px !important;  display: flex; border-radius: 8px; width: 80%;">
         <div class="message-recepient">
             <div class="recepient-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <div><h2>Messages</h2></div>

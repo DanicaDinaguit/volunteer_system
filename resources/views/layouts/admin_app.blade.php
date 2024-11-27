@@ -7,7 +7,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin App')</title>
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    @yield('styles') 
     
     <!-- Favicon for different browsers -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
@@ -19,17 +18,17 @@
     <!-- ICO for older browsers -->
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
-    <!-- Google Fonts -->
+    <!-- Font CSS -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap">
-    <!-- Include the Html5-qrcode library -->
-    <script src="{{ asset('js/html5-qrcode.min.js')}}"></script>
+    
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- AJAX CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
+    @yield('styles')
     <!-- <link href="{{ asset('css/fullcalendar.min.css') }}" rel="stylesheet"> -->
     <!-- <link href="{{ asset('css/fullcalendar.print.min.css') }}" rel="stylesheet" media="print"> -->
 </head>
@@ -112,6 +111,10 @@
             </div>  
         </div>
     </nav>
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn" class="btn btn-primary">
+        ↑
+    </button>
     <div>
         <main>
             @yield('content')
@@ -121,20 +124,22 @@
         <!-- footer -->
         @include('layouts.footer')
     </div>
-    <!-- JS -->
+    <!-- Custom JS -->
     <script src="{{ asset('js/index.js') }}"></script>
+    <!-- JQuery JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- AJAX JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
     <!-- FullCalendar -->
     <script src="https://cdn.jsdelivr.net/combine/npm/fullcalendar@6.1.15,npm/fullcalendar@6.1.15/index.global.min.js"></script>
     <!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    @yield('scripts')
+    
 
     <!-- Bootstrap JS Bundle (includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://raw.githubusercontent.com/mebjas/html5-qrcode/master/minified/html5-qrcode.min.js"></script>
     <script src="{{ asset('js/html5-qrcode.min.js')}}"></script>
+    @yield('scripts')
 </body>
 </html>
