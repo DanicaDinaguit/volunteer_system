@@ -9,6 +9,7 @@ use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Admin;
+use App\Models\Partner;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
@@ -26,16 +27,16 @@ class AdminController extends Controller
         $response = $googleCalendarController->fetchEvents();
         $events = json_decode($response->getContent(), true);
         \Log::info('Event:', ['events' => $events]);
-
+        $partners = Partner::all();
         // Handle the case where there is user is authenticated either admin or volunteer
         if ($user) {
             // Redirect based on whether the user is an admin or volunteer
             if (\Auth::guard('admin')->check()) {
-                return view('admin.calendar', compact('events'));
+                return view('admin.calendar', compact('events', 'partners'));
             } elseif (\Auth::guard('web')->check()) {
-                return view('volunteer.calendar', compact('events'));
+                return view('volunteer.calendar', compact('events', 'partners'));
             } else {
-                return view('calendar', compact('events'));
+                return view('calendar', compact('events', 'partners'));
             }
         } else {
             // Redirect based on whether the user is an admin or volunteer

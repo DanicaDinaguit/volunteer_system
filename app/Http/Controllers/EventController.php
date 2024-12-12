@@ -51,6 +51,9 @@ class EventController extends Controller
 
     public function storeEvent(Request $request)
     {
+        // Check if the request is from JavaScript 
+        $isJavaScriptRequest = $request->header('X-Custom-Header') === 'JavaScriptRequest';
+        \Log::info('Request Headers:', $request->headers->all());
         // Validate input
         $request->validate([
             'ename' => 'required|string|max:255',
@@ -118,12 +121,14 @@ class EventController extends Controller
             DB::commit();
     
             // Return response based on request type
-            if ($request->ajax()) {
+            if ($isJavaScriptRequest) {
                 // For AJAX requests (e.g., calendar)
+                \Log::info('Returning JSON success response for javaScript request.');
                 return response()->json(['success' => true, 'event' => $event]);
             } else {
                 // For traditional requests (e.g., dashboard)
-                return redirect()->route('event.dashboard')->with('success', 'Event created successfully!');
+                \Log::info('Returning redirect response for traditional request.');
+                return redirect()->route('admin.event')->with('success', 'Event created successfully!');
             }
     
         } catch (\Exception $e) {

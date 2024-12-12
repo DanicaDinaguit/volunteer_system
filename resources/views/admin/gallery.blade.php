@@ -3,25 +3,11 @@
 @section('title', 'Admin Gallery of Events')
     
 @section('content')
-<div id="gallery-bg" class="container-fluid py-5" style="">
+<script async defer src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
+    <div id="gallery-bg" class="container-fluid py-5">
         <div class="gallery container">
             <h1 class="text-center fw-bold mb-4">Gallery of Events</h1>
-            
-            <!-- Search Bar -->
-            <div class="d-flex justify-content-center mb-4">
-                <div class="search-bar d-flex align-items-center" style="position: relative; max-width: 400px; width: 100%;">
-                    <!-- <img src="Images/search-icon.png" class="search-icon" alt="Search Icon" style="position: absolute; left: 10px; width: 20px;"> -->
-                    <input type="text" id="searchYear" class="form-control ps-5" placeholder="Search by Year or Date" style="border-radius: 30px;">
-                </div>
-            </div>
-            
-            <!-- Gallery Images -->
-            <div id="gallery-results">
-                <div id="gallery-images" class="row g-4 justify-content-center">
-                    <!-- Sample Gallery Item -->
-                    <!-- Use a loop to populate images dynamically from the Facebook API -->
-                </div>
-            </div>
+            <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto.php%3Ffbid%3D122109809246597533%26set%3Da.122109810062597533%26type%3D3&show_text=false&width=500" width="500" height="663" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
         </div>
     </div>
 @endsection       

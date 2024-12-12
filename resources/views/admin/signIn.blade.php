@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap">
 
 </head>
-<body>
+<body style="padding: 0px;">
         <!-- div for Sign In Page for Admin-->
     <div id="signinDiv">
-        <div>
+        <div style="display: flex; align-items: center; flex-direction: column; justify-content: center; width: 50%;">
             <div style="display: flex; align-items: center;">
                 <img src="{{ asset('images/LOGO1.png') }}" alt="Logo" style="margin-left: 15px; margin-top: 10px; width: 64px; height: 64px;">
                 <h1 class="signinWelcome" style="text-align: center;">Welcome Back!</h1>
@@ -41,13 +41,10 @@
                 <p class="bannertextSign">Not a SOCI member yet? <a href="{{ route('application') }}" class="signUpStyle">Click here to apply!</a></p>
             </div>
         </div>
-        <div>
-            <img src="{{ asset('images/bannerImg.png') }}" class="bannerImg" alt="Banner Image">
+        <div style="width: 50%; text-align: center;">
+            <img src="{{ asset('images/bannerImgs.png') }}" class="bannerImg" alt="Banner Image" width="80%">
         </div>
     </div>
-
-    @include('layouts.footer')
-
     <script src="{{ asset('js/index.js') }}"></script>
 </body>
 </html>

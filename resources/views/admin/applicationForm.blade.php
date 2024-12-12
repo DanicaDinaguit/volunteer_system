@@ -58,30 +58,30 @@
         <h3>Personal Information</h3>
         <div class="form-group">
             <label>Name: </label>
-            <span>{{ $applicant->name }}</span>
+            <span>{{ $applicant->first_name }} {{ $applicant->middle_name }} {{ $applicant->last_name }}</span>
         </div>
         <div class="form-group">
             <label>Address: </label>
-            <span>{{ $applicant->address }}</span>
+            <span>{{ $applicant->street_address }}, {{ $applicant->city }}, {{ $applicant->state }}, {{ $applicant->stcountry }}, {{ $applicant->postal_code }}</span>
         </div>
         <div class="form-group">
             <label>Mobile Number: </label>
-            <span>{{ $applicant->mobile_number }}</span>
+            <span>{{ $applicant->phone_number }}</span>
         </div>
         <div class="form-group">
             <label>Email Address: </label>
-            <span>{{ $applicant->email }}</span>
+            <span>{{ $applicant->email_address }}</span>
         </div>
         <div class="form-group">
             <label>Age: </label>
-            <span>{{ $applicant->age }}</span>
-            <label>Gender: </label>
+            <span>{{ \Carbon\Carbon::parse($applicant->birthdate)->age }}</span>
+            <label>  Gender: </label>
             <span>{{ $applicant->gender }}</span>
         </div>
         <div class="form-group">
             <label>Religion: </label>
             <span>{{ $applicant->religion }}</span>
-            <label>Civil Status: </label>
+            <label>  Civil Status: </label>
             <span>{{ $applicant->civil_status }}</span>
         </div>
         <div class="form-group">

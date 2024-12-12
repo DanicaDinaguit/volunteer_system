@@ -3,22 +3,10 @@
 @section('title', 'SOCI - Gallery')
     
 @section('content')
-    <div id="gallery-bg" style="margin-bottom: 110px;">
-        <div class="gallery" style="margin-top: 130px; margin-left: 100px; margin-right: 100px;">
-            <h1>Gallery of Events</h1>
-            <div class="search-bar">
-                <img src="Images/search-icon.png" class="search-icon" alt="Search Icon">
-                <input type="text" class="search-input" placeholder="Search Year">
-            </div>
-            <div id="gallery-results">
-                <div>
-                    <img src="" alt="Calendar Select Date Icon">
-                    <p>Select Date</p>
-                </div>
-                <div id="gallery-images">
-
-                </div>
-            </div>
+    <div id="gallery-bg" class="container-fluid py-5">
+        <div class="gallery container">
+            <h1 class="text-center fw-bold mb-4">Gallery of Events</h1>
+            <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto.php%3Ffbid%3D122109809246597533%26set%3Da.122109810062597533%26type%3D3&show_text=false&width=500" width="500" height="663" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
         </div>
     </div>
 @endsection       

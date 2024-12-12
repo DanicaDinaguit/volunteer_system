@@ -18,19 +18,19 @@ class MessageController extends Controller
 {
 
     public function index()
-    {
-        $user = $this->currentUser();
-
+    {  
         // Handle the case where no user is authenticated
+        $user = $this->currentUser();
         if (!$user) {
-            // Redirect based on whether the user is an admin or volunteer
-            if (\Auth::guard('admin')->check()) {
-                return redirect()->route('admin.signin')->with('error', 'You need to be logged in to access this page.');
-            } elseif (\Auth::guard('web')->check()) {
-                return redirect()->route('volunteer.signin')->with('error', 'You need to be logged in to access this page.');
+            // Check which guard should redirect the user
+            if (\Auth::guard('admin')->viaRemember() || \Auth::guard('admin')->guest()) {
+                // Redirect admin users
+                return redirect()->route('admin.signin')->with('error', 'Your session has expired. Please log in again.');
+            } elseif (\Auth::guard('web')->viaRemember() || \Auth::guard('web')->guest()) {
+                // Redirect volunteer users
+                return redirect()->route('volunteer.signin')->with('error', 'Your session has expired. Please log in again.');
             }
         }
-
         // Get or create the admin group chat
         $adminGroupChat = $this->getOrCreateAdminGroupChat();
 
@@ -205,17 +205,22 @@ class MessageController extends Controller
     }
 
 
-    public function show($id)
+    public function show($id, Request $request)
     {
         \Log::info('ID:', ['id' => $id]);
     
         $currentUser = $this->currentUser();
+        \Log::info('Crrent user retrieved for messages:', ['user' => $currentUser->adminID ?? $currentUser->memberCredentialsID]);
+        // Number of messages to fetch per request
+        $messagesPerPage = 7;
     
-        // Retrieve messages by thread ID
+        // Get the page from the request or default to 1
+        $page = $request->query('page', 1);
+    
         $messages = Message::where('thread_id', $id)
-            ->orderBy('created_at', 'desc') // Show oldest messages first
-            ->get();
-    
+                        ->orderBy('created_at', 'desc')
+                        ->paginate($messagesPerPage, ['*'], 'page', $page);
+        log::info($messages);
         // Initialize variables for the other user's details
         $otherUserName = '';
         $otherUserID = '';
@@ -228,38 +233,42 @@ class MessageController extends Controller
         if ($thread) {
             // Handle the case where it's a group chat
             if ($thread->is_group_chat) {
-                // Group chat - use thread name as the other participant's name
                 $otherUserName = $thread->name;
             } else {
                 // Direct message - determine the other user details
-                $message = $messages->first();
+                $firstMessage = $messages->last(); // Get the oldest message in this batch
     
-                if ($currentUser->adminID === $message->sender_id) {
-                    // Current user is the sender
-                    $otherUserName = $message->receiver->first_name . ' ' . $message->receiver->last_name;
-                    $otherUserID = $message->receiver_id;
-                    $otherUserType = $message->receiver_type;
-                } else {
-                    // Current user is the receiver
-                    $otherUserName = $message->sender->first_name . ' ' . $message->sender->last_name;
-                    $otherUserID = $message->sender_id;
-                    $otherUserType = $message->sender_type;
+                if ($firstMessage) {
+                    \Log::info('First Message:', ['message' => $firstMessage]);
+                    if ($currentUser->adminID === $firstMessage->sender_id) {
+                        $otherUserName = $firstMessage->receiver->first_name . ' ' . $firstMessage->receiver->last_name;
+                        $otherUserID = $firstMessage->receiver_id;
+                        $otherUserType = $firstMessage->receiver_type;
+                    } else {
+                        $otherUserName = $firstMessage->sender->first_name . ' ' . $firstMessage->sender->last_name;
+                        $otherUserID = $firstMessage->sender_id;
+                        $otherUserType = $firstMessage->sender_type;
+                    }
                 }
             }
         } else {
             \Log::error('Thread not found for ID: ' . $id);
             return response()->json(['error' => 'Thread not found.'], 404);
         }
-    
-        // Return response with the appropriate data
+        \Log::info('Messages class:', ['class' => get_class($messages)]);
         return response()->json([
-            'messages' => $messages,
+            'messages' => $messages->map(function ($message) {
+                return array_merge($message->toArray(), [
+                    'time_human_readable' => $message->created_at->diffForHumans()
+                ]);
+            }), // Paginated messages
             'other_user_name' => $otherUserName,
             'other_user_id' => $otherUserID,
             'other_user_type' => $otherUserType,
-            'group_chat_name' => $thread->name ?? null, // If it's a group chat
+            'group_chat_name' => $thread->name ?? null,
             'group_id' => $threadId,
             'current_user_id' => $currentUser->adminID ?? $currentUser->memberCredentialsID,
+            'has_more_pages' => $messages->hasMorePages(), // To indicate if there are older messages
         ]);
     }
     
@@ -279,21 +288,29 @@ class MessageController extends Controller
 
     public function destroy($id)
     {
-        Message::findOrFail($id)->delete();
-        return redirect()->route('admin.messages')->with('success', 'Message deleted successfully!');
+        $thread = MessageThread::find($id);
+        $message = Message::where('thread_id', $id);
+        if (!$thread) {
+            return response()->json(['error' => 'Message thread not found.'], 404);
+        }
+
+        $thread->delete();
+        $message->delete();
+        return response()->json(['success' => 'Message thread deleted successfully.'], 200);
     }
 
     private function getOrCreateAdminGroupChat()
     {
-        $user = $this->currentUser();
-
         // Handle the case where no user is authenticated
+        $user = $this->currentUser();
         if (!$user) {
-            // Redirect based on whether the user is an admin or volunteer
-            if (\Auth::guard('admin')->check()) {
-                return redirect()->route('admin.signin')->with('error', 'You need to be logged in to access this page.');
-            } elseif (\Auth::guard('web')->check()) {
-                return redirect()->route('volunteer.signin')->with('error', 'You need to be logged in to access this page.');
+            // Check which guard should redirect the user
+            if (\Auth::guard('admin')->viaRemember() || \Auth::guard('admin')->guest()) {
+                // Redirect admin users
+                return redirect()->route('admin.signin')->with('error', 'Your session has expired. Please log in again.');
+            } elseif (\Auth::guard('web')->viaRemember() || \Auth::guard('web')->guest()) {
+                // Redirect volunteer users
+                return redirect()->route('volunteer.signin')->with('error', 'Your session has expired. Please log in again.');
             }
         }
         // Check if a group chat with the name "SOCI Group Chat" already exists
@@ -314,7 +331,7 @@ class MessageController extends Controller
 
         // Check if the current user is already a participant of the group chat
         $isParticipant = MessageThreadParticipant::where('thread_id', $adminGroupChat->id)
-            ->where('participant_id', $user->adminID ?? $user->memberCredentialsID ?? '')
+            ->where('participant_id', $user->adminID ?? $user->memberCredentialsID)
             ->where('participant_type', $this->getSenderType()) // Check the type (admin/volunteer)
             ->exists();
             \Log::info('partcipant :', ['partcipant' => $isParticipant]);

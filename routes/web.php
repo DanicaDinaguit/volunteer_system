@@ -73,7 +73,7 @@ Route::prefix('admin')->group(function () {
     ->name('admin.getApplicantDetails');
     Route::get('/applicationForm', [ApplicationController::class, 'formApplication'])->name('admin.applicationForm');
     Route::get('/applicationForm/{memberApplicationID}', [ApplicationController::class, 'download'])->name('admin.download');
-
+    Route::get('/search-applications', [ApplicationController::class, 'search'])->name('applications.search');
     
     // Admin Messages Page
     // Route::get('/messages', [AdminController::class, 'messages'])->name('admin.messages');
@@ -83,7 +83,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/messages/{id}', [MessageController::class, 'show'])->name('admin.show');
     Route::get('/search-users', [MessageController::class, 'searchUsers'])->name('admin.searchUsers');
     // Route::put('/messages/{id}', [MessageController::class, 'update'])->name('messages.update');
-    Route::delete('/messages/{id}', [MessageController::class, 'destroy'])->name('messages.destroy');
+    Route::delete('/messages/{id}', [MessageController::class, 'destroy'])->name('admin.destroy');
    
     Route::post('/approve-application/{id}', [ApplicationController::class, 'approveApplication'])->name('admin.approveApplication');
     Route::post('/reject-application/{id}', [ApplicationController::class, 'rejectApplication'])->name('admin.rejectApplication');

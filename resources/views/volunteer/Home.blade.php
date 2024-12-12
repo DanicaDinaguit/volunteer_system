@@ -133,26 +133,6 @@
             </div>
         </div>
     </div>
-    <!-- OTHER PROGRAMS -->
-    <!-- <div class="programs" 
-        style="
-        background: url('{{ asset('images/carousel-images/carousel-img3.svg') }}') no-repeat center center/cover;"> 
-        <div class="container py-5">
-                <div class="col-12 px-lg-5">
-                    <div class="program-box mx-5 px-5 py-4 h-auto rounded-4 d-flex flex-column align-items-center text-center">
-                        <h2>Other Programs</h2>
-                        <ul class="text-start mt-3 ps-3 fw-semibold">
-                            <li><i class="bi bi-caret-right-fill"></i> Values and Education</li>
-                            <li><i class="bi bi-caret-right-fill"></i> Partnership and Development</li>
-                            <li><i class="bi bi-caret-right-fill"></i> Environment and Health</li>
-                            <li><i class="bi bi-caret-right-fill"></i> Social Awareness and Concern</li>
-                            <li><i class="bi bi-caret-right-fill"></i> Skills and Livelihood</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <!-- BECOME A MEMBER SECTION -->
     <div class="application-preview" 
         style="

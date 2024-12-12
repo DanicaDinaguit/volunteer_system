@@ -402,16 +402,7 @@ body {
     background-color: #6b401c !important;
     transform: scale(1.05) !important;
 }
-/* .event-box .day-container {
-    font-size: 1.5rem;
-    color: #333;
-    background-color: #EEE;
-    padding: 10px;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    margin: 0 auto 10px;
-} */
+
 .event-box {
     max-width: 100%;
 }
@@ -904,7 +895,6 @@ body {
 /*------------------------------------ABOUT SECTION END-------------------------------------------*/
 /*------------------------------------GALLERY SECTION START-------------------------------------------*/
 #gallery-bg{
-    margin-top: 110px;
     background-image: url('/images/gallery-bg.png');
     background-size: 100%;
 }
@@ -942,7 +932,7 @@ body {
 }
 
 .gallery h1 {
-    color: #AB2695;
+    color: #D98641;
     font-size: 30px;
     font-style: normal;
     font-weight: 800;
@@ -1158,9 +1148,16 @@ body {
     display: inline; /* Show cancel button in editing mode */
 }
 .sign-out-button {
-    background: none;
-    border: none;
-    color: black;
+    background: #6f833f;
+    border: #6f833f;
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+.sign-out-button:hover {
+    background: #8a9f59;
+    border: #8a9f59;
+    color: white;
 }
 /* Admin Profile Page END*/
 
@@ -1407,7 +1404,6 @@ body {
 #messages {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 .recepient-name, .group-message {
@@ -1435,7 +1431,7 @@ body {
     justify-content: space-between;
 }
 .message-recepient{
-    width: 25%; 
+    width: 30%; 
     border-right: 1px solid #ddd; 
     /* border-radius: 13.655px;  */
     border-top-left-radius: 13.655px;
@@ -1518,7 +1514,7 @@ body {
     border-radius: 10px;
     background: #F5E0E2;
     box-shadow: 0px 2.434px 2.434px 0px rgba(0, 0, 0, 0.25);
-    width:550px;
+    width:100%;
     height: 50px;
     margin-right: 5px;
 }

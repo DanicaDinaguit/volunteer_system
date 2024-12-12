@@ -113,7 +113,7 @@
                 </div> -->
                 <form id="message-form">
                     @csrf
-                    <div class="message-input">
+                    <div class="message-input" style="width: 100%">
                         <input type="text" name="message_content" id="message_content" required>
                     </div>
                     <input type="hidden" name="receiver_id" id="receiver_id" value="{{ $receiver_id ?? '' }}">

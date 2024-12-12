@@ -218,6 +218,16 @@ class MemberController extends Controller
     public function notifications()
     {
         $volunteer = Auth::guard('web')->user();
+        if (!$volunteer) {
+            // Check which guard should redirect the user
+            if (\Auth::guard('admin')->viaRemember() || \Auth::guard('admin')->guest()) {
+                // Redirect admin users
+                return redirect()->route('admin.signin')->with('error', 'Your session has expired. Please log in again.');
+            } elseif (\Auth::guard('web')->viaRemember() || \Auth::guard('web')->guest()) {
+                // Redirect volunteer users
+                return redirect()->route('volunteer.signin')->with('error', 'Your session has expired. Please log in again.');
+            }
+        }
         $notifications = Notification::where('user_id', $volunteer->memberCredentialsID)
                                      ->where('user_type', MemberCredential::class)
                                      ->orderBy('created_at', 'desc')

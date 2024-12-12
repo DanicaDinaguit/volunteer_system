@@ -72,12 +72,15 @@
                                 <label for="elocation" class="form-label">Location</label>
                                 <input type="text" id="elocation" name="elocation" class="form-control" required>
                             </div>
-
                             <div class="col-md-6">
                                 <label for="epartner" class="form-label">Partner/s</label>
-                                <input type="text" id="epartner" name="epartner" class="form-control" required>
+                                <select id="epartner" name="epartner" class="form-select" required>
+                                    <option value="">Select a Partner</option>
+                                    @foreach($partners as $partner)
+                                        <option value="{{ $partner->partner_name }}">{{ $partner->partner_name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-
                             <!-- Submit Button -->
                             <div class="col-md-12">
                                 <button type="submit" id="createEventButton" class="btn btn-success">
@@ -157,29 +160,6 @@
                             }
                         })
                         .catch(error => console.error('Error:', error));
-                    // var eventModal = new bootstrap.Modal(document.getElementById('eventModal'));
-                    // document.getElementById('modalTitle').innerText = event.title;
-                    // document.getElementById('modalDescription').innerText = event.extendedProps.description || 'No description';
-                    // document.getElementById('modalStart').innerText = event.start.toISOString();
-                    // document.getElementById('modalEnd').innerText = event.end ? event.end.toISOString() : 'Not specified';
-                    // eventModal.show();
-
-                    // /document.getElementById('deleteEventButton').onclick = function() {
-                    //     if (confirm('Are you sure you want to delete this event?')) {
-                    //         fetch('/admin/events/' + event.id, {
-                    //             method: 'DELETE',
-                    //             headers: {
-                    //                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    //                 'Content-Type': 'application/json'
-                    //             }
-                    //         }).then(response => response.json()).then(data => {
-                    //             if (data.success) {
-                    //                 event.remove();
-                    //                 eventModal.hide();
-                    //             }
-                    //         });
-                    //     }
-                    // };
                 },
                 eventDrop: function(info) {
                     var event = info.event;
@@ -222,18 +202,10 @@
                     createModal.show();
 
                     document.getElementById('event-form').reset();
+                    document.getElementById('edate').value = info.dateStr + 'T00:00';
                     document.getElementById('timeStart').value = info.dateStr + 'T00:00';
                     document.getElementById('timeEnd').value = info.dateStr + 'T23:59';
                 },
-                // events: function(fetchInfo, successCallback, failureCallback) {
-                //     fetch('/admin/events')
-                //         .then(response => response.json())
-                //         .then(data => {
-                //             console.log(data);
-                //             successCallback(data);
-                //         })
-                //         .catch(failureCallback);
-                // }
             });
 
             calendar.render();
@@ -265,6 +237,7 @@
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'X-Custom-Header': 'JavaScriptRequest'
                     },
                     body: formData
                 }).then(response => response.json()).then(data => {

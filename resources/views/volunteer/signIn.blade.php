@@ -10,7 +10,7 @@
 <body style="padding: 0px;">
     <!-- div for Sign In for Volunteers-->
     <div id="signinDiv">
-        <div style="display: flex; align-items: center; flex-direction: column; justify-content: center; width: 100%;">
+        <div style="width: 50% !important; display: flex; align-items: center; flex-direction: column; justify-content: center; width: 100%;">
             <div style="display: flex; align-items: center;">
                 <img src="{{ asset('images/LOGO1.png') }}" alt="Logo" style="margin-left: 15px; margin-top: 10px; width: 64px; height: 64px;">
                 <h1 class="signinWelcome" style="text-align: center;">Welcome Back!</h1>
@@ -36,8 +36,8 @@
             </div>
         </div>
 
-        <div>
-            <img src="{{ asset('images/bannerImg.png') }}" class="bannerImg" alt="Banner Image">
+        <div style="width: 50%; text-align: center;">
+            <img src="{{ asset('images/bannerImgs.png') }}" class="bannerImg" alt="Banner Image" width="80%">
         </div>
     </div>
 </body>

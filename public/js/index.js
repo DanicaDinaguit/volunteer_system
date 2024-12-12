@@ -89,6 +89,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
                     age--;
                 }
+                const addressParts = [
+                    data.street_address,
+                    data.city,
+                    data.state,
+                    data.country,
+                    data.postal_code ? `- ${data.postal_code}` : '' // Add hyphen only if postal code exists
+                ];
+                
+                // Filter out empty parts and join with commas
+                const address = addressParts.filter(Boolean).join(', ');
 
                 document.querySelector('.approve-btn').setAttribute('data-id', data.memberApplicationID);
                 document.querySelector('.reject-btn').setAttribute('data-id', data.memberApplicationID);
@@ -98,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 targetContainer.querySelector('#detail-gender').textContent = data.gender;
                 targetContainer.querySelector('#detail-phone_number').textContent = data.phone_number;
                 targetContainer.querySelector('#detail-email_address').textContent = data.email_address;
-                targetContainer.querySelector('#detail-address').textContent = data.address;
+                targetContainer.querySelector('#detail-address').textContent = address;
                 targetContainer.querySelector('#detail-religion').textContent = data.religion;
                 targetContainer.querySelector('#detail-citizenship').textContent = data.citizenship;
                 targetContainer.querySelector('#detail-civil_status').textContent = data.civil_status;

@@ -38,11 +38,17 @@
         .dropdown-menu button:hover {
             background-color: #f5f5f5;
         }
+        .message-time {
+            font-size: 0.8em;
+            color: #888;
+            text-align: right;
+            margin-top: 5px;
+        }
     </style>
 @endsection
 
 @section('content')
-    <div id="messages" style="margin: 0 auto; margin-top: 40px !important; display: flex; border-radius: 8px; width: 70%;">
+    <div id="messages" style="margin: 0 auto; margin-top: 40px !important; margin-bottom: 40px; display: flex; border-radius: 8px; width: 70%;">
         <div class="message-recepient">
             <div class="recepient-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <div><h2>Messages</h2></div>
@@ -117,14 +123,13 @@
 
                     <!-- Dropdown menu -->
                     <div id="dropdown-menu" class="dropdown-menu">
-                        <button onclick="editMessage()">Edit</button>
                         <button class="delete-btn" onclick="deleteMessage()" data-id="">Delete</button>
                     </div>
                 </div>
             </div> 
 
             <!-- Updated message-body for conversation-like layout -->
-            <div class="message-body" id="message-body">
+            <div class="message-body" id="message-body" style="flex-grow: 1; overflow-y: auto; max-height: 500px;">
                 <!-- Messages will be dynamically inserted here -->
             </div>
 
@@ -155,7 +160,7 @@
                 </div>
                 <form id="message-form">
                     @csrf
-                    <div class="message-input">
+                    <div class="message-input" style="width: 100%">
                         <input type="text" name="message_content" id="message_content" required>
                     </div>
                     <input type="hidden" name="receiver_id" id="receiver_id" value="{{ $receiver_id ?? '' }}">
@@ -195,41 +200,60 @@
 @section('scripts')
     <script>
         // Handle clicks on recipient names or group chat buttons
-        document.querySelectorAll('.recepient-name, .group-message').forEach(item => {
+        document.querySelectorAll('.recepient-name').forEach(item => {
             item.addEventListener('click', function() {
                 const messageId = this.getAttribute('data-message-id') || this.getAttribute('data-chat-id');
+                currentPage = 1; // Reset pagination
+                hasMorePages = true; // Reset pagination tracking
+                document.getElementById('message-body').scrollTop = 0;
                 fetchMessageContent(messageId);
             });
         });
 
         // Function to fetch message content and display it in the message body
-        function fetchMessageContent(messageId) {
-            fetch(`/admin/messages/${messageId}`, {
+        let currentPage = 1; // Track the current page
+        let hasMorePages = true; // Track if there are older messages to load
+
+        function fetchMessageContent(messageId, appendToTop = false) {
+            fetch(`/admin/messages/${messageId}?page=${currentPage}`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' }
             })
             .then(response => response.json())
             .then(data => {
                 const messageBody = document.getElementById('message-body');
-                messageBody.innerHTML = ''; // Clear the message body before inserting new messages
+                
+                // If it's the initial fetch, clear the message body
+                if (!appendToTop) {
+                    messageBody.innerHTML = ''; // Clear the message body
+                }
 
-                // Loop through the messages
+                // Insert messages
                 data.messages.forEach(message => {
                     const messageDiv = document.createElement('div');
                     const currentUserId = {{ $currentUserId }};
 
-                        if (message.sender_id == currentUserId) {
-                            messageDiv.classList.add('message-sent');
-                            messageDiv.innerHTML = `<div class="message-box">${message.message_content}</div>`;
-                        } else {
-                            messageDiv.classList.add('message-received');
-                            messageDiv.innerHTML = `<div class="message-box">${message.message_content}</div>`;
-                        }
-                    messageBody.appendChild(messageDiv);
-                });
+                    if (message.sender_id == currentUserId) {
+                        messageDiv.classList.add('message-sent');
+                        messageDiv.innerHTML = `
+                        <div class="message-time">${message.time_human_readable}</div>
+                        <div class="message-box">${message.message_content}</div>`;
+                    } else {
+                        messageDiv.classList.add('message-received');
+                        messageDiv.innerHTML = `
+                        <div class="message-time">${message.time_human_readable}</div>
+                        <div class="message-box">${message.message_content}</div>`;
+                    }
 
-                // Scroll to the bottom of the message body
-                messageBody.scrollTop = messageBody.scrollHeight;
+                    if (appendToTop) {
+                        const currentScrollHeight = messageBody.scrollHeight;
+                        messageBody.prepend(messageDiv); // Prepend older messages
+                        const newScrollHeight = messageBody.scrollHeight;
+                        messageBody.scrollTop += newScrollHeight - currentScrollHeight;
+                    } else {
+                        messageBody.appendChild(messageDiv); // Append for new messages
+                    }
+                });
 
                 // Update the recipient's name or group chat name
                 document.getElementById('receiver-name').textContent = data.group_chat_name || data.other_user_name;
@@ -237,9 +261,55 @@
                 document.querySelector('input[name="group_id"]').value = data.group_id;
                 document.querySelector('input[name="receiver_type"]').value = data.other_user_type;
                 document.querySelector('.delete-btn').setAttribute('data-id', data.group_id);
+
+                // Scroll to the bottom initially
+                if (!appendToTop) {
+                    messageBody.scrollTop = messageBody.scrollHeight;
+                }
+
+                // Update pagination info
+                hasMorePages = data.has_more_pages;
             })
             .catch(error => console.error('Error fetching message content:', error));
         }
+
+        let isFetchingOlderMessages = false; // Lock to prevent duplicate requests
+        let lastScrollTop = 0; // Track the last scroll position
+
+        function loadOlderMessagesOnScroll() {
+            const messageBody = document.getElementById('message-body');
+
+            // Only fetch if user is at the top and no fetch is currently ongoing
+            if (messageBody.scrollTop <= 20 && hasMorePages && !isFetchingOlderMessages) {
+                isFetchingOlderMessages = true; // Set lock to prevent duplicate requests
+
+                const previousHeight = messageBody.scrollHeight; // Record current scroll height
+                currentPage++; // Increment page for older messages
+                const messageId = document.querySelector('input[name="group_id"]').value;
+
+                fetchMessageContent(messageId, true).then(() => {
+                    // Adjust scroll position to maintain user's view after loading
+                    messageBody.scrollTop = messageBody.scrollHeight - previousHeight;
+                    isFetchingOlderMessages = false; // Release lock after fetch completes
+                }).catch(error => {
+                    console.error('Error fetching older messages:', error);
+                    isFetchingOlderMessages = false; // Release lock on error
+                });
+            }
+        }
+
+        document.getElementById('message-body').addEventListener('scroll', function (event) {
+            const messageBody = event.target;
+
+            // Only trigger loadOlderMessagesOnScroll if user scrolls up towards the top
+            if (messageBody.scrollTop < lastScrollTop) {
+                // If the scroll direction is upwards, check for older messages
+                loadOlderMessagesOnScroll();
+            }
+
+            // Update last scroll position
+            lastScrollTop = messageBody.scrollTop;
+        });
 
         document.getElementById('message-form').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent form from refreshing the page
@@ -310,7 +380,7 @@
 
             // Append the new message to the message body
             messageBody.appendChild(newMessageDiv);
-
+            console.log(messageBody.innerHTML);
             // Optionally scroll to the bottom to show the latest message
             messageBody.scrollTop = messageBody.scrollHeight;
         }
@@ -326,7 +396,7 @@
                         const userId = user.id ?? 'Unknown ID';
                         const userName = user.name ?? 'Unknown Name';
                         const userType = user.type ?? 'Unknown Type';
-                        const userThread = user.thread_id ?? 'No existing thread';
+                        const userThread = user.thread_id ?? '';
 
                         userHtml += `<div class="user-item" style="cursor: pointer;" onclick="selectUser(${userId}, '${userName}', '${userType}', ${userThread})">${userName}</div>`;
                     });
@@ -338,9 +408,6 @@
         }
         // Attach event listener to the search input
         document.getElementById('user-search').addEventListener('keyup', searchUsers);
-
-        // document.querySelector('user-item')..addEventListener('click', selectUser);
-        // const receiver = document.getElementById('receiver_name');
 
         // Function to handle user selection
         function selectUser(userId, userName, userType, threadId = null) {
@@ -377,25 +444,36 @@
             }
         });
 
-        // Function to handle delete action
-        function handleDelete() {
-            // Code to delete the message or perform the desired action
-            alert("Delete action triggered");
-            document.getElementById("dropdown-menu").style.display = "none"; // Hide dropdown after action
-        }
-
         function deleteMessage() {
-            // Code to delete the message or perform the desired action
-            alert("Delete message action triggered");
-            document.getElementById("dropdown-menu").style.display = "none"; // Hide dropdown after action
-            fetch(`/admin/messages/${id}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
+            const id = document.querySelector('input[name="group_id"]').value;
+
+            if (!id) {
+                alert("No message ID found.");
+                return;
+            }
+
+            if (confirm("Are you sure you want to delete this message thread?")) {
+                fetch(`/admin/messages/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert("Message thread deleted successfully.");
+                        // Optionally refresh the page or remove the thread from the UI
+                        location.reload();
+                    } else {
+                        alert("Failed to delete the message thread.");
+                    }
                 })
                 .catch(error => {
-                    console.error('Error fetching users:', error);
+                    console.error("Error:", error);
+                    alert("An error occurred while deleting the message thread.");
                 });
+            }
         }
-    </script>
+   </script>
 @endsection

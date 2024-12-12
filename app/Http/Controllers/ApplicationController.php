@@ -155,4 +155,16 @@ class ApplicationController extends Controller
 
         return response()->json(['message' => 'Application rejected successfully']);
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query'); // Get the search query
+        $applications = MemberApplication::where('first_name', 'like', "%$query%")
+                                    ->orWhere('middle_name', 'like', "%$query%")
+                                    ->orWhere('last_name', 'like', "%$query%")
+                                    ->orWhere('email_address', 'like', "%$query%")
+                                    ->get();
+
+        return response()->json($applications);
+    }
 }

@@ -78,7 +78,7 @@
                             <a class="nav-link" href="{{ route('volunteer.notification') }}">Notification</a>
                         </li>
                         <li class="nav-item mx-3">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="{{ route('volunteer.about') }}">
                                 <img src="{{ asset('images/aboutus.png') }}" class="logo" alt="Logo" width="20" height="20">
                             </a>
                         </li>

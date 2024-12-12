@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h3 style="color: #CF803E;">Notifications</h3>
         <!-- Search Container -->
-        <div class="position-relative">
+        <div class="position-relative" style="display:flex;">
             <input type="text" id="search-field" class="form-control" placeholder="Search..." style="display:none; width: 250px;">
             <button id="search-icon" class="btn btn-outline-secondary">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">

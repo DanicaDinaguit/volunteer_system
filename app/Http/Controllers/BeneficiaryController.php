@@ -38,7 +38,7 @@ class BeneficiaryController extends Controller
         Beneficiary::create($request->all());
 
         // Redirect back with a success message
-        return redirect()->route('admin.beneficiaries')->with('success', 'Beneficiary registered successfully.');
+        return redirect()->route('admin.createBeneficiary')->with('success', 'Beneficiary registered successfully.');
     }
 
     public function addBeneficiaryAttendance(Request $request, $id)

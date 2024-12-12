@@ -85,25 +85,31 @@
                 @foreach($events as $event)
                 <div class="col">
                     <div class="sample-events card event-box h-100">
-                        <div class="card-body text-center">
+                        <div class="card-body text-center" style="padding: 0px !important;">
                             <div class="day-container mx-auto mb-3">
                                 <p class="m-0">{{ \Carbon\Carbon::parse($event->event_date)->format('j') }}</p>
                             </div>
-                            <img src="{{ asset('images/event-image.jpg') }}" class="img-fluid rounded mb-3" alt="Event Image">
+                        <img src="{{ asset('images/'.strtolower($event->category).'.png') }}" 
+                             class="card-img-top" 
+                             alt="{{ $event->category }} Image" 
+                             style="object-fit: cover; width: 100%; height: 280px;">
                             <div class="event-info">
-                                <h2 class="event-title h5">{{ $event->title }}</h2>
-                                <p class="mb-1 text-muted">{{ $event->event_location }}</p>
-                                <p class="mb-1">{{ \Carbon\Carbon::parse($event->event_date)->format('F j, Y') }}</p>
-                                <p class="mb-0">{{ $event->start }} - {{ $event->end }}</p>
+                            <ul class="list-unstyled mb-3" style="text-align: left;">
+                                <li><i class="fas fa-calendar-alt"></i> <strong>Title:</strong> {{ $event->title }}</li>
+                                <li><i class="fas fa-calendar-alt"></i> <strong>Type:</strong> {{ $event->category }}</li>
+                                <li><i class="fas fa-calendar-day"></i> <strong>Date:</strong> {{ \Carbon\Carbon::parse($event->event_date)->format('F j, Y') }}</li>
+                                <li><i class="fas fa-clock"></i> <strong>Time:</strong> {{ $event->start }} - {{ $event->end }}</li>
+                                <li><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> {{ $event->event_location }}</li>   
+                            </ul>
                             </div>
                         </div>
                     </div>
                 </div>
                 @endforeach
             </div>
-            <!-- <div class="vm-events text-center mt-4">
-                <button id="event-button" class="btn btn-success rounded-pill shadow fw-semibold fs-6">View More Events</button>
-            </div> -->
+            <div class="vm-events text-center mt-4">
+                <a id="event-button" href="{{route('calendar')}}" class="btn btn-success rounded-pill shadow fw-semibold fs-6">View More Events</a>
+            </div>
         </div>
     </div>
     <!-- MISSION AND VISION -->
@@ -127,26 +133,6 @@
             </div>
         </div>
     </div>
-    <!-- OTHER PROGRAMS -->
-    <!-- <div class="programs" 
-        style="
-        background: url('{{ asset('images/carousel-images/carousel-img3.svg') }}') no-repeat center center/cover;"> 
-        <div class="container py-5">
-                <div class="col-12 px-lg-5">
-                    <div class="program-box mx-5 px-5 py-4 h-auto rounded-4 d-flex flex-column align-items-center text-center">
-                        <h2>Other Programs</h2>
-                        <ul class="text-start mt-3 ps-3 fw-semibold">
-                            <li><i class="bi bi-caret-right-fill"></i> Values and Education</li>
-                            <li><i class="bi bi-caret-right-fill"></i> Partnership and Development</li>
-                            <li><i class="bi bi-caret-right-fill"></i> Environment and Health</li>
-                            <li><i class="bi bi-caret-right-fill"></i> Social Awareness and Concern</li>
-                            <li><i class="bi bi-caret-right-fill"></i> Skills and Livelihood</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <!-- BECOME A MEMBER SECTION -->
     <div class="application-preview" 
         style="

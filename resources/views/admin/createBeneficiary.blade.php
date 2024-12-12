@@ -69,7 +69,7 @@
     <!-- Beneficiary List -->
     <div id="beneficiary-list" class="mt-5">
         <h3 class="text-secondary">List of Registered Beneficiaries</h3>
-        <a href="{{ route('admin.downloadListBeneficiary') }}" class="btn btn-outline-success btn-sm">
+        <a href="{{ route('admin.beneficiaryList') }}" class="btn btn-outline-success btn-sm">
             <i class="fas fa-file-pdf me-1"></i> Export
         </a>
         <div class="table-responsive">
