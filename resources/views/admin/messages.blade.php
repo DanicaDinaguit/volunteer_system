@@ -134,30 +134,6 @@
             </div>
 
             <div class="message-send">
-                <div class="emoji">
-                    <svg style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56" fill="none">
-                    <g clip-path="url(#clip0_923_1294)">
-                        <g filter="url(#filter0_d_923_1294)">
-                        <path d="M27.9997 51.9057C41.0547 51.9057 51.9057 41.0778 51.9057 27.9998C51.9057 14.9447 41.0307 4.09375 27.9757 4.09375C14.8987 4.09375 4.09473 14.9447 4.09473 27.9998C4.09473 41.0778 14.9217 51.9057 27.9997 51.9057ZM28.0007 47.9218C16.9367 47.9218 8.09973 39.0618 8.09973 27.9998C8.09973 16.9598 16.9127 8.07775 27.9757 8.07775C39.0147 8.07775 47.8967 16.9608 47.9207 27.9998C47.9437 39.0628 39.0377 47.9218 27.9987 47.9218M21.1787 25.8668C22.5607 25.8668 23.7087 24.6478 23.7087 22.9368C23.7087 21.2267 22.5607 20.0068 21.1787 20.0068C19.8187 20.0068 18.6937 21.2267 18.6937 22.9368C18.6937 24.6478 19.8187 25.8668 21.1787 25.8668ZM34.8887 25.8668C36.2717 25.8668 37.4207 24.6478 37.4207 22.9368C37.4207 21.2267 36.2717 20.0068 34.8897 20.0068C33.5067 20.0068 32.3817 21.2267 32.3817 22.9368C32.3817 24.6478 33.5057 25.8668 34.8887 25.8668ZM27.9997 39.2968C33.6477 39.2968 37.1867 35.2887 37.1867 33.7657C37.1867 33.4607 36.9527 33.3197 36.7187 33.5077C35.0077 34.9377 32.1247 36.3438 27.9987 36.3438C23.8507 36.3438 20.8987 34.8437 19.2577 33.5307C19.0227 33.3207 18.7887 33.4607 18.7887 33.7657C18.7887 35.2887 22.3277 39.2958 27.9987 39.2958" fill="#BD2382"/>
-                        </g>
-                    </g>
-                    <defs>
-                        <filter id="filter0_d_923_1294" x="0.0947266" y="4.09375" width="55.8105" height="55.8125" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                        <feOffset dy="4"/>
-                        <feGaussianBlur stdDeviation="2"/>
-                        <feComposite in2="hardAlpha" operator="out"/>
-                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_923_1294"/>
-                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_923_1294" result="shape"/>
-                        </filter>
-                        <clipPath id="clip0_923_1294">
-                        <rect width="56" height="56" fill="white"/>
-                        </clipPath>
-                    </defs>
-                    </svg>
-                </div>
                 <form id="message-form">
                     @csrf
                     <div class="message-input" style="width: 100%">

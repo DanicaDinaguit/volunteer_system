@@ -42,13 +42,16 @@ class ApplicationController extends Controller
                 'first_name' => 'required|string|max:255',
                 'middle_name' => 'nullable|string|max:255',
                 'last_name' => 'required|string|max:255',
-                'phone_number' => 'required|string|max:15',
+                'phone_number' => [
+                    'required',
+                    'regex:/^\+?[0-9]{10,15}$/', // Allows international format and ensures 10-15 digits
+                ],
                 'email_address' => 'required|email|max:255',
                 'birthdate' => 'required|date',
-                'street_address' => 'required|string|max:255',
+                'street_address' => 'nullable|string|max:255', // Made optional
                 'city' => 'required|string|max:255',
-                'state' => 'required|string|max:255',
-                'postal_code' => 'required|string|max:10',
+                'state' => 'nullable|string|max:255',
+                'postal_code' => 'nullable|string|max:10',
                 'country' => 'required|string|max:255',
                 'civil_status' => 'required|in:Single,Married,Divorced,Widowed',
                 'religion' => 'required|string|max:50',
@@ -58,13 +61,25 @@ class ApplicationController extends Controller
                 'course' => 'required|string|max:255',
                 'year_level' => 'required|in:1st Year,2nd Year,3rd Year,4th Year',
                 'schoolID' => 'required|string|max:50',
-                'high_school' => 'required|string|max:255',
-                'elementary' => 'required|string|max:255',
+                'high_school' => 'nullable|string|max:255',
+                'elementary' => 'nullable|string|max:255',
                 'reasons_for_joining' => 'required|string',
+            ], [
+                'first_name.required' => 'The first name is required.',
+                'last_name.required' => 'The last name is required.',
+                'phone_number.required' => 'The phone number is required.',
+                'phone_number.regex' => 'The phone number must be between 10 and 15 digits and may include an optional "+" prefix.',
+                'email_address.required' => 'The email address is required.',
+                'email_address.email' => 'Please provide a valid email address.',
+                'birthdate.required' => 'The birthdate is required.',
+                // Add more custom messages for other fields as needed
             ]);
     
-            // Combine address fields for storage
+            // Combine address fields for storage (only if street_address is provided)
             $validatedData['address'] = "{$validatedData['street_address']}, {$validatedData['city']}, {$validatedData['state']}, {$validatedData['postal_code']}, {$validatedData['country']}";
+            if (is_null($validatedData['street_address'])) {
+                $validatedData['address'] = "{$validatedData['city']}, {$validatedData['state']}, {$validatedData['postal_code']}, {$validatedData['country']}";
+            }
     
             // Set default status to 'Pending'
             $validatedData['status'] = 'Pending';
@@ -94,10 +109,11 @@ class ApplicationController extends Controller
                     'is_read' => false,
                 ]);
             }
-            
+    
             // Trigger an event for the new application
             event(new NewMembershipApplication($application));
             Log::info('Notification created for admin ID: ' . $admin->adminID);
+    
             // Redirect back with a success message
             return redirect()->back()->with('success', 'Application submitted successfully!');
         } catch (\Exception $e) {
@@ -106,6 +122,7 @@ class ApplicationController extends Controller
             return redirect()->back()->withErrors('Failed to submit application. Please try again.');
         }
     }
+    
     
 
     public function getApplicantDetails($memberApplicationID)

@@ -3,8 +3,7 @@
 @section('title', 'SOCI - About')
     
 @section('content')
-    <div class="main-about" 
-        style="background: url('{{ asset('images/carousel-images/carousel-img2.png') }}') no-repeat center center/cover;">
+    <div class="main-about" style="background: url('{{ asset('images/carousel-images/carousel-img2.png') }}') no-repeat center center/cover;">
         <div class="container py-5">
             <div class="row">
                 <div class="col-12 my-3 d-flex flex-column justify-content-center align-items-center">

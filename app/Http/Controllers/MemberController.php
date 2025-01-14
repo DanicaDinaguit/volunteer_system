@@ -23,7 +23,7 @@ class MemberController extends Controller
         // Validate the form data
         $validatedData = $request->validate([
             'first_name' => 'required|string|max:255',
-            'middle_name' => 'required|string|max:255',
+            'middle_name' => 'string|max:255',
             'last_name' => 'required|string|max:255',
             'studentID' => 'required|string|max:255',
             'email' => 'required|email|unique:tblmembercredentials,email',

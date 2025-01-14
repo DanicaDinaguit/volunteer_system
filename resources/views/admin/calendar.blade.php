@@ -26,12 +26,12 @@
                         <form id="event-form" class="row g-3">
                             @csrf
                             <div class="col-md-6">
-                                <label for="ename" class="form-label">Event Name</label>
+                                <label for="ename" class="form-label">Event Name <span class="required">*</span></label>
                                 <input type="text" id="ename" name="ename" class="form-control" required>
                             </div>
 
                             <div class="col-md-6">
-                                <label for="etype" class="form-label">Event Type</label>
+                                <label for="etype" class="form-label">Event Type <span class="required">*</span></label>
                                 <select id="etype" name="etype" class="form-select" required>
                                     <option value="">Select Event Type</option>
                                     <option value="Values and Education">Values and Education</option>
@@ -44,36 +44,36 @@
                             </div>
 
                             <div class="col-md-12">
-                                <label for="edesc" class="form-label">Description</label>
+                                <label for="edesc" class="form-label">Description <span class="required">*</span></label>
                                 <textarea id="edesc" name="edesc" rows="5" class="form-control" required></textarea>
                             </div>
 
                             <div class="col-md-3">
-                                <label for="slots" class="form-label">Volunteer Slots</label>
+                                <label for="slots" class="form-label">Volunteer Slots <span class="required">*</span></label>
                                 <input type="number" id="slots" name="slots" class="form-control" required>
                             </div>
 
                             <div class="col-md-3">
-                                <label for="edate" class="form-label">Date</label>
+                                <label for="edate" class="form-label">Date <span class="required">*</span></label>
                                 <input type="date" id="edate" name="edate" class="form-control" required>
                             </div>
 
                             <div class="col-md-3">
-                                <label for="timeStart" class="form-label">Time Start</label>
+                                <label for="timeStart" class="form-label">Time Start <span class="required">*</span></label>
                                 <input type="time" id="timeStart" name="timeStart" class="form-control" required>
                             </div>
 
                             <div class="col-md-3">
-                                <label for="timeEnd" class="form-label">Time End</label>
+                                <label for="timeEnd" class="form-label">Time End <span class="required">*</span></label>
                                 <input type="time" id="timeEnd" name="timeEnd" class="form-control" required>
                             </div>
 
                             <div class="col-md-6">
-                                <label for="elocation" class="form-label">Location</label>
+                                <label for="elocation" class="form-label">Location <span class="required">*</span></label>
                                 <input type="text" id="elocation" name="elocation" class="form-control" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="epartner" class="form-label">Partner/s</label>
+                                <label for="epartner" class="form-label">Partner/s <span class="required">*</span></label>
                                 <select id="epartner" name="epartner" class="form-select" required>
                                     <option value="">Select a Partner</option>
                                     @foreach($partners as $partner)

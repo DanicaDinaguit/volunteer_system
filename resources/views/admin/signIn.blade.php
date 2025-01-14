@@ -11,7 +11,7 @@
 <body style="padding: 0px;">
         <!-- div for Sign In Page for Admin-->
     <div id="signinDiv">
-        <div style="display: flex; align-items: center; flex-direction: column; justify-content: center; width: 50%;">
+        <div class="divSignIn" style="">
             <div style="display: flex; align-items: center;">
                 <img src="{{ asset('images/LOGO1.png') }}" alt="Logo" style="margin-left: 15px; margin-top: 10px; width: 64px; height: 64px;">
                 <h1 class="signinWelcome" style="text-align: center;">Welcome Back!</h1>

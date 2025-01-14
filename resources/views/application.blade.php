@@ -55,8 +55,11 @@
                     
                     <div class="grid-row">
                         <div>
-                            <label for="phone_number">Mobile Number <span class="required">*</span></label>
-                            <input type="tel" id="phone_number" name="phone_number" required placeholder="(123) 456-7890" pattern="\(\d{3}\) \d{3}-\d{4}" title="Format: (123) 456-7890">
+                            <label for="phone_number">Mobile Number <span class="required">*</span></label><br>
+                            <input type="tel" id="phone_number" name="phone_number" required placeholder="09123456789" pattern="\(\d{3}\) \d{3}-\d{4}" title="Format: (123) 456-7890">
+                            @error('phone_number')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                         <div>
                             <label for="email_address">Email Address <span class="required">*</span></label>
@@ -70,27 +73,26 @@
 
                     <div class="grid-row">
                         <div>
-                            <label for="street_address">Street Address <span class="required">*</span></label>
+                            <label for="street_address">Street Address</label>
                             <input type="text" id="street_address" name="street_address" required placeholder="123 Main St">
                         </div>
                         <div>
-                            <label for="city">City <span class="required">*</span></label>
-                            <input type="text" id="city" name="city" required placeholder="City">
+                            <label for="city">City</label><br>
+                            <input type="text" id="city" name="city" placeholder="City">
                         </div>
                         <div>
-                            <label for="state">State/Province <span class="required">*</span></label>
-                            <input type="text" id="state" name="state" required placeholder="State/Province">
+                            <label for="state">State/Province</label>
+                            <input type="text" id="state" name="state" placeholder="State/Province">
                         </div>
                     </div>
-
                     <div class="grid-row">
                         <div>
                             <label for="postal_code">Zip Code <span class="required">*</span></label>
-                            <input type="text" id="postal_code" name="postal_code" required placeholder="12345">
+                            <input type="text" id="postal_code" name="postal_code"  placeholder="12345">
                         </div>
                         <div>
-                            <label for="country">Country <span class="required">*</span></label>    
-                            <select id="country" name="country" class="form-control" required>
+                            <label for="country">Country</label>    
+                            <select id="country" name="country" class="form-control">
                                 <option value="Afghanistan">Afghanistan</option>
                                 <option value="Åland Islands">Åland Islands</option>
                                 <option value="Albania">Albania</option>
@@ -264,7 +266,7 @@
                                 <option value="Papua New Guinea">Papua New Guinea</option>
                                 <option value="Paraguay">Paraguay</option>
                                 <option value="Peru">Peru</option>
-                                <option value="Philippines">Philippines</option>
+                                <option value="Philippines" selected>Philippines</option>
                                 <option value="Pitcairn">Pitcairn</option>
                                 <option value="Poland">Poland</option>
                                 <option value="Portugal">Portugal</option>
@@ -428,7 +430,7 @@
                                 <option value="estonian">Estonian</option>
                                 <option value="ethiopian">Ethiopian</option>
                                 <option value="fijian">Fijian</option>
-                                <option value="filipino">Filipino</option>
+                                <option value="filipino" selected>Filipino</option>
                                 <option value="finnish">Finnish</option>
                                 <option value="french">French</option>
                                 <option value="gabonese">Gabonese</option>
@@ -571,11 +573,11 @@
                 <fieldset>
                     <div class="grid-row">
                         <div>
-                            <label for="college">College <span class="required">*</span></label>
-                            <input type="text" id="college" name="college" required placeholder="Your College">
+                            <label for="college">College</label>
+                            <input type="text" id="college" name="college" value="Asian College" required placeholder="Your College">
                         </div>
                         <div>
-                            <label for="course">Course <span class="required">*</span></label>
+                            <label for="course">Program <span class="required">*</span></label>
                             <select name="course" id="course" required>
                                 <option value="">Select Course</option>
                                 <option value="BSIT">BSIT</option>
@@ -610,12 +612,12 @@
 
                     <div class="grid-row">
                         <div>
-                            <label for="high_school">High School <span class="required">*</span></label>
-                            <input type="text" id="high_school" name="high_school" required placeholder="Your High School">
+                            <label for="high_school">High School</label>
+                            <input type="text" id="high_school" name="high_school" placeholder="Your High School">
                         </div>
                         <div>
-                            <label for="elementary">Elementary <span class="required">*</span></label>
-                            <input type="text" id="elementary" name="elementary" required placeholder="Your Elementary School">
+                            <label for="elementary">Elementary</label>
+                            <input type="text" id="elementary" name="elementary" placeholder="Your Elementary School">
                         </div>
                     </div>
                 </fieldset>
@@ -648,6 +650,65 @@
             tab.classList.add('active');
             document.getElementById(selectedTab).classList.add('active');
         });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('.app-form');
+
+        form.addEventListener('submit', function (event) {
+            // Prevent the form from submitting by default
+            event.preventDefault();
+
+            // Clear any existing error messages
+            const errorMessages = document.querySelectorAll('.error-message');
+            errorMessages.forEach(msg => msg.remove());
+
+            let isValid = true;
+
+            // Validate required fields
+            form.querySelectorAll('[required]').forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    showError(input, `${input.previousElementSibling.textContent} is required.`);
+                }
+            });
+
+            // Validate email format
+            const emailField = form.querySelector('#email_address');
+            if (emailField && !validateEmail(emailField.value)) {
+                isValid = false;
+                showError(emailField, 'Please enter a valid email address.');
+            }
+
+            // Validate phone number format
+            const phoneField = form.querySelector('#phone_number');
+            const phonePattern = /^\d{11}$/; // Example: 09123456789
+            if (phoneField && !phonePattern.test(phoneField.value)) {
+                isValid = false;
+                showError(phoneField, 'Please enter a valid phone number (11 digits).');
+            }
+
+            // If all validations pass, submit the form
+            if (isValid) {
+                form.submit();
+            }
+        });
+
+        // Function to display error messages
+        function showError(input, message) {
+            const errorMessage = document.createElement('div');
+            errorMessage.className = 'error-message';
+            errorMessage.style.color = 'red';
+            errorMessage.style.fontSize = '0.9em';
+            errorMessage.textContent = message;
+            input.insertAdjacentElement('afterend', errorMessage);
+        }
+
+        // Function to validate email format
+        function validateEmail(email) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
     });
 </script>
 @endsection

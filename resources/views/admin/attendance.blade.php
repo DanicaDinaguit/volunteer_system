@@ -11,7 +11,11 @@
             <i class="fas fa-arrow-left me-1"></i> Back to Event
         </a>
     </div>
-
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <!-- Event Details -->
     <div class="card border-0 shadow-sm rounded-3 mb-3 bg-light">
         <div class="card-body d-flex flex-wrap justify-content-between text-muted">

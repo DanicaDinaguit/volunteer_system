@@ -527,117 +527,195 @@ body {
 }
 /* ------------------------------HOME VOLUNTEER APPLICATION SECTION END--------------------------------- */
 /*---------------------------------------SIGN-IN SECTION START----------------------------------------------*/
-#signinDiv{
-    width: 100%; 
+/*---------------------------------------SIGN-IN SECTION START----------------------------------------------*/
+#signinDiv {
+    width: 100%;
     display: flex;
     flex-direction: row;
     position: relative;
     justify-content: space-between;
 }
-.signinWelcome{ 
+.divSignIn{
+    display: flex; 
+    align-items: center; 
+    flex-direction: column; 
+    justify-content: center; 
+    width: 50%;
+}
+.signinWelcome {
     white-space: pre-line;
-    color: #d98641; 
-    font-size: 50px; 
-    font-family: Poppins; 
-    font-weight: 800; 
+    color: #d98641;
+    font-size: 50px;
+    font-family: Poppins;
+    font-weight: 800;
     line-height: 50px;
 }
 
 .custom-input {
-    /* border: 2px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 20px;
-    width: 300px; */
-    width: 336.20px; 
-    height: 61.47px; 
-    background: white; 
-    border-radius: 6.87px; 
+    width: 336.20px;
+    height: 61.47px;
+    background: white;
+    border-radius: 6.87px;
     border: 1.03px #d98641 solid;
     margin-top: 25px;
     margin: 0 auto;
     gap: 10px;
-  }
-  
-  .custom-input legend {
-    text-align: justify; 
-    color: #6F833F; 
-    font-size: 21.42px; 
-    font-weight: 500; 
-    line-height: 25.85px; 
-    letter-spacing: 0.21px; 
-    word-wrap: break-word;
-  }
+}
 
-  .custom-input input {
+.custom-input legend {
+    text-align: justify;
+    color: #6F833F;
+    font-size: 21.42px;
+    font-weight: 500;
+    line-height: 25.85px;
+    letter-spacing: 0.21px;
+    word-wrap: break-word;
+}
+
+.custom-input input {
     border: none;
     outline: none;
     width: 100%;
     padding: 5px;
     box-sizing: border-box;
-  }
+}
 
-#logIn{
-    width: 130px; 
-    height: 47px; 
-    background: rgba(219, 103, 42, 0); 
-    box-shadow: 0px 0.8526661992073059px 0.8526661992073059px rgba(0, 0, 0, 0.25); 
-    border-radius: 29.19px; border: 1.03px #6F833F solid;
-    color: #6F833F; 
-    font-size: 22.31px; 
-    font-weight: 500; 
-    letter-spacing: 0.22px; 
+#logIn {
+    width: 130px;
+    height: 47px;
+    background: rgba(219, 103, 42, 0);
+    box-shadow: 0px 0.85px 0.85px rgba(0, 0, 0, 0.25);
+    border-radius: 29.19px;
+    border: 1.03px #6F833F solid;
+    color: #6F833F;
+    font-size: 22.31px;
+    font-weight: 500;
+    letter-spacing: 0.22px;
     word-wrap: break-word;
     display: block;
     margin: 0 auto;
 }
+
 #logIn:hover {
     background: #6F833F;
     color: white;
 }
-.forgotpass{
-    text-align: center; 
-    color: #D31D33; 
-    font-size: 19.92px; 
-    font-family: Poppins; 
-    font-weight: 500; 
-    line-height: 25.85px; 
-    letter-spacing: 0.20px; 
+
+.forgotpass {
+    text-align: center;
+    color: #D31D33;
+    font-size: 19.92px;
+    font-family: Poppins;
+    font-weight: 500;
+    line-height: 25.85px;
+    letter-spacing: 0.20px;
     word-wrap: break-word;
-    /* margin-left: 77.61px; */
 }
 
-#signUpForm{
-    margin-left: 194px;
-}
-#signUpForm .custom-input {
-    width: 499px;
-    height: 44px; 
-    background: white; 
-    border-radius: 6.87px; 
-    border: 1.03px #9B28A6 solid;
-    margin-top: 25px;
-    margin: 0 auto;
-    gap: 10px;
-  }
-
-.signUpStyle{
-    color: #6F833F; 
-    font-family: Poppins; 
-    font-size: 19.92px; 
-    font-weight: 500; 
+.signUpStyle {
+    color: #6F833F;
+    font-family: Poppins;
+    font-size: 19.92px;
+    font-weight: 500;
     text-decoration: none;
-    
 }
-.bannertextSign{
-    color: #d98641; 
-    font-size: 19.92px; 
-    font-family: Poppins; 
-    font-weight: 500; 
-    line-height: 25.85px; 
-    letter-spacing: 0.20px; 
+
+.bannertextSign {
+    color: #d98641;
+    font-size: 19.92px;
+    font-family: Poppins;
+    font-weight: 500;
+    line-height: 25.85px;
+    letter-spacing: 0.20px;
     word-wrap: break-word;
 }
+
+/*---------------------------------------RESPONSIVE DESIGN----------------------------------------------*/
+@media (max-width: 1024px) {
+    #signinDiv {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #signinDiv > div {
+        width: 90%;
+    }
+    .divSignIn{
+        width: 80%;
+    }
+    .signinWelcome {
+        font-size: 40px;
+        line-height: 45px;
+    }
+
+    .custom-input {
+        width: 80%;
+    }
+
+    #logIn {
+        width: 50%;
+    }
+
+    .bannerImg {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .signinWelcome {
+        font-size: 30px;
+        line-height: 35px;
+    }
+    .divSignIn{
+        width: 80%;
+    }
+    .custom-input legend {
+        font-size: 18px;
+    }
+
+    .forgotpass,
+    .bannertextSign {
+        font-size: 16px;
+    }
+    .signUpStyle {
+        font-size: 16px;
+    }
+    #logIn {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .signinWelcome {
+        font-size: 24px;
+        line-height: 28px;
+        text-align: center;
+    }
+    .divSignIn{
+        width: 80%;
+    }
+    .custom-input {
+        width: 80%;
+    }
+    .signUpStyle {
+        font-size: 16px;
+    }
+    .custom-input legend {
+        font-size: 16px;
+    }
+
+    #logIn {
+        width: 50%;
+        font-size: 16px;
+    }
+
+    .bannerImg {
+        width: 100%;
+        height: auto;
+    }
+}
+
 /*---------------------------------------SIGN-IN SECTION END----------------------------------------------*/
 /* Styling for Event Items */
 #eventItems {

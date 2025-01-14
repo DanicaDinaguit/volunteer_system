@@ -99,7 +99,11 @@
             <!-- Add Application Button -->
             <button type="button" class="btn btn-sm" style="background: #6F833F; color: white;" data-bs-toggle="modal" data-bs-target="#addApplicationModal">Add Application</button>
         </div>
-
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <!-- Tabs for filtering applications -->
         <ul class="nav nav-tabs mb-3" id="application-tabs">
             <li class="nav-item">
@@ -624,7 +628,7 @@
                                         <option value="Papua New Guinea">Papua New Guinea</option>
                                         <option value="Paraguay">Paraguay</option>
                                         <option value="Peru">Peru</option>
-                                        <option value="Philippines">Philippines</option>
+                                        <option value="Philippines" selected>Philippines</option>
                                         <option value="Pitcairn">Pitcairn</option>
                                         <option value="Poland">Poland</option>
                                         <option value="Portugal">Portugal</option>
@@ -789,7 +793,7 @@
                                         <option value="estonian">Estonian</option>
                                         <option value="ethiopian">Ethiopian</option>
                                         <option value="fijian">Fijian</option>
-                                        <option value="filipino">Filipino</option>
+                                        <option value="filipino" selected>Filipino</option>
                                         <option value="finnish">Finnish</option>
                                         <option value="french">French</option>
                                         <option value="gabonese">Gabonese</option>

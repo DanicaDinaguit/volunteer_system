@@ -24,6 +24,11 @@
             </ul>
         </div>
     @endif
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
 
     <!-- Registration Form -->
     <form action="{{ route('admin.beneficiaries.store') }}" method="POST" class="card shadow-sm p-4 mb-5 bg-white rounded">

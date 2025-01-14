@@ -41,14 +41,25 @@
                             </div>
                             
                             @php
-                                // Check if the event date is in the past
-                                $isPastEvent = \Carbon\Carbon::parse($event->event_date)->isPast();
+                                // Combine event date with start and end times
+                                $eventStartDateTime = \Carbon\Carbon::parse($event->event_date . ' ' . $event->start);
+                                $eventEndDateTime = \Carbon\Carbon::parse($event->event_date . ' ' . $event->end);
+
+                                // Get the current time
+                                $now = \Carbon\Carbon::now();
+
+                                // Determine the event status
+                                $isPastEvent = $eventEndDateTime->isPast();
+                                $isOngoingEvent = $eventStartDateTime->isPast() && !$isPastEvent;
                             @endphp
 
                             <div>
                                 @if ($isPastEvent)
                                     <!-- Show message for past events -->
                                     <button class="btn btn-secondary btn-lg px-4" disabled>Event Ended</button>
+                                @elseif ($isOngoingEvent)
+                                    <!-- Show message for ongoing events -->
+                                    <button class="btn btn-warning btn-lg px-4" disabled>Event Ongoing</button>
                                 @else
                                     <!-- Display Join button if event is not in the past -->
                                     <button class="btn btn-outline-primary btn-lg px-4" id="join-btn" 
@@ -63,7 +74,7 @@
                        <!-- QR Code Display Section -->
                         <div class="mt-4" id="qr-code-section" style="display: {{ $hasJoined ? 'block' : 'none' }};">
                             <h5 class="text-primary"><strong>Your QR Code</strong></h5>
-                            <img id="qr-code-image" src="{{ $qrCode ?? '' }}" alt="QR Code" class="img-fluid">
+                            <img id="qr-code-image" src="{{ $qrCode ?? asset('images/qrPlaceholder.jpg') }}" alt="QR Code" class="img-fluid" width="300px" height="300px">
                             <br>
                             <!-- Regenerate QR Code Button -->
                             @if ($hasJoined)

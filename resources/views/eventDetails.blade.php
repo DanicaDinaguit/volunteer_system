@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Event Details page for public view without the function to participate in events -->
-<div style="margin-top: 115px;">
+<div style="margin-top: 40px;">
     <div class="container py-4">
         <div class="row justify-content-center">
             <div class="col-md-10">

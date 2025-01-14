@@ -10,12 +10,28 @@
 <body style="padding: 0px;">
     <!-- div for Sign In for Volunteers-->
     <div id="signinDiv">
-        <div style="width: 50% !important; display: flex; align-items: center; flex-direction: column; justify-content: center; width: 100%;">
+        <div class="divSignIn">
             <div style="display: flex; align-items: center;">
                 <img src="{{ asset('images/LOGO1.png') }}" alt="Logo" style="margin-left: 15px; margin-top: 10px; width: 64px; height: 64px;">
                 <h1 class="signinWelcome" style="text-align: center;">Welcome Back!</h1>
             </div>
-
+            @if(session('success'))
+                    <div>{{ session('success') }}</div>
+                @endif
+                @if(session('error'))
+                    <div style="color: red;">
+                        {{ session('error') }}
+                    </div>
+                @endif
+                @if($errors->any())
+                    <div>
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             <div id="signInForm">
                 <form method="POST" action="{{ route('volunteer.signIn.submit') }}">
                     @csrf

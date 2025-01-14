@@ -77,7 +77,7 @@
                     </div>
                     <div class="grid-row">
                         <label for="email">Email Address:</label>
-                        <label for="course">Course:</label>
+                        <label for="course">Program:</label>
                     </div>
                     <div class="grid-row">
                         <input type="email" id="email" name="email" value="{{ $volunteer->email }}" readonly>

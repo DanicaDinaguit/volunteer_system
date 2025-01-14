@@ -95,6 +95,8 @@ Route::prefix('admin')->group(function () {
     // Admin Gallery Page
     Route::get('/gallery', [AdminController::class, 'gallery'])->name('admin.gallery');
 
+    // Volunteer About Us Page
+    Route::get('/about', function () { return view('admin/about'); })->name('admin.about');
     // Admin Profile Page
     Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
     Route::post('/profile', [AdminController::class, 'updateProfile'])->name('admin.updateProfile');

@@ -9,9 +9,9 @@
 </head>
 <body>
     <div id="signinDiv">
-        <div>
+        <div style="width: 50% !important;">
             <div style="display: flex; align-items: center;">
-                <img src="{{ asset('images/LOGO1.png') }}" alt="Logo" style="margin-left: 15px; margin-top: 10px; width: 64px; height: 64px;">
+                <img src="{{ asset('images/LOGO1.png') }}" alt="Logo" style="margin-left: 15px; margin-top: 0px; width: 64px; height: 64px;">
                 <h1 class="signinWelcome" style="text-align: center;">Don't miss out on an opportunity.</h1>
             </div>
             <div id="signUpForm">
@@ -40,7 +40,7 @@
                     </fieldset>
                     <fieldset class="custom-input">
                         <legend>Middle name</legend>
-                        <input type="text" name="middle_name" required>
+                        <input type="text" name="middle_name">
                     </fieldset>
                     <fieldset class="custom-input">
                         <legend>Last name</legend>
@@ -61,16 +61,14 @@
                     <br>
                     <button type="submit" id="logIn">Sign Up</button>
                     <hr>
-                    <button class="custom-input">Continue with Google</button>
-                    <p class="bannertextSign">Not a SOCI member yet? <a href="{{ route('application') }}" class="signUpStyle">Click here to apply!</a></p>
+                    <p class="bannertextSign" style="text-align: center;">Not a SOCI member yet? <a href="{{ route('application') }}" class="signUpStyle">Click here to apply!</a></p>
                 </form>
             </div>
         </div>
-        <div>
-            <img src="{{ asset('images/bannerImg.png') }}" class="bannerImg" alt="Banner Image">
+        <div style="width: 50%; text-align: center;">
+            <img src="{{ asset('images/bannerImgs.png') }}" class="bannerImg" alt="Banner Image" idth="100%">
         </div>
     </div><br>
-    @include('layouts.footer')
     <script src="{{ asset('js/index.js') }}"></script>
 </body>
 </html>

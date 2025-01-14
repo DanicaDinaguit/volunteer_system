@@ -279,7 +279,7 @@ class AdminController extends Controller
                                     ->where('user_id', $admin->adminID)
                                     ->where('user_type', Admin::class)
                                     ->first();
-
+        Log::info('Deleting', $notification);
         if ($notification) {
             // Delete the notification if found
             $notification->delete();

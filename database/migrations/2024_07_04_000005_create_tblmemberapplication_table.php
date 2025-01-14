@@ -24,10 +24,10 @@ class CreateTblmemberapplicationTable extends Migration
             
             // Add detailed address columns
             $table->string('street_address')->nullable()->after('birthdate');
-            $table->string('city')->after('street_address');
+            $table->string('city')->nullable()->after('street_address');
             $table->string('state')->nullable()->after('city');
             $table->string('postal_code')->nullable()->after('state');
-            $table->string('country')->default('Philippines')->after('postal_code');
+            $table->string('country')->nullable()->default('Philippines')->after('postal_code');
 
             $table->string('religion', 50);
             $table->enum('gender', ['Male', 'Female', 'Other']);
@@ -37,8 +37,8 @@ class CreateTblmemberapplicationTable extends Migration
             $table->string('course');
             $table->enum('year_level', ['1st Year', '2nd Year', '3rd Year', '4th Year']);
             $table->string('schoolID', 50);
-            $table->string('high_school');
-            $table->string('elementary');
+            $table->string('high_school')->nullable();
+            $table->string('elementary')->nullable();
             $table->text('reasons_for_joining');
             $table->enum('status', ['Pending', 'Approved', 'Rejected'])->default('Pending');
             $table->timestamps();

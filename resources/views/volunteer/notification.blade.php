@@ -19,7 +19,7 @@
     </div>
 
     <!-- Notifications Container with Fixed Height and Scrolling -->
-    <div class="notif-result" style="max-height: 800px; min-height: 30px; overflow-y: auto;">
+    <div class="notif-result" style="max-height: 400px; min-height: 30px; overflow-y: auto;">
         @foreach($notifications as $notification)
         <div class="col-md-12 mb-2 notif-item" data-notification="{{ strtolower($notification->body) }}">
             @if ($notification->url)
@@ -61,7 +61,7 @@
         notifications.forEach(notification => {
             const notificationText = notification.getAttribute('data-notification');
             if (notificationText.includes(query)) {
-                notification.style.display = 'flex'; // Show matched notification
+                notification.style.display = 'block'; // Show matched notification
             } else {
                 notification.style.display = 'none'; // Hide non-matched notification
             }

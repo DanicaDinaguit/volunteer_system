@@ -116,7 +116,19 @@ class EventController extends Controller
             ]);
     
             \Log::info('Event stored with Google event ID:', ['google_event_id' => $event->google_event_id]);
-    
+            //Send notifications only after the event is successfully created
+            $volunteers = MemberCredential::all();
+            foreach ($volunteers as $volunteer) {
+                Notification::create([
+                    'user_id' => $volunteer->memberCredentialsID, // Assuming this is the correct field for volunteer ID
+                    'user_type' => MemberCredential::class, 
+                    'type' => 'New Volunteer Event',
+                    'title' => 'New Volunteer Event Scheduled',
+                    'body' => 'A new Volunteer Event has been posted: ' . $event->title . '.',
+                    'url' => route('volunteer.eventDetails', $event->id), // Assuming a route to event details
+                    'is_read' => false,
+                ]);
+            }
             // Commit transaction
             DB::commit();
     
