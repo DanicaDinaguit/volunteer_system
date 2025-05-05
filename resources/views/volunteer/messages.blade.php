@@ -97,7 +97,7 @@
 
 
         </div>
-        <div class="message-content" style="width: 70%; background-color: #fff; padding: 20px; display: flex; flex-direction: column;">
+        <div class="message-content">
             <div class="message-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
                 
                 <div class="receiver-name">

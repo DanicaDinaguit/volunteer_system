@@ -131,16 +131,46 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Event listeners for approve and reject buttons
-    document.querySelector('.approve-btn').addEventListener('click', function() {
-        const applicationID = this.getAttribute('data-id');
-        // Send an approval request using AJAX/Fetch API
-        approveApplication(applicationID);
+    document.querySelectorAll('.approve-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const applicationID = this.getAttribute('data-id');
+
+            Swal.fire({
+                title: "Approve Application?",
+                text: "Are you sure you want to approve this application?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#28a745",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, approve it!",
+                cancelButtonText: "Cancel"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    approveApplication(applicationID);
+                }
+            });
+        });
     });
 
-    document.querySelector('.reject-btn').addEventListener('click', function() {
-        const applicationID = this.getAttribute('data-id');
-        // Send a rejection request using AJAX/Fetch API
-        rejectApplication(applicationID);
+    document.querySelectorAll('.reject-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const applicationID = this.getAttribute('data-id');
+
+            Swal.fire({
+                title: "Reject Application?",
+                text: "Are you sure you want to reject this application?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#6c757d",
+                confirmButtonText: "Yes, reject it!",
+                cancelButtonText: "Cancel"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    rejectApplication(applicationID);
+                }
+            });
+        });
     });
 
     // Functions to handle the API call
@@ -156,9 +186,15 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.message) {
-                alert(data.message); // Notify success
-                // Optionally, you can remove the applicant from the list or mark as approved
-                removeApplicantFromList(applicantId); // Function to remove or update the applicant UI
+                Swal.fire({
+                    title: "Success!",
+                    text: data.message,
+                    icon: "success",
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: "OK"
+                }).then(() => {
+                    removeApplicantFromList(applicantId); // Update UI after confirmation
+                });
             }
         })
         .catch(error => {
@@ -178,9 +214,15 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.message) {
-                alert(data.message); // Notify success
-                // Optionally, you can remove the applicant from the list or mark as approved
-                removeApplicantFromList(applicantId); // Function to remove or update the applicant UI
+                Swal.fire({
+                    title: "Success!",
+                    text: data.message,
+                    icon: "success",
+                    confirmButtonColor: "#28a745",
+                    confirmButtonText: "OK"
+                }).then(() => {
+                    removeApplicantFromList(applicantId); // Update UI after confirmation
+                });
             }
         })
         .catch(error => {
@@ -235,8 +277,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize the form state
     toggleEditMode();
 
-
-
     document.getElementById('new-message-icon').addEventListener('click', function() {
         // Display a modal or dropdown with the list of users (admins and volunteers)
         var myModal = new bootstrap.Modal(document.getElementById('userSelectModal'));
@@ -251,6 +291,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-
-
 });

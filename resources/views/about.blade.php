@@ -28,6 +28,27 @@
             </div>
         </div>
     </div>
+    <!-- MISSION AND VISION -->
+    <div class="mission-vision" 
+        style="
+        background: url('{{ asset('images/carousel-images/carousel-img2.png') }}') no-repeat center center/cover;">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-12 col-lg-6 my-4 px-lg-5">
+                    <div class="mv-box mx-5 px-5 py-4 h-auto rounded-4 d-flex flex-column justify-content-center animate-on-scroll zoom-in">
+                        <h2 class="text-center pb-3">Our Mission</h2>
+                        <p><i class="bi bi-quote"></i>To be an agent of community transformation by fostering relevant programs through volunteerism and strong community engagement.<i class="bi bi-quote"></i></p>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 my-4 px-lg-5">
+                    <div class="mv-box mx-5 px-5 py-4 h-auto rounded-4 d-flex flex-column justify-content-center animate-on-scroll zoom-in">
+                        <h2 class="text-center pb-3">Our Vision</h2>
+                        <p><i class="bi bi-quote"></i>To provide sustainable programs in order to respond to the present and future needs of the community.<i class="bi bi-quote"></i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="sub-about">
         <img class="w-100 h-auto" src="{{ asset('images/about-images/about-art.svg') }}">
         <div class="container sub-about-content pb-4">

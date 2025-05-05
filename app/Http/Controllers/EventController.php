@@ -289,6 +289,18 @@ class EventController extends Controller
     //Event Table and filter query function in Event Dashboard
     public function eventDashboard(Request $request)
     {
+        // Handle the case where no user is authenticated
+        $user = $this->currentUser();
+        if (!$user) {
+            // Check which guard should redirect the user
+            if (\Auth::guard('admin')->viaRemember() || \Auth::guard('admin')->guest()) {
+                // Redirect admin users
+                return redirect()->route('admin.signin')->with('error', 'Your session has expired. Please log in again.');
+            } elseif (\Auth::guard('web')->viaRemember() || \Auth::guard('web')->guest()) {
+                // Redirect volunteer users
+                return redirect()->route('volunteer.signin')->with('error', 'Your session has expired. Please log in again.');
+            }
+        }
         // Start a query on the Event model
         $query = Event::query();
 
@@ -497,5 +509,13 @@ class EventController extends Controller
     
         return view('volunteer.joinedEvents', compact('events'));
     }   
+    function currentUser() {
+        if (Auth::guard('admin')->check()) {
+            return Auth::guard('admin')->user();
+        } elseif (Auth::guard('web')->check()) {
+            return Auth::guard('web')->user();
+        }
+        return null;
+    }
 }
 

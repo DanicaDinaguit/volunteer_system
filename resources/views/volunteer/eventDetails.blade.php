@@ -85,9 +85,21 @@
                                 Download QR Code
                             </a>
                         </div>
+                        @php
+                            $now = \Carbon\Carbon::now();
+                            $eventStart = \Carbon\Carbon::parse($event->event_date . ' ' . $event->start);
+                            $eventEnd = \Carbon\Carbon::parse($event->event_date . ' ' . $event->end);
 
+                            if ($now->lt($eventStart)) {
+                                $status = 'Upcoming';
+                            } elseif ($now->between($eventStart, $eventEnd)) {
+                                $status = 'Ongoing';
+                            } else {
+                                $status = 'Done';
+                            }
+                        @endphp
                         <div class="mt-4 text-muted">
-                            <small>Event Status: <strong>{{ ucfirst($event->event_status) }}</strong></small>
+                            <small>Event Status: <strong>{{ $status }}</strong></small>
                         </div>
                     </div>
                 </div>

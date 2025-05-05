@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ApplicationSubmitted;
 use App\Models\Admin;
 use App\Models\MemberApplication;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Notification;
 use Illuminate\Http\Request;
@@ -19,6 +20,18 @@ class ApplicationController extends Controller
 
     public function formApplication()
     {
+        // Handle the case where no user is authenticated
+        $user = $this->currentUser();
+        if (!$user) {
+            // Check which guard should redirect the user
+            if (\Auth::guard('admin')->viaRemember() || \Auth::guard('admin')->guest()) {
+                // Redirect admin users
+                return redirect()->route('admin.signin')->with('error', 'Your session has expired. Please log in again.');
+            } elseif (\Auth::guard('web')->viaRemember() || \Auth::guard('web')->guest()) {
+                // Redirect volunteer users
+                return redirect()->route('volunteer.signin')->with('error', 'Your session has expired. Please log in again.');
+            }
+        }
         return view('admin.applicationForm');
     }
 
@@ -121,9 +134,7 @@ class ApplicationController extends Controller
             Log::error('Error submitting application: ' . $e->getMessage());
             return redirect()->back()->withErrors('Failed to submit application. Please try again.');
         }
-    }
-    
-    
+    }  
 
     public function getApplicantDetails($memberApplicationID)
     {
@@ -183,5 +194,14 @@ class ApplicationController extends Controller
                                     ->get();
 
         return response()->json($applications);
+    }
+
+    function currentUser() {
+        if (Auth::guard('admin')->check()) {
+            return Auth::guard('admin')->user();
+        } elseif (Auth::guard('web')->check()) {
+            return Auth::guard('web')->user();
+        }
+        return null;
     }
 }

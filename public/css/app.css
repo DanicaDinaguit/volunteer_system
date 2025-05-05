@@ -380,10 +380,10 @@ body {
     background-color: rgba(111, 131, 63, 0.6);
     z-index: 0;
 }
-.sample-events {
+/* .sample-events {
     z-index: 5 !important;
     position: relative !important;
-}
+} */
 .vm-events {
     z-index: 1;
     position: relative;
@@ -526,7 +526,6 @@ body {
     transform: scale(1.05);
 }
 /* ------------------------------HOME VOLUNTEER APPLICATION SECTION END--------------------------------- */
-/*---------------------------------------SIGN-IN SECTION START----------------------------------------------*/
 /*---------------------------------------SIGN-IN SECTION START----------------------------------------------*/
 #signinDiv {
     width: 100%;
@@ -721,7 +720,7 @@ body {
 #eventItems {
     display: flex;
     justify-content: space-between;
-    padding: 0 157px;
+    padding: 0 40px;
     margin-top: 50px;
 }
 
@@ -921,6 +920,60 @@ body {
     display: block; /* Show active tab content */
 }
 
+
+/* ==== Responsive Breakpoints ==== */
+
+/* Tablets and small laptops */
+@media (max-width: 768px) {
+    .form-container {
+      width: 90%;
+      padding: 20px;
+    }
+  
+    /* Stack the tabs instead of row */
+    .tabs {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .tabs li {
+      width: 100%;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+  
+    /* Each grid “row” becomes a column */
+    .grid-row {
+      flex-direction: column;
+    }
+    .grid-row div {
+      min-width: 100%;
+    }
+  }
+  
+  /* Phones and very small screens */
+  @media (max-width: 480px) {
+    #form h1 {
+      font-size: 1.5em;
+    }
+    .tabs li {
+      font-size: 0.9em;
+      padding: 8px 12px;
+    }
+    .form-container h2 {
+      font-size: 1.2em;
+    }
+    .form-container input,
+    .form-container select,
+    .form-container textarea {
+      font-size: 14px;
+      padding: 8px;
+      width: 100%;
+    }
+    .app-form-btn {
+      max-width: 100%;
+      font-size: 16px;
+    }
+  }
 /*---------------------------------------APPLICATION FORM SECTION END----------------------------------------------*/
 /*------------------------------------ABOUT SECTION START-------------------------------------------*/
 .main-about {
@@ -1237,6 +1290,43 @@ body {
     border: #8a9f59;
     color: white;
 }
+
+ /* Logout container styling: full width, positioned above profile form */
+ .logout-container {
+    width: 100%;
+    text-align: right;
+    margin-bottom: 20px;
+}
+.profile-details {
+    width: 60%;
+    padding: 40px;
+    background-color: #FFF;
+    margin: 0 auto;
+}
+/* Additional responsive adjustments if needed */
+@media (max-width: 768px) {
+    #profile {
+        flex-direction: column;
+    }
+    .profilediv, .profile-details {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .edit-button, .save-button, .cancel-button {
+        margin-left: 0;
+    }
+    .profile-form input[type="text"],
+    .profile-input input[type="email"],
+    .profile-form input[type="password"] {
+        width: 95%;  /* Increase width on small screens */
+        padding: 8px; /* Slightly increase padding for better touch usability */
+        font-size: 14px; /* Adjust font size if needed */
+    }
+    .profile-details {
+        width: 90%;
+        padding: 20px;
+    }
+}
 /* Admin Profile Page END*/
 
 
@@ -1315,14 +1405,24 @@ body {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     cursor: pointer;
 }
-.notif-desc {
-    color: #AB2695;
-    text-align: justify;
-    font-family: Poppins;
-    font-size: 22px;
-    font-style: normal;
-    font-weight: 500;
-    margin-left: 5%;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #notification {
+        width: 90%;
+    }
+    #search-field {
+        width: 100%;
+    }
+    .notif-icon {
+        width: 30px;
+        height: 30px;
+    }
+    .notif-desc {
+        font-size: 13px;
+    }
+    .notif-time {
+        font-size: 11px;
+    }
 }
 /* Notification Volunteer END */
 
@@ -1550,14 +1650,15 @@ body {
 .message-content {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: 723px;
+    justify-content: space-between; 
     height: 546px;
     border-radius: 5px;
     border-top-right-radius: 13.655px;
     border-bottom-right-radius: 13.655px;
-    background: #F4F0F0;
     padding: 5px;
+    width: 70%; 
+    background-color: #fff; 
+    padding: 20px; 
 }
 .svg-button {
     width: 53px;
@@ -1661,4 +1762,33 @@ body {
     right: 5px;
 }
 
+/* Responsive styles */
+@media (max-width: 768px) {
+    #messages {
+        flex-direction: column;
+        width: 95%;
+    }
+    .message-recepient {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+    .message-content {
+        width: 100%;
+        height: auto;
+    }
+    .message-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between; 
+        height: 546px;
+        border-radius: 5px;
+        border-top-right-radius: 13.655px;
+        border-bottom-right-radius: 13.655px;
+        background-color: #fff;
+        padding: 5px;
+        width: 100%; 
+        padding: 20px;     
+    }
+}
 /* MESSAGES PAGE END */

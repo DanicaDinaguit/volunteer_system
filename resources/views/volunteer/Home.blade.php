@@ -81,36 +81,36 @@
     <div class="home-events" 
         style="background: url('{{ asset('images/sample-event-images/sample-event2.svg') }}') no-repeat center center/cover;">
         <div class="container py-5">
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="eventItems">
+            <div class="row g-4" id="eventItems">
                 @foreach($events as $event)
-                <a href="{{ route('volunteer.eventDetails', $event->id) }}" class="event-link" style="text-decoration: none; color: inherit;">
-                    <div class="col">
-                        <div class="sample-events card event-box h-100">
-                            <div class="card-body text-center" style="padding: 0px !important;">
-                                <div class="day-container mx-auto mb-3">
+                <div class="col-12 col-sm-6 col-md-4"> <!-- Responsive Columns -->
+                    <a href="{{ route('volunteer.eventDetails', $event->id) }}" class="event-link" style="text-decoration: none; color: inherit;">
+                        <div class="sample-events card event-box h-100 shadow-sm">
+                            <div class="card-body text-center p-2">
+                                <div class="day-container mx-auto mb-2">
                                     <p class="m-0">{{ \Carbon\Carbon::parse($event->event_date)->format('j') }}</p>
                                 </div>
-                            <img src="{{ asset('images/'.strtolower($event->category).'.png') }}" 
-                                class="card-img-top" 
-                                alt="{{ $event->category }} Image" 
-                                style="object-fit: cover; width: 100%; height: 240px;">
-                                <div class="event-info">
-                                <ul class="list-unstyled mb-3" style="text-align: left;">
-                                    <li><i class="fas fa-calendar-alt"></i> <strong>Title:</strong> {{ $event->title }}</li>
-                                    <li><i class="fas fa-calendar-alt"></i> <strong>Type:</strong> {{ $event->category }}</li>
-                                    <li><i class="fas fa-calendar-day"></i> <strong>Date:</strong> {{ \Carbon\Carbon::parse($event->event_date)->format('F j, Y') }}</li>
-                                    <li><i class="fas fa-clock"></i> <strong>Time:</strong> {{ $event->start }} - {{ $event->end }}</li>
-                                    <li><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> {{ $event->event_location }}</li>   
-                                </ul>
+                                <img src="{{ asset('images/'.strtolower($event->category).'.png') }}" 
+                                    class="card-img-top rounded-top" 
+                                    alt="{{ $event->category }} Image" 
+                                    style="object-fit: cover; width: 100%; height: 200px;">
+                                <div class="event-info p-2">
+                                    <ul class="list-unstyled mb-2 text-start">
+                                        <li class="text-truncate"><i class="fas fa-calendar-alt"></i> <strong>Title:</strong> {{ $event->title }}</li>
+                                        <li class="text-truncate"><i class="fas fa-calendar-alt"></i> <strong>Type:</strong> {{ $event->category }}</li>
+                                        <li><i class="fas fa-calendar-day"></i> <strong>Date:</strong> {{ \Carbon\Carbon::parse($event->event_date)->format('F j, Y') }}</li>
+                                        <li><i class="fas fa-clock"></i> <strong>Time:</strong> {{ $event->start }} - {{ $event->end }}</li>
+                                        <li class="text-truncate"><i class="fas fa-map-marker-alt"></i> <strong>Location:</strong> {{ $event->event_location }}</li>   
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
                 @endforeach
             </div>
-            <div class="vm-events text-center mt-4">
-                <a id="event-button" href="{{route('volunteer.calendar')}}" class="btn btn-success rounded-pill shadow fw-semibold fs-6">View More Events</a>
+            <div class="text-center mt-4">
+                <a id="event-button" href="{{route('volunteer.calendar')}}" class="btn btn-success rounded-pill shadow fw-semibold fs-6 px-4 py-2">View More Events</a>
             </div>
         </div>
     </div>
